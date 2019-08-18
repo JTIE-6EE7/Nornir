@@ -1,0 +1,33 @@
+---
+localhost:
+  hostname: localhost
+  username: root
+  password: P@ssw0rd!
+  data:
+    dns1: 8.8.4.4
+    dns2: 8.8.8.8
+    site: PA-PHL-01
+    groups:
+      - servers
+  platform: linux
+
+CSR-1:
+  hostname: CSR-1.threefddi.local
+  groups:
+    - iosxe
+  data:
+    site: TN-BNA-01
+
+CSR-2:
+  hostname: CSR-2.threefddi.local
+  groups:
+    - iosxe
+  data:
+    site: CA-LAX-01
+      
+NXOS-1:
+  hostname: NXOS-1.threefddi.local
+  groups:
+    - nxos
+  data:
+    site: TN-BNA-01
