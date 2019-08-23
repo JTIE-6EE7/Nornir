@@ -10,7 +10,7 @@ nr = InitNornir(core={"num_workers": 1})
 
 routers = nr.filter(platform="ios")
 
-result = routers.run(task=napalm_get, getters=[config"])
+result = routers.run(task=napalm_get, getters=["config"])
 
 print()
 for k, v in result.items():

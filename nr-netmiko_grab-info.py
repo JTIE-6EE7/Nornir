@@ -20,7 +20,7 @@ def main():
     nr = InitNornir()
 
     # filter The Norn to cisco ios
-    nr = nr.filter(platform="cisco_ios")
+    nr = nr.filter(platform="ios")
 
     # loop over commands
     for cmd in commands:

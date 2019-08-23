@@ -2,6 +2,8 @@
 iosxe:
   platform: ios
   port: 22
+  username: cisco
+  password: cisco
 
 nxos:
   platform: nxos
