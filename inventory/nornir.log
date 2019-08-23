@@ -301,3 +301,4 @@ Authentication failed.
 2019-08-23 09:35:23,449 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbors detail'} on 2 hosts
 2019-08-23 09:35:51,245 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['lldp_neighbors', 'interfaces_ip', 'facts', 'network_instances', 'config']} on 2 hosts
 2019-08-23 09:36:27,036 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['config']} on 2 hosts
+2019-08-23 11:04:05,305 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['config']} on 2 hosts
