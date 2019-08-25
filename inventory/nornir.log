@@ -302,3 +302,77 @@ Authentication failed.
 2019-08-23 09:35:51,245 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['lldp_neighbors', 'interfaces_ip', 'facts', 'network_instances', 'config']} on 2 hosts
 2019-08-23 09:36:27,036 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['config']} on 2 hosts
 2019-08-23 11:04:05,305 -  nornir.core -     INFO -        run() - Running task 'napalm_get' with args {'getters': ['config']} on 2 hosts
+2019-08-24 20:26:07,328 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show ip interface brief', 'use_textfsm': True} on 2 hosts
+2019-08-24 20:26:12,604 - nornir.core.task -    ERROR -      start() - Host 'CSR-1': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/plugins/tasks/networking/netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/base_connection.py", line 1313, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 254, in get_structured_data
+    template_dir = get_template_dir()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 237, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-08-24 20:26:12,643 - nornir.core.task -    ERROR -      start() - Host 'CSR-2': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/plugins/tasks/networking/netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/base_connection.py", line 1313, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 254, in get_structured_data
+    template_dir = get_template_dir()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 237, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-08-24 20:26:12,710 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'sh ip route', 'use_textfsm': True} on 2 hosts
+2019-08-24 20:26:12,819 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbors', 'use_textfsm': True} on 2 hosts
+2019-08-24 20:26:34,555 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show ip interface brief', 'use_textfsm': True} on 2 hosts
+2019-08-24 20:26:39,762 - nornir.core.task -    ERROR -      start() - Host 'CSR-1': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/plugins/tasks/networking/netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/base_connection.py", line 1313, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 254, in get_structured_data
+    template_dir = get_template_dir()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 237, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-08-24 20:26:39,796 - nornir.core.task -    ERROR -      start() - Host 'CSR-2': task 'netmiko_send_command' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 67, in start
+    r = self.task(self, **self.params)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/plugins/tasks/networking/netmiko_send_command.py", line 32, in netmiko_send_command
+    result = net_connect.send_command(command_string, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/base_connection.py", line 1313, in send_command
+    output, platform=self.device_type, command=command_string.strip()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 254, in get_structured_data
+    template_dir = get_template_dir()
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/netmiko/utilities.py", line 237, in get_template_dir
+    raise ValueError(msg)
+ValueError: 
+Valid ntc-templates not found, please install https://github.com/networktocode/ntc-templates
+and then set the NET_TEXTFSM environment variable to point to the ./ntc-templates/templates
+directory.
+
+2019-08-24 20:26:39,877 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'sh ip route', 'use_textfsm': True} on 2 hosts
+2019-08-24 20:26:39,987 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show cdp neighbors', 'use_textfsm': True} on 2 hosts
