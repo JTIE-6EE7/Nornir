@@ -5,10 +5,10 @@ from csv import DictReader
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
+from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
+from nornir.plugins.tasks.networking import napalm_configure
 from jinja2 import Template, Environment, FileSystemLoader
-
-# add stuff 
 
 # create VLAN mapping table from CSV file
 def create_mapping_table():
@@ -167,7 +167,8 @@ def render_configs(int_dict):
 
 # TODO push new configs to devices
 def push_configs(task):
-    pass
+
+        task.run(task=napalm_configure, filename=f"configs/{task.host}_ints.txt")
 
 def main():
     # initialize The Norn
@@ -192,13 +193,12 @@ def main():
     # remap vlans and return new JSON
     all_remapped_intf = remap_vlans(mapping_dict, all_hosts_intf)        
  
-    # print new stuff
-    print("\nNew VLANS:")
-    print("~"*10)
-    pprint(all_remapped_intf)
-
     # render new configs
     render_configs(all_remapped_intf)
+
+    # push configs
+    agg_result = nr.run(task=push_configs)
+    print_result(agg_result)
 
 if __name__ == "__main__":
     main()

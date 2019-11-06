@@ -6,7 +6,8 @@ nxos:
       platform: cisco_nxos
       extras: {}
     napalm:
-      port: 8443
+      platform: nxos_ssh
+      port: 22
 
 iosxe:
   platform: cisco_ios2
