@@ -616,3 +616,5 @@ nornir.core.exceptions.NornirSubTaskError: Subtask: <function napalm_configure a
 
 2019-11-05 18:58:22,491 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
 2019-11-05 18:58:28,982 -  nornir.core -     INFO -        run() - Running task 'push_configs' with args {} on 2 hosts
+2019-11-05 21:00:49,385 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-05 21:00:55,898 -  nornir.core -     INFO -        run() - Running task 'push_configs' with args {} on 2 hosts
