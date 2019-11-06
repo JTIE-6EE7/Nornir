@@ -108,8 +108,6 @@ def remap_vlans(mapping_dict, all_hosts_intf):
 # render new interface configs
 def render_configs(int_dict):
 
-    cfg_out = ""
-
     # set Jinja2 templates directory
     file_loader = FileSystemLoader('templates/')
     
@@ -127,6 +125,9 @@ def render_configs(int_dict):
 
     # loop through inteface dictionary
     for host, intfs in int_dict.items():
+
+        # init config variable
+        cfg_out = ""
 
         # loop through interface dictionarys
         for intf in intfs.items():
@@ -159,12 +160,9 @@ def render_configs(int_dict):
             # add each interface to config file variable
             cfg_out += cfg + "\n"
 
-        print(cfg_out)
-        print("~"*40)
-
-# TODO write new config files
-def write_configs(task):
-    pass
+        # write config file
+        with open(f"configs/{host}_ints.txt", "w+") as f:
+            f.write(cfg_out)
  
 
 # TODO push new configs to devices
@@ -191,11 +189,6 @@ def main():
     # connect to devices and create JSON output of results
     all_hosts_intf = create_intf_dict(results)
 
-    # print old stuff
-    print("\nOld VLANS:")
-    print("~"*10)
-    pprint(all_hosts_intf)
-
     # remap vlans and return new JSON
     all_remapped_intf = remap_vlans(mapping_dict, all_hosts_intf)        
  
@@ -203,11 +196,6 @@ def main():
     print("\nNew VLANS:")
     print("~"*10)
     pprint(all_remapped_intf)
-
-
-    # print rendered configs
-    print("\nNew configs:")
-    print("~"*10)
 
     # render new configs
     render_configs(all_remapped_intf)

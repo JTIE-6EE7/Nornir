@@ -6,3 +6,7 @@
 2019-11-05 18:15:20,447 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
 2019-11-05 18:16:28,836 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
 2019-11-05 18:17:51,217 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-05 18:24:10,982 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-05 18:25:51,034 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-05 18:27:54,237 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-05 18:28:16,068 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
