@@ -2,3 +2,4 @@ vlan_mapper/configs/*.txt
 inventory/*.txt
 vlan_mapper/nornir.log
 vlan_mapper/nornir.log
+vlan_mapper/nornir.log
