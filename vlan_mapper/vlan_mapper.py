@@ -108,6 +108,8 @@ def remap_vlans(mapping_dict, all_hosts_intf):
 # render new interface configs
 def render_configs(int_dict):
 
+    cfg_out = ""
+
     # set Jinja2 templates directory
     file_loader = FileSystemLoader('templates/')
     
@@ -125,9 +127,6 @@ def render_configs(int_dict):
 
     # loop through inteface dictionary
     for host, intfs in int_dict.items():
-
-        # do something for each host
-        print(host)
 
         # loop through interface dictionarys
         for intf in intfs.items():
@@ -157,9 +156,10 @@ def render_configs(int_dict):
                     native=intf[1]['native']
                 )
 
-            # do stuff with interface configs
-            print(cfg)
+            # add each interface to config file variable
+            cfg_out += cfg + "\n"
 
+        print(cfg_out)
         print("~"*40)
 
 # TODO write new config files
