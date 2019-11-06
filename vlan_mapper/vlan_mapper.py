@@ -164,10 +164,7 @@ def render_configs(int_dict):
 
 # TODO write new config files
 def write_configs(task):
-   task.run(
-    task=files.write_file,
-    filename=f"rendered_configs/{task.host}_bgp",
-    content=task.host["bgp_config"],
+    pass
  
 
 # TODO push new configs to devices

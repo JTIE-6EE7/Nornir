@@ -1,0 +1,1 @@
+2019-11-05 18:09:16,360 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts

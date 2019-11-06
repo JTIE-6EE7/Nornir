@@ -1,0 +1,20 @@
+---
+nxos:
+  platform: nxos
+  connection_options:
+    netmiko:
+      platform: cisco_nxos
+      extras: {}
+    napalm:
+      port: 8443
+
+iosxe:
+  platform: cisco_ios2
+  port: 22
+  data:
+    upgrade_img: 'csr1000v-universalk9.16.06.07.SPA.bin'
+    backup_img: 'csr1000v-mono-universalk9.03.10.02.S.153-3.S2-ext.SPA.pkg'
+
+catalyst:
+  platform: cisco_ios
+  port: 22
