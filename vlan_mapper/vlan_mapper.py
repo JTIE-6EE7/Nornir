@@ -7,7 +7,7 @@ from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
-from nornir.plugins.tasks.networking import napalm_configure
+from nornir.plugins.tasks.networking import netmiko_send_config
 from jinja2 import Template, Environment, FileSystemLoader
 
 # create VLAN mapping table from CSV file
@@ -166,7 +166,7 @@ def render_configs(int_dict):
  
 # push new configs to devices
 def push_configs(task):
-        task.run(task=napalm_configure, filename=f"configs/{task.host}_ints.txt")
+        task.run(task=netmiko_send_config, config_file=f"configs/{task.host}_ints.txt")
 
 def main():
     # initialize The Norn
