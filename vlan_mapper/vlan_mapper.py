@@ -164,10 +164,8 @@ def render_configs(int_dict):
         with open(f"configs/{host}_ints.txt", "w+") as f:
             f.write(cfg_out)
  
-
-# TODO push new configs to devices
+# push new configs to devices
 def push_configs(task):
-
         task.run(task=napalm_configure, filename=f"configs/{task.host}_ints.txt")
 
 def main():
