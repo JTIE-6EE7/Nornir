@@ -95,12 +95,33 @@ def remap_vlans(mapping_dict, all_hosts_intf):
                 vlans = intf['vlans'].split(",")
                 # loop over VLAN list
                 for i, v in enumerate(vlans):
-                    # translate VLAN with mapping function
-                    vlans[i] = vlan_mapper(mapping_dict ,v)
+                    # do stuff to lists of vlans
+                    if "-" in v:
+                        # init trunk list
+                        trunk_list = []
+                        # split existing trunk range
+                        v = v.split("-")
+                        # set starting int
+                        a = int(v[0])
+                        # set ending int
+                        b = int(v[1])
+                        # iterate over trunk range
+                        for x in range(a,b+1):    
+                            # map each vlan in trunk range                    
+                            x = vlan_mapper(mapping_dict ,str(x))
+                            # add to trunk list
+                            trunk_list.append(x)
+                        # convert trunk list back to string    
+                        vlans[i] = ",".join(trunk_list)
+                    # translate single VLAN
+                    else:
+                        # translate VLAN with mapping function
+                        vlans[i] = vlan_mapper(mapping_dict ,v)
                 # convert VLAN list back to string        
                 intf['vlans'] = ",".join(vlans)
                 # translate native vlan
                 intf['native'] = vlan_mapper(mapping_dict, intf['native'])
+
 
     
     return all_hosts_intf
