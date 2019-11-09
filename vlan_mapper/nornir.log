@@ -862,3 +862,5 @@ directory.
 2019-11-09 16:31:13,833 -  nornir.core -     INFO -        run() - Running task 'push_configs' with args {} on 2 hosts
 2019-11-09 16:34:25,836 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
 2019-11-09 16:34:32,341 -  nornir.core -     INFO -        run() - Running task 'push_configs' with args {} on 2 hosts
+2019-11-09 17:22:00,417 -  nornir.core -     INFO -        run() - Running task 'netmiko_send_command' with args {'command_string': 'show interface switchport', 'use_textfsm': True} on 2 hosts
+2019-11-09 17:22:07,142 -  nornir.core -     INFO -        run() - Running task 'push_configs' with args {} on 2 hosts
