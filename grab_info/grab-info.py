@@ -28,8 +28,14 @@ def grab_info(task):
     # loop over commands
     for cmd in commands:
         # send command to device
-        task.host.output = task.run(task=netmiko_send_command, command_string=cmd)
-        
+        task.host["output"] = task.run(task=netmiko_send_command, command_string=cmd)
+
+def write_info(task):
+    task.run(
+        task=files.write_file,
+        filename=f"{task.host}_info.txt",
+        content=task.host["output"],
+    )
 
 def main():
 
@@ -41,7 +47,10 @@ def main():
 
     result = nr.run(task=grab_info)
 
-    print_result(result)
+    
+    result2 = nr.run(task=write_info)
+
+    print_result(result2)
 
 
 if __name__ == "__main__":
