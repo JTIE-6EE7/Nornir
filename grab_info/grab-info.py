@@ -12,7 +12,6 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 
 def grab_info(task):
-
     # show commands to be run
     commands = [
         "show version",
@@ -29,9 +28,9 @@ def grab_info(task):
     for cmd in commands:
         # send command to device
         output = task.run(task=netmiko_send_command, command_string=cmd)
-
+        # save results to aggregate
         task.host["info"] =  "#"*30 + "\n" + cmd + "\n" + "#"*30 + "\n"*2 + output.result
-
+        # write output files
         task.run(
             task=files.write_file,
             filename=f"{task.host}_info.txt",
@@ -40,16 +39,12 @@ def grab_info(task):
         )
 
 def main():
-
     # initialize The Norn
     nr = InitNornir()
-
     # filter The Norn to nxos
     nr = nr.filter(platform="nxos")
-
-    result = nr.run(task=grab_info)
-
-    #print_result(result)
+    # run The Norn
+    nr.run(task=grab_info)
 
 if __name__ == "__main__":
     main()
