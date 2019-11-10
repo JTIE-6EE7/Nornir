@@ -219,7 +219,5 @@ def main():
     agg_result = nr.run(task=push_configs)
     print_result(agg_result)
 
-# TODO Trunk VLAN ranges don't work
-
 if __name__ == "__main__":
     main()
