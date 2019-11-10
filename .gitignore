@@ -1,3 +1,5 @@
 vlan_mapper/configs/*.txt
 inventory/*.txt
 vlan_mapper/nornir.log
+grab_info/NXOS-1.txt
+grab_info/NXOS-2.txt

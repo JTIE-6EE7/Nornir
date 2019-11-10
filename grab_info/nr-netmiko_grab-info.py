@@ -3,10 +3,11 @@
 '''
 This script is used to collect discovery information from IOS devices. 
 
-Nornir Simple Inventory yaml files are used.
 '''
 
 from nornir import InitNornir
+from nornir.core.filter import F
+from nornir.plugins.tasks import text, files
 from nornir.plugins.tasks.networking import netmiko_send_command
 
 def main():
@@ -14,14 +15,22 @@ def main():
     report = {}
 
     # show commands to be run
-    commands = ["show version", "show run", "show ip interface brief", "sh ip route", "show cdp neighbors", "show cdp neighbors detail"]
+    commands = [
+        "show version",
+        "show run",
+        "show vlan brief",
+        "show ip interface brief",
+        "sh ip route",
+        "show cdp neighbors",
+        "show cdp neighbors detail"
+        ]
 
     # initialize The Norn
     nr = InitNornir()
 
-    # filter The Norn to cisco ios
-    nr = nr.filter(platform="ios")
-
+    # filter The Norn to nxos
+    nr = nr.filter(platform="nxos")
+    
     # loop over commands
     for cmd in commands:
         # send command to device
