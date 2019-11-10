@@ -19,8 +19,9 @@ def main():
         "show version",
         "show run",
         "show vlan brief",
+        "show interface trunk",
         "show ip interface brief",
-        "sh ip route",
+        "show ip route",
         "show cdp neighbors",
         "show cdp neighbors detail"
         ]
@@ -30,7 +31,7 @@ def main():
 
     # filter The Norn to nxos
     nr = nr.filter(platform="nxos")
-    
+
     # loop over commands
     for cmd in commands:
         # send command to device
