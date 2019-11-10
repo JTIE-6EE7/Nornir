@@ -28,7 +28,9 @@ def grab_info(task):
     # loop over commands
     for cmd in commands:
         # send command to device
-        task.host["output"] = task.run(task=netmiko_send_command, command_string=cmd)
+        cmd = task.run(task=netmiko_send_command, command_string=cmd)
+
+        task.host["output"] = cmd.result
 
 def write_info(task):
     task.run(
