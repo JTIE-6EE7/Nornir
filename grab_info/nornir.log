@@ -80,3 +80,31 @@ Traceback (most recent call last):
 TypeError: unhashable type: 'MultiResult'
 
 2019-11-10 10:24:29,031 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {'commands': ['show version', 'show run', 'show vlan brief', 'show interface trunk', 'show ip interface brief', 'show ip route', 'show cdp neighbors', 'show cdp neighbors detail']} on 2 hosts
+2019-11-10 10:47:03,462 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:48:06,951 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:48:43,229 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:50:08,329 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:51:50,353 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:52:47,051 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:53:26,914 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:54:43,959 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:55:21,874 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:56:39,453 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:56:45,886 - nornir.core.task -    ERROR -      start() - Host 'NXOS-2': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["info"] = task.host + "\n" + "~"*30 + "\n" + cmd + "\n" + "~"*30 + "\n" + output.result
+TypeError: unsupported operand type(s) for +: 'Host' and 'str'
+
+2019-11-10 10:56:45,939 - nornir.core.task -    ERROR -      start() - Host 'NXOS-1': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["info"] = task.host + "\n" + "~"*30 + "\n" + cmd + "\n" + "~"*30 + "\n" + output.result
+TypeError: unsupported operand type(s) for +: 'Host' and 'str'
+
+2019-11-10 10:57:22,744 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:59:05,104 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
