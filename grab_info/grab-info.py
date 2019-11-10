@@ -11,7 +11,26 @@ from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 
-def grab_info(task):
+def grab_info(task, commands):
+
+
+    # loop over commands
+    for cmd in commands:
+        # send command to device
+        cmd = task.run(task=netmiko_send_command, command_string=cmd)
+
+        task.host[cmd] = cmd.result
+
+def write_info(task, commands):
+
+    for cmd in commands:
+        task.run(
+            task=files.write_file,
+            filename=f"{task.host}_info.txt",
+            content=task.host[cmd],
+        )
+
+def main():
 
     # show commands to be run
     commands = [
@@ -25,31 +44,15 @@ def grab_info(task):
         "show cdp neighbors detail"
         ]
 
-    # loop over commands
-    for cmd in commands:
-        # send command to device
-        cmd = task.run(task=netmiko_send_command, command_string=cmd)
-
-    task.host["output"] = task.result
-
-def write_info(task):
-    task.run(
-        task=files.write_file,
-        filename=f"{task.host}_info.txt",
-        content=task.host["output"],
-    )
-
-def main():
-
     # initialize The Norn
     nr = InitNornir()
 
     # filter The Norn to nxos
     nr = nr.filter(platform="nxos")
 
-    result = nr.run(task=grab_info)
+    result = nr.run(task=grab_info, commands=commands)
 
-    result = nr.run(task=write_info)
+    result = nr.run(task=write_info, commands=commands)
 
     print_result(result)
 

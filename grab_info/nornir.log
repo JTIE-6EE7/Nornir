@@ -1,0 +1,82 @@
+2019-11-10 10:19:20,925 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:19:33,658 - nornir.core.task -    ERROR -      start() - Host 'NXOS-2': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["output"] = task.result
+AttributeError: 'Task' object has no attribute 'result'
+
+2019-11-10 10:19:33,658 - nornir.core.task -    ERROR -      start() - Host 'NXOS-1': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["output"] = task.result
+AttributeError: 'Task' object has no attribute 'result'
+
+2019-11-10 10:19:33,687 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {} on 2 hosts
+2019-11-10 10:20:26,085 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:20:32,733 - nornir.core.task -    ERROR -      start() - Host 'NXOS-1': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["output"] = task.result
+AttributeError: 'Task' object has no attribute 'result'
+
+2019-11-10 10:20:32,751 - nornir.core.task -    ERROR -      start() - Host 'NXOS-2': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 33, in grab_info
+    task.host["output"] = task.result
+AttributeError: 'Task' object has no attribute 'result'
+
+2019-11-10 10:20:32,827 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {} on 2 hosts
+2019-11-10 10:21:33,230 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 10:21:46,314 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {} on 2 hosts
+2019-11-10 10:23:40,724 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {'commands': ['show version', 'show run', 'show vlan brief', 'show interface trunk', 'show ip interface brief', 'show ip route', 'show cdp neighbors', 'show cdp neighbors detail']} on 2 hosts
+2019-11-10 10:23:47,157 - nornir.core.task -    ERROR -      start() - Host 'NXOS-2': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 22, in grab_info
+    task.host[cmd] = cmd.result
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/inventory.py", line 184, in __setitem__
+    self.data[item] = value
+TypeError: unhashable type: 'MultiResult'
+
+2019-11-10 10:23:47,170 - nornir.core.task -    ERROR -      start() - Host 'NXOS-1': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 22, in grab_info
+    task.host[cmd] = cmd.result
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/inventory.py", line 184, in __setitem__
+    self.data[item] = value
+TypeError: unhashable type: 'MultiResult'
+
+2019-11-10 10:23:47,271 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {'commands': ['show version', 'show run', 'show vlan brief', 'show interface trunk', 'show ip interface brief', 'show ip route', 'show cdp neighbors', 'show cdp neighbors detail']} on 2 hosts
+2019-11-10 10:24:22,316 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {'commands': ['show version', 'show run', 'show vlan brief', 'show interface trunk', 'show ip interface brief', 'show ip route', 'show cdp neighbors', 'show cdp neighbors detail']} on 2 hosts
+2019-11-10 10:24:28,959 - nornir.core.task -    ERROR -      start() - Host 'NXOS-2': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 22, in grab_info
+    task.host[cmd] = cmd.result
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/inventory.py", line 184, in __setitem__
+    self.data[item] = value
+TypeError: unhashable type: 'MultiResult'
+
+2019-11-10 10:24:28,976 - nornir.core.task -    ERROR -      start() - Host 'NXOS-1': task 'grab_info' failed with traceback:
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/task.py", line 85, in start
+    r = self.task(self, **self.params)
+  File "./grab-info.py", line 22, in grab_info
+    task.host[cmd] = cmd.result
+  File "/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/site-packages/nornir/core/inventory.py", line 184, in __setitem__
+    self.data[item] = value
+TypeError: unhashable type: 'MultiResult'
+
+2019-11-10 10:24:29,031 -  nornir.core -     INFO -        run() - Running task 'write_info' with args {'commands': ['show version', 'show run', 'show vlan brief', 'show interface trunk', 'show ip interface brief', 'show ip route', 'show cdp neighbors', 'show cdp neighbors detail']} on 2 hosts
