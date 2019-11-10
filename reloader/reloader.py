@@ -34,12 +34,13 @@ def main():
     print_result(result)
 
     # Reload
-    continue_func(msg="Do you want to reload the device (y/n)? ")
+    #continue_func(msg="Do you want to reload the device (y/n)? ")
     result = nr.run(
         task=netmiko_send_command,
         use_timing=True,
-        command_string="reload",
+        command_string="reload in 60",
     )
+    print_result(result)
 
     # Confirm the reload (if 'confirm' is in the output)
     for device_name, multi_result in result.items():
@@ -49,6 +50,8 @@ def main():
                 use_timing=True,
                 command_string="y",
             )
+            
+    print_result(result)
 
     print("Reload scheduled in 60 minutes.") 
 
