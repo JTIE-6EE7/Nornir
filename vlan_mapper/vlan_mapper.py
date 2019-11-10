@@ -1,5 +1,11 @@
 #!/usr/local/bin/python3
 
+'''
+This script is used to translate existing VLANS to a new standard.
+
+VLAN mapping CSV file is used to define the translation.
+'''
+
 from pprint import pprint
 from csv import DictReader
 from nornir import InitNornir
