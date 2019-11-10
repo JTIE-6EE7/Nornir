@@ -2,7 +2,6 @@
 
 '''
 This script is used to collect discovery information from devices. 
-
 '''
 
 from nornir import InitNornir
@@ -28,7 +27,7 @@ def grab_info(task):
     for cmd in commands:
         # send command to device
         output = task.run(task=netmiko_send_command, command_string=cmd)
-        # save results to aggregate
+        # save results to aggregate result
         task.host["info"] =  "#"*30 + "\n" + cmd + "\n" + "#"*30 + "\n"*2 + output.result
         # write output files
         task.run(

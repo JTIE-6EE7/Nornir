@@ -109,3 +109,4 @@ TypeError: unsupported operand type(s) for +: 'Host' and 'str'
 2019-11-10 10:57:22,744 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
 2019-11-10 10:59:05,104 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
 2019-11-10 11:02:00,719 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
+2019-11-10 11:06:00,873 -  nornir.core -     INFO -        run() - Running task 'grab_info' with args {} on 2 hosts
