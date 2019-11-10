@@ -10,12 +10,12 @@ NXOS-2:
     - nxos
 
 CSR-1:
-  hostname: CSR-1.threefddi.local
+  hostname: 172.20.58.51
   groups:
     - iosxe
 
 CSR-2:
-  hostname: CSR-2.threefddi.local
+  hostname: 172.20.58.52
   groups:
     - iosxe
 
