@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to collect discovery information from IOS devices. 
+This script is used to collect discovery information from devices. 
 
 '''
 
