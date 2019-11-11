@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to collect discovery information from devices. 
+This script is used to schedule a reload in 60 minutes for all devices.
 '''
 
 from nornir import InitNornir
