@@ -27,16 +27,18 @@ def main():
         command_string="reload in 60",
     )
 
+    print("\nReload scheduled in 60 minutes for the following devices:") 
+
     # Confirm the reload (if 'confirm' is in the output)
     for device_name, multi_result in result.items():
         if 'confirm' in multi_result[0].result:
+            print(device_name)
             result = nr.run(
                 task=netmiko_send_command,
                 use_timing=True,
                 command_string="",
             )
             
-    print("Reload scheduled in 60 minutes for all devices.") 
 
 if __name__ == "__main__":
     main()
