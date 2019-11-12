@@ -6,7 +6,6 @@ This script is used to save the config and cancel a reload for all devices.
 
 from nornir import InitNornir
 from nornir.core.filter import F
-from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 
 def main():
@@ -27,12 +26,10 @@ def main():
         command_string="reload cancel",
     )
 
-    print("\nConfig saved and reload cancelled for the following devices:") 
-
     # Print hostnames
+    print("\nConfig saved and reload cancelled for the following devices:") 
     for device_name in result.keys():
         print(device_name)
             
-
 if __name__ == "__main__":
     main()

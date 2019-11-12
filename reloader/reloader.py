@@ -6,7 +6,6 @@ This script is used to schedule a reload in 60 minutes for all devices.
 
 from nornir import InitNornir
 from nornir.core.filter import F
-from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 
 def main():
