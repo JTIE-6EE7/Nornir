@@ -6,6 +6,7 @@ This script is used to collect discovery information from devices and their CDP 
 
 from nornir import InitNornir
 from nornir.core.filter import F
+from nornir.core.inventory import Inventory
 from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
@@ -56,8 +57,8 @@ def find_friends(task):
             if friend['mgmt_ip'] not in friends:
                 friends.append(friend['mgmt_ip'])
 
-    print(friends)
-    
+    return friends
+
 def main():
     # initialize The Norn
     nr = InitNornir()
@@ -68,6 +69,8 @@ def main():
 
     # find friends
     result = nr.run(task=find_friends, num_workers=1)
+
+    #print_result(result)
 
 if __name__ == "__main__":
     main()
