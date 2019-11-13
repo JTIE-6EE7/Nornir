@@ -20,6 +20,8 @@ def grab_info(task):
         "show interface trunk",
         "show ip interface brief",
         "show ip route",
+        "show ip arp",
+        "show mac address-table",
         "show cdp neighbors",
         "show cdp neighbors detail",
         ]
