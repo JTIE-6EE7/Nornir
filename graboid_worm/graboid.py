@@ -39,10 +39,8 @@ def grab_info(task):
         )
 
 def find_friends(task):
-
     # init list of friends
     friends = []
-
     # run show CDP neighbors command
     task.run(
         task=netmiko_send_command,
@@ -52,12 +50,16 @@ def find_friends(task):
 
     # parse results
     for host in task.results:
+        
         for friend in host.result:
 
-            if friend['mgmt_ip'] not in friends:
-                friends.append(friend['mgmt_ip'])
+            print(friend['dest_host'])
+            print(friend['mgmt_ip'])
 
-    return friends
+ #           if friend['mgmt_ip'] not in friends:
+  #              friends.append(friend['mgmt_ip'])
+
+   # return friends
 
 def main():
     # initialize The Norn
@@ -70,7 +72,23 @@ def main():
     # find friends
     result = nr.run(task=find_friends, num_workers=1)
 
-    #print_result(result)
+    #print(result['NXOS-1'][1].result)
+    #print(result['NXOS-2'][1].result)
 
+    print("~"*20)
+
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
+
+    print("~"*20)
+    #print(nr.inventory.hosts)
+    nr.inventory.add_host("Test")
+    nr.inventory.hosts["Test"].hostname = "Testing"
+
+
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
+
+        
 if __name__ == "__main__":
     main()
