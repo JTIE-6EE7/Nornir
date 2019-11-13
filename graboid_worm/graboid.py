@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to collect discovery information from devices. 
+This script is used to collect discovery information from devices and their CDP neighbors.
 '''
 
 from nornir import InitNornir
@@ -37,13 +37,37 @@ def grab_info(task):
             append=True
         )
 
+def find_friends(task):
+
+    # init list of friends
+    friends = []
+
+    # run show CDP neighbors command
+    task.run(
+        task=netmiko_send_command,
+        command_string="show cdp neighbors detail",
+        use_textfsm=True,
+    )
+
+    # parse results
+    for host in task.results:
+        for friend in host.result:
+
+            if friend['mgmt_ip'] not in friends:
+                friends.append(friend['mgmt_ip'])
+
+    print(friends)
+    
 def main():
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn to nxos
     nr = nr.filter(platform="nxos")
     # run The Norn
-    nr.run(task=grab_info)
+    #nr.run(task=grab_info)
+
+    # find friends
+    result = nr.run(task=find_friends, num_workers=1)
 
 if __name__ == "__main__":
     main()
