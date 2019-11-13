@@ -58,8 +58,9 @@ def main():
 
     # find friends
     output = nr.run(task=find_friends, num_workers=1)
-
+    
     for hosts in output:
+        print(output[hosts][1].result)
         for friend in output[hosts][1].result:
             nr.inventory.add_host(friend['dest_host'])
             nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
@@ -72,8 +73,8 @@ def main():
     ##print(nr.inventory.hosts)
     #nr.inventory.add_host("Test")
     #nr.inventory.hosts["Test"].hostname = "Testing"
-    for name, host in nr.inventory.hosts.items():
-        print(f"{name} hostname: {host.hostname}")
+#    for name, host in nr.inventory.hosts.items():
+#        print(f"{name} hostname: {host.hostname}")
 
         
 if __name__ == "__main__":
