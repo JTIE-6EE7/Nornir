@@ -59,7 +59,8 @@ def main():
 
     # find friends
     output = nr.run(task=find_friends, num_workers=1)
-    
+
+    # print initial Nornir inventory    
     print("\nOriginal inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
@@ -67,7 +68,7 @@ def main():
 
     # loop over hosts
     for host in output:
-        # loop over each CDP neighbor
+        # loop over each host's CDP neighbors
         for friend in output[host][1].result:
             # check platform to deal with ntc-template differences
             platform = nr.inventory.hosts[host].platform
@@ -87,10 +88,8 @@ def main():
             nr.inventory.add_host(dev_name)
             nr.inventory.hosts[dev_name].hostname = mgmt_ip
 
+    # print updated Nornir inventory
     print("\nUpdated inventory:\n" + "~"*20)
-    #print(nr.inventory.hosts)
-    #nr.inventory.add_host("Test")
-    #nr.inventory.hosts["Test"].hostname = "Testing"
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
