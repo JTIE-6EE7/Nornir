@@ -59,23 +59,24 @@ def main():
     # find friends
     output = nr.run(task=find_friends, num_workers=1)
     
+    print("\nOriginal inventory:\n" + "~"*20)
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
+
     for hosts in output:
-        print(output[hosts][1].result)
+        #print(output[hosts][1].result)
         for friend in output[hosts][1].result:
             nr.inventory.add_host(friend['dest_host'])
             nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
             
+    print("\nUpdated inventory:\n" + "~"*20)
+    #print(nr.inventory.hosts)
+    nr.inventory.add_host("Test")
+    nr.inventory.hosts["Test"].hostname = "Testing"
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
 
-    #print("~"*20)
-    #for name, host in nr.inventory.hosts.items():
-    #    print(f"{name} hostname: {host.hostname}")
-    #print("~"*20)
-    ##print(nr.inventory.hosts)
-    #nr.inventory.add_host("Test")
-    #nr.inventory.hosts["Test"].hostname = "Testing"
-#    for name, host in nr.inventory.hosts.items():
-#        print(f"{name} hostname: {host.hostname}")
-
+    print()
         
 if __name__ == "__main__":
     main()
