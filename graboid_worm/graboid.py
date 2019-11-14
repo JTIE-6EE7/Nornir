@@ -52,12 +52,12 @@ def find_friends(task):
 def main():
     # initialize The Norn
     nr = InitNornir()
-    # filter The Norn to nxos
+    # filter The Norn to something
     #nr = nr.filter(platform="cisco_ios")
-    # run The Norn
+    # run The Norn to grab info
     #nr.run(task=grab_info)
 
-    # find friends
+    # run The Norn to find friends
     output = nr.run(task=find_friends, num_workers=1)
 
     # print initial Nornir inventory    
@@ -75,13 +75,13 @@ def main():
             # parse Nexus CDP output
             if platform == "nxos":
                 # get device name
-                dev_name = re.split("\.|\(", friend['dest_host'])[0]
+                dev_name = re.split(r"\.|\(", friend['dest_host'])[0]
                 # get device IP
                 mgmt_ip = friend['mgmt_ip']
             # parse IOS CDP output
             elif platform == "cisco_ios":
                 # get device name
-                dev_name = re.split("\.|\(", friend['destination_host'])[0]
+                dev_name = re.split(r"\.|\(", friend['destination_host'])[0]
                 # get device IP
                 mgmt_ip = friend['management_ip']
             # add new host to The Norn iventory 
