@@ -49,23 +49,7 @@ def find_friends(task):
         use_textfsm=True,
     )
 
-def main():
-    # initialize The Norn
-    nr = InitNornir()
-    # filter The Norn to something
-    #nr = nr.filter(platform="cisco_ios")
-    # run The Norn to grab info
-    #nr.run(task=grab_info)
-
-    # run The Norn to find friends
-    output = nr.run(task=find_friends, num_workers=1)
-
-    # print initial Nornir inventory    
-    print("\nOriginal inventory:\n" + "~"*20)
-    for name, host in nr.inventory.hosts.items():
-        print(f"{name} hostname: {host.hostname}")
-        #print(f"{name} platform: {host.platform}")
-
+def add_friends(output, nr):
     # loop over hosts
     for host in output:
         # loop over each host's CDP neighbors
@@ -87,6 +71,26 @@ def main():
             # add new host to The Norn iventory 
             nr.inventory.add_host(dev_name)
             nr.inventory.hosts[dev_name].hostname = mgmt_ip
+
+
+def main():
+    # initialize The Norn
+    nr = InitNornir()
+    # filter The Norn to something
+    #nr = nr.filter(platform="cisco_ios")
+    # run The Norn to grab info
+    #nr.run(task=grab_info)
+
+    # run The Norn to find friends
+    output = nr.run(task=find_friends, num_workers=1)
+
+    # print initial Nornir inventory    
+    print("\nOriginal inventory:\n" + "~"*20)
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
+
+    # add new CDP neighbors to Nornir inventory
+    add_friends(output, nr)
 
     # print updated Nornir inventory
     print("\nUpdated inventory:\n" + "~"*20)
