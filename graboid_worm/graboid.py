@@ -52,7 +52,7 @@ def main():
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn to nxos
-    nr = nr.filter(platform="nxos")
+    #nr = nr.filter(platform="cisco_ios")
     # run The Norn
     #nr.run(task=grab_info)
 
@@ -62,12 +62,14 @@ def main():
     print("\nOriginal inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
+        print(f"{name} platform: {host.platform}")
 
-    for hosts in output:
-        #print(output[hosts][1].result)
-        for friend in output[hosts][1].result:
-            nr.inventory.add_host(friend['dest_host'])
-            nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
+    for host in output:
+        #print(output[host][1].result)
+        for friend in output[host][1].result:
+            pass
+            #nr.inventory.add_host(friend['dest_host'])
+            #nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
             
     print("\nUpdated inventory:\n" + "~"*20)
     #print(nr.inventory.hosts)
