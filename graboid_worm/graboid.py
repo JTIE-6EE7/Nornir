@@ -65,17 +65,25 @@ def main():
         print(f"{name} hostname: {host.hostname}")
         #print(f"{name} platform: {host.platform}")
 
+    # loop over hosts
     for host in output:
+        # loop over each CDP neighbor
         for friend in output[host][1].result:
+            # check platform to deal with ntc-template differences
             platform = nr.inventory.hosts[host].platform
+            # parse Nexus CDP output
             if platform == "nxos":
+                # get device name
                 dev_name = re.split("\.|\(", friend['dest_host'])[0]
+                # get device IP
                 mgmt_ip = friend['mgmt_ip']
-
+            # parse IOS CDP output
             elif platform == "cisco_ios":
+                # get device name
                 dev_name = re.split("\.|\(", friend['destination_host'])[0]
+                # get device IP
                 mgmt_ip = friend['management_ip']
-            
+            # add new host to The Norn iventory 
             nr.inventory.add_host(dev_name)
             nr.inventory.hosts[dev_name].hostname = mgmt_ip
 
