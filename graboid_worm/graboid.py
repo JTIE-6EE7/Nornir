@@ -69,8 +69,9 @@ def add_friends(output, nr):
                 # get device IP
                 mgmt_ip = friend['management_ip']
             # add new host to The Norn iventory 
-            nr.inventory.add_host(dev_name)
-            nr.inventory.hosts[dev_name].hostname = mgmt_ip
+            if dev_name not in nr.inventory.hosts.keys():
+                nr.inventory.add_host(dev_name)
+                nr.inventory.hosts[dev_name].hostname = mgmt_ip
 
 
 def main():
@@ -86,6 +87,7 @@ def main():
     print("\nOriginal inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
+        print(host.groups)
 
     # add new CDP neighbors to Nornir inventory
     add_friends(output, nr)
@@ -94,7 +96,7 @@ def main():
     print("\nUpdated inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
-
+        print(host.groups)
     print("\nGrabbing info from all hosts.")
 
     # run The Norn to grab info
