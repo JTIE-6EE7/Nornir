@@ -4,6 +4,7 @@
 This script is used to collect discovery information from devices and their CDP neighbors.
 '''
 
+import re
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.core.inventory import Inventory
@@ -68,12 +69,15 @@ def main():
         for friend in output[host][1].result:
             platform = nr.inventory.hosts[host].platform
             if platform == "nxos":
-                nr.inventory.add_host(friend['dest_host'])
-                nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
-            elif platform == "cisco_ios":
-                nr.inventory.add_host(friend['destination_host'])
-                nr.inventory.hosts[friend['destination_host']].hostname = friend['management_ip']
+                dev_name = re.split("\.|\(", friend['dest_host'])[0]
+                mgmt_ip = friend['mgmt_ip']
 
+            elif platform == "cisco_ios":
+                dev_name = re.split("\.|\(", friend['destination_host'])[0]
+                mgmt_ip = friend['management_ip']
+            
+            nr.inventory.add_host(dev_name)
+            nr.inventory.hosts[dev_name].hostname = mgmt_ip
 
     print("\nUpdated inventory:\n" + "~"*20)
     #print(nr.inventory.hosts)
