@@ -62,19 +62,23 @@ def main():
     print("\nOriginal inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
-        print(f"{name} platform: {host.platform}")
+        #print(f"{name} platform: {host.platform}")
 
     for host in output:
-        #print(output[host][1].result)
         for friend in output[host][1].result:
-            pass
-            #nr.inventory.add_host(friend['dest_host'])
-            #nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
-            
+            platform = nr.inventory.hosts[host].platform
+            if platform == "nxos":
+                nr.inventory.add_host(friend['dest_host'])
+                nr.inventory.hosts[friend['dest_host']].hostname = friend['mgmt_ip']
+            elif platform == "cisco_ios":
+                nr.inventory.add_host(friend['destination_host'])
+                nr.inventory.hosts[friend['destination_host']].hostname = friend['management_ip']
+
+
     print("\nUpdated inventory:\n" + "~"*20)
     #print(nr.inventory.hosts)
-    nr.inventory.add_host("Test")
-    nr.inventory.hosts["Test"].hostname = "Testing"
+    #nr.inventory.add_host("Test")
+    #nr.inventory.hosts["Test"].hostname = "Testing"
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
