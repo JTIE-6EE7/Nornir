@@ -78,8 +78,6 @@ def main():
     nr = InitNornir()
     # filter The Norn to something
     #nr = nr.filter(platform="cisco_ios")
-    # run The Norn to grab info
-    #nr.run(task=grab_info)
 
     # run The Norn to find friends
     output = nr.run(task=find_friends, num_workers=1)
@@ -97,7 +95,10 @@ def main():
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
-    print()
+    print("\nGrabbing info from all hosts.")
+
+    # run The Norn to grab info
+    nr.run(task=grab_info)
         
 if __name__ == "__main__":
     main()
