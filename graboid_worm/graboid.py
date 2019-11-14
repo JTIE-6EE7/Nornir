@@ -78,13 +78,9 @@ def add_friends(output, nr):
                 else:
                     nr.inventory.hosts[dev_name].groups = ['iosxe']
 
-    return nr
-
 def main():
     # initialize The Norn
     nr = InitNornir()
-    # filter The Norn to something
-    #nr = nr.filter(platform="cisco_ios")
 
     # run The Norn to find friends
     output = nr.run(task=find_friends, num_workers=1)
@@ -96,18 +92,16 @@ def main():
         print(host.groups)
 
     # add new CDP neighbors to Nornir inventory
-    nr = add_friends(output, nr)
+    add_friends(output, nr)
 
     # print updated Nornir inventory
     print("\nUpdated inventory:\n" + "~"*20)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
         print(host.groups)
-    print("\nGrabbing info from all hosts.")
-
-    nr = InitNornir()
 
     # run The Norn to grab info
+    print("\nGrabbing info from all hosts.")
     nr.run(task=grab_info)
         
 if __name__ == "__main__":
