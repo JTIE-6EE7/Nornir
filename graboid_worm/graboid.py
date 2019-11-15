@@ -87,7 +87,7 @@ def main():
     nr = InitNornir()
 
     # run The Norn to find friends
-    output = nr.run(task=find_friends, num_workers=1)
+    output = nr.run(task=find_friends)
 
     # print initial Nornir inventory    
     print("\nOriginal inventory:\n" + "~"*20)
