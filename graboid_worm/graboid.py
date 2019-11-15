@@ -41,6 +41,8 @@ def grab_info(task):
             append=True
         )
 
+    print(f"Writing {task.host}_info.txt")
+
 def find_friends(task):
     # run show CDP neighbors command
     task.run(
@@ -90,7 +92,7 @@ def main():
     output = nr.run(task=find_friends)
 
     # print initial Nornir inventory    
-    print("\nOriginal inventory:\n" + "~"*20)
+    print("\nOriginal inventory:\n" + "~"*30)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
@@ -98,12 +100,13 @@ def main():
     add_friends(output, nr)
 
     # print updated Nornir inventory
-    print("\nUpdated inventory:\n" + "~"*20)
+    print("\nUpdated inventory:\n" + "~"*30)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
     # run The Norn to grab info
     print("\nGrabbing info from all hosts.")
+    print("~"*30)
     nr.run(task=grab_info)
         
 if __name__ == "__main__":
