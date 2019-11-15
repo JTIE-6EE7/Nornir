@@ -1,7 +1,0 @@
----
-inventory:
-  plugin: nornir.plugins.inventory.simple.SimpleInventory
-  options:
-    host_file: "~/JTGIT/lab_Nornir/hosts.yaml"
-    group_file: "~/JTGIT/lab_Nornir/groups.yaml"
-    defaults_file: "~/JTGIT/lab_Nornir/defaults.yaml"
