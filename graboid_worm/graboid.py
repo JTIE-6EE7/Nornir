@@ -94,27 +94,26 @@ def main():
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
-    # run The Norn to find friends
-    output = nr.run(task=find_friends)
+    pre_count = len(nr.inventory.hosts.keys())
 
-    # add new CDP neighbors to Nornir inventory
-    add_friends(output, nr)
+    post_count = None
 
-    # print updated Nornir inventory
-    print("\nFirst CDP pass inventory:\n" + "~"*30)
-    for name, host in nr.inventory.hosts.items():
-        print(f"{name} hostname: {host.hostname}")
+    while pre_count != post_count:
 
-    # run The Norn to find friends
-    output = nr.run(task=find_friends)
+        pre_count = len(nr.inventory.hosts.keys())
 
-    # add new CDP neighbors to Nornir inventory
-    add_friends(output, nr)
-    
-    # print third Nornir inventory    
-    print("\nSecond CDP pass inventory:\n" + "~"*30)
-    for name, host in nr.inventory.hosts.items():
-        print(f"{name} hostname: {host.hostname}")
+        # run The Norn to find friends
+        output = nr.run(task=find_friends)
+
+        # add new CDP neighbors to Nornir inventory
+        add_friends(output, nr)
+
+        post_count = len(nr.inventory.hosts.keys())
+
+        # print updated Nornir inventory
+        print("\nCDP pass inventory:\n" + "~"*30)
+        for name, host in nr.inventory.hosts.items():
+            print(f"{name} hostname: {host.hostname}")
 
     # run The Norn to grab info
     print("\nGrabbing info from all hosts:")
