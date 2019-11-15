@@ -89,24 +89,35 @@ def main():
     # initialize The Norn
     nr = InitNornir()
 
-    # run The Norn to find friends
-    output = nr.run(task=find_friends)
-
     # print initial Nornir inventory    
     print("\nOriginal inventory:\n" + "~"*30)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
+    # run The Norn to find friends
+    output = nr.run(task=find_friends)
+
     # add new CDP neighbors to Nornir inventory
     add_friends(output, nr)
 
     # print updated Nornir inventory
-    print("\nUpdated inventory:\n" + "~"*30)
+    print("\nFirst CDP pass inventory:\n" + "~"*30)
+    for name, host in nr.inventory.hosts.items():
+        print(f"{name} hostname: {host.hostname}")
+
+    # run The Norn to find friends
+    output = nr.run(task=find_friends)
+
+    # add new CDP neighbors to Nornir inventory
+    add_friends(output, nr)
+    
+    # print third Nornir inventory    
+    print("\nSecond CDP pass inventory:\n" + "~"*30)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
     # run The Norn to grab info
-    print("\nGrabbing info from all hosts.")
+    print("\nGrabbing info from all hosts:")
     print("~"*30)
     nr.run(task=grab_info)
         
