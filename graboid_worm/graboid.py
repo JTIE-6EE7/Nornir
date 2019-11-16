@@ -80,7 +80,7 @@ def add_friends(output, nr):
                     groups = ['iosxe']
                 # add friend to inventory
                 nr.inventory.add_host(
-                    name=dev_name,
+                    name = dev_name,
                     hostname = mgmt_ip,
                     groups = groups
                 )
