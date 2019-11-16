@@ -94,12 +94,14 @@ def main():
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
 
-    pre_count = len(nr.inventory.hosts.keys())
-
+    # init variables for while loop
+    pre_count = 0
     post_count = None
 
+    # loop until no new hosts are found
     while pre_count != post_count:
 
+        # set host count before loop
         pre_count = len(nr.inventory.hosts.keys())
 
         # run The Norn to find friends
@@ -108,6 +110,7 @@ def main():
         # add new CDP neighbors to Nornir inventory
         add_friends(output, nr)
 
+        # set host count for after loop
         post_count = len(nr.inventory.hosts.keys())
 
         # print updated Nornir inventory
