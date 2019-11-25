@@ -46,8 +46,13 @@ def create_intf_dict(results):
         # set CLI result to dictionary
         interfaces = results[host].result
 
+        print("\n" + "~" * 30)
+        print(interfaces)
+        print("\n" + "~" * 30)
+
         # loop through interfaces
         for intf in interfaces:    
+            #print(intf)
             # set interface name and mode
             intf_name = intf['interface']
             intf_mode = intf['mode']
@@ -199,8 +204,8 @@ def main():
     # initialize The Norn
     nr = InitNornir()
 
-    # filter The Norn to nxos
-    nr = nr.filter(platform="nxos")
+    # filter The Norn to Catalyst
+    # nr = nr.filter(platform="catalyst")
 
     # send command to device; use TextFSM
     results = nr.run(
