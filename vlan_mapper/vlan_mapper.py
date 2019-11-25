@@ -52,10 +52,10 @@ def create_intf_dict(results):
 
         # loop through interfaces
         for intf in interfaces:    
-            #print(intf)
+            print(intf)
             # set interface name and mode
             intf_name = intf['interface']
-            intf_mode = intf['mode']
+            intf_mode = intf['admin_mode']
 
             # IOS switch uses "static access" | NXOS uses "access"
             if intf_mode == "access" or intf_mode == "static access":
@@ -70,6 +70,9 @@ def create_intf_dict(results):
                 vlans = intf['trunking_vlans']
                 native = intf['native_vlan']
                 intf_out[intf_name] = {'mode': intf_mode, 'vlans': vlans, 'native': native}
+
+            else:
+                pass
 
         # add dict entry for host with all interfaces
         all_hosts_intf.update({host: intf_out})
@@ -92,7 +95,7 @@ def remap_vlans(mapping_dict, all_hosts_intf):
         # loop over interfaces
         for intf in host.values():
             # if port is access mode
-            if intf['mode'] == 'access':
+            if intf['mode'] == 'static access':
                 # translate VLAN with mapping function
                 intf['vlans'] = vlan_mapper(mapping_dict, intf['vlans'])
 
@@ -224,6 +227,7 @@ def main():
     all_remapped_intf = remap_vlans(mapping_dict, all_hosts_intf)        
  
     # render new configs
+
     render_configs(all_remapped_intf)
 
     # push configs
