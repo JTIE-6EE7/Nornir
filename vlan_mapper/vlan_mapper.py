@@ -208,7 +208,7 @@ def main():
     nr = InitNornir()
 
     # filter The Norn to Catalyst
-    # nr = nr.filter(platform="catalyst")
+    nr = nr.filter(platform="catalyst")
 
     # send command to device; use TextFSM
     results = nr.run(
