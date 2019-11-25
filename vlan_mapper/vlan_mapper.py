@@ -46,10 +46,6 @@ def create_intf_dict(results):
         # set CLI result to dictionary
         interfaces = results[host].result
 
-        print("\n" + "~" * 30)
-        print(interfaces)
-        print("\n" + "~" * 30)
-
         # loop through interfaces
         for intf in interfaces:    
             # set interface name and mode
