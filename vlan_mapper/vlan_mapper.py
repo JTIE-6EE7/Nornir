@@ -52,7 +52,6 @@ def create_intf_dict(results):
 
         # loop through interfaces
         for intf in interfaces:    
-            print(intf)
             # set interface name and mode
             intf_name = intf['interface']
             intf_mode = intf['admin_mode']
@@ -208,7 +207,7 @@ def main():
     nr = InitNornir()
 
     # filter The Norn to Catalyst
-    nr = nr.filter(platform="catalyst")
+    nr = nr.filter(platform="cisco_ios")
 
     # send command to device; use TextFSM
     results = nr.run(
