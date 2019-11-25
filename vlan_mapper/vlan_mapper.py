@@ -168,7 +168,7 @@ def render_configs(int_dict):
         for intf in intfs.items():
             
             # access mode templates
-            if intf[1]['mode'] == 'access':
+            if intf[1]['mode'] == 'static access':
                 
                 # voice access mode templates
                 if intf[1]['voice'] != 'none':
