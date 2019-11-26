@@ -17,7 +17,9 @@ def grab_info(task):
         "show version",
         "show run",
         "show vlan brief",
+        "show vlan",
         "show interface trunk",
+        "show power inline",
         "show ip interface brief",
         "show ip route",
         "show ip arp",
@@ -30,14 +32,13 @@ def grab_info(task):
     for cmd in commands:
         # send command to device
         output = task.run(task=netmiko_send_command, command_string=cmd)
-        # save results to aggregate result
+        # save results with timestamp to aggregate result
         time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        task.host["info"] =  "#"*40 + "\n" + cmd + " : " + time_stamp + "\n" + "#"*40 + "\n"*2 + output.result
+        task.host["info"]="\n"*2+"#"*40+"\n"+cmd+" : "+time_stamp+"\n"+"#"*40+"\n"*2+output.result
         # write output files
         task.run(
             task=files.write_file,
-            filename=f"{task.host}_info.txt",
+            filename=f"output/{task.host}_info.txt",
             content=task.host["info"],
             append=True
         )
@@ -45,8 +46,8 @@ def grab_info(task):
 def main():
     # initialize The Norn
     nr = InitNornir()
-    # filter The Norn to nxos
-    nr = nr.filter(platform="nxos")
+    # filter The Norn
+    nr = nr.filter(platform="cisco_ios")
     # run The Norn
     nr.run(task=grab_info)
 
