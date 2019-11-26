@@ -4,6 +4,7 @@
 This script is used to collect discovery information from devices. 
 '''
 
+from datetime import datetime
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
@@ -30,7 +31,9 @@ def grab_info(task):
         # send command to device
         output = task.run(task=netmiko_send_command, command_string=cmd)
         # save results to aggregate result
-        task.host["info"] =  "#"*30 + "\n" + cmd + "\n" + "#"*30 + "\n"*2 + output.result
+        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+        task.host["info"] =  "#"*40 + "\n" + cmd + " : " + time_stamp + "\n" + "#"*40 + "\n"*2 + output.result
         # write output files
         task.run(
             task=files.write_file,
