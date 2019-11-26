@@ -1,0 +1,84 @@
+interface Fa1/0/1
+ switchport access vlan 101
+ switchport voice vlan 201
+ switchport mode access
+!
+interface Fa1/0/2
+ switchport access vlan 101
+ switchport voice vlan 201
+ switchport mode access
+!
+interface Fa1/0/3
+ switchport access vlan 101
+ switchport voice vlan 201
+ switchport mode access
+!
+interface Fa1/0/4
+ switchport access vlan 101
+ switchport voice vlan 201
+ switchport mode access
+!
+interface Fa1/0/5
+ switchport access vlan 101
+ switchport voice vlan 201
+ switchport mode access
+!
+interface Fa1/0/6
+ switchport access vlan 102
+ switchport voice vlan 202
+ switchport mode access
+!
+interface Fa1/0/7
+ switchport access vlan 102
+ switchport voice vlan 202
+ switchport mode access
+!
+interface Fa1/0/8
+ switchport access vlan 102
+ switchport voice vlan 202
+ switchport mode access
+!
+interface Fa1/0/9
+ switchport access vlan 102
+ switchport voice vlan 202
+ switchport mode access
+!
+interface Fa1/0/10
+ switchport access vlan 102
+ switchport voice vlan 202
+ switchport mode access
+!
+interface Fa1/0/11
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!
+interface Fa1/0/12
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!
+interface Fa1/0/13
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!
+interface Fa1/0/14
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!
+interface Fa1/0/15
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!
+interface Gi1/0/1
+ switchport access vlan 101
+ switchport mode access
+!
+interface Gi1/0/2
+ switchport trunk allowed vlan 101,102,103,201,202,203,301,302,300
+ switchport trunk native vlan 666
+ switchport mode trunk
+!

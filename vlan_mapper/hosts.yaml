@@ -3,8 +3,3 @@ cat3750_lab:
   hostname: 172.20.58.41
   groups:
     - catalyst
-
-Core-1:
-  hostname: 172.20.58.61
-  groups:
-    - nxos

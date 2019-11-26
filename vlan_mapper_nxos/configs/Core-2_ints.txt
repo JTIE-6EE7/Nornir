@@ -1,0 +1,500 @@
+interface Ethernet1/1
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/2
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/3
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/4
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/5
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/6
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/7
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/8
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/9
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/10
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/11
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/12
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/13
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/14
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/15
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/16
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/17
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/18
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/19
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/20
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/21
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/22
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/23
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/24
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/25
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/26
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/27
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/28
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/29
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/30
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/31
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/32
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/33
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/34
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/35
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/36
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/37
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/38
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/39
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/40
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/41
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/42
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/43
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/44
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/45
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/46
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/47
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/48
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/49
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/50
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/51
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/52
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/53
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/54
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/55
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/56
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/57
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/58
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/59
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/60
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/61
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/62
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/63
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/64
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/65
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/66
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/67
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/68
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/69
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/70
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/71
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/72
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/73
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/74
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/75
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/76
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/77
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/78
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/79
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/80
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/81
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/82
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/83
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/84
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/85
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/86
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/87
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/88
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/89
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/90
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/91
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/92
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/93
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/94
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/95
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/96
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/97
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/98
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/99
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
+interface Ethernet1/100
+ switchport trunk allowed vlan 103,104,203,204,300,400,500,600,700,800,900
+ switchport trunk native vlan 1
+ switchport mode trunk
+!
