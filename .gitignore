@@ -8,3 +8,5 @@ grab_info/NXOS-2_info.txt
 reloader/CSR-2_info.txt
 reloader/CSR-1_info.txt
 graboid_worm/*.txt
+upgrader/images/c3750-ipbasek9-mz.122-55.SE7.bin
+upgrader/images/c3750-ipbasek9-mz.122-55.SE10.bin
