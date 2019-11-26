@@ -18,7 +18,7 @@ def grab_info(task):
         "show run",
         "show vlan brief",
         "show vlan",
-        "show interace status",
+        "show interface status",
         "show interface trunk",
         "show power inline",
         "show ip interface brief",
