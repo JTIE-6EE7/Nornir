@@ -18,6 +18,7 @@ def grab_info(task):
         "show run",
         "show vlan brief",
         "show vlan",
+        "show interace status",
         "show interface trunk",
         "show power inline",
         "show ip interface brief",
@@ -27,6 +28,8 @@ def grab_info(task):
         "show cdp neighbors",
         "show cdp neighbors detail",
         ]
+
+    print(f"Collecting data from {task.host}")
 
     # loop over commands
     for cmd in commands:
