@@ -48,7 +48,6 @@ def create_intf_dict(results):
 
         # loop through interfaces
         for intf in interfaces:    
-            #print(intf)
             # set interface name and mode
             intf_name = intf['interface']
             intf_mode = intf['mode']
@@ -88,7 +87,7 @@ def remap_vlans(mapping_dict, all_hosts_intf):
         # loop over interfaces
         for intf in host.values():
             # if port is access mode
-            if intf['mode'] == 'access':
+            if intf['mode'] == 'access' or intf['mode'] == 'static access':
                 # translate VLAN with mapping function
                 intf['vlans'] = vlan_mapper(mapping_dict, intf['vlans'])
 
@@ -161,7 +160,7 @@ def render_configs(int_dict):
         for intf in intfs.items():
             
             # access mode templates
-            if intf[1]['mode'] == 'access':
+            if intf[1]['mode'] == 'access' or intf[1]['mode'] == 'static access':
                 
                 # voice access mode templates
                 if intf[1]['voice'] != 'none':
@@ -228,3 +227,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
