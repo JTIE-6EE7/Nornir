@@ -66,9 +66,6 @@ def create_intf_dict(results):
                 native = intf['native_vlan']
                 intf_out[intf_name] = {'mode': intf_mode, 'vlans': vlans, 'native': native}
 
-            else:
-                pass
-
         # add dict entry for host with all interfaces
         all_hosts_intf.update({host: intf_out})
 
@@ -222,7 +219,6 @@ def main():
     all_remapped_intf = remap_vlans(mapping_dict, all_hosts_intf)        
  
     # render new configs
-
     render_configs(all_remapped_intf)
 
     # push configs
