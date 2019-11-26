@@ -46,16 +46,11 @@ def create_intf_dict(results):
         # set CLI result to dictionary
         interfaces = results[host].result
 
-        print("\n" + "~" * 30)
-        print(interfaces)
-        print("\n" + "~" * 30)
-
         # loop through interfaces
         for intf in interfaces:    
-            #print(intf)
             # set interface name and mode
             intf_name = intf['interface']
-            intf_mode = intf['mode']
+            intf_mode = intf['admin_mode']
 
             # IOS switch uses "static access" | NXOS uses "access"
             if intf_mode == "access" or intf_mode == "static access":
@@ -70,6 +65,9 @@ def create_intf_dict(results):
                 vlans = intf['trunking_vlans']
                 native = intf['native_vlan']
                 intf_out[intf_name] = {'mode': intf_mode, 'vlans': vlans, 'native': native}
+
+            else:
+                pass
 
         # add dict entry for host with all interfaces
         all_hosts_intf.update({host: intf_out})
@@ -92,7 +90,7 @@ def remap_vlans(mapping_dict, all_hosts_intf):
         # loop over interfaces
         for intf in host.values():
             # if port is access mode
-            if intf['mode'] == 'access':
+            if intf['mode'] == 'static access':
                 # translate VLAN with mapping function
                 intf['vlans'] = vlan_mapper(mapping_dict, intf['vlans'])
 
@@ -165,7 +163,7 @@ def render_configs(int_dict):
         for intf in intfs.items():
             
             # access mode templates
-            if intf[1]['mode'] == 'access':
+            if intf[1]['mode'] == 'static access':
                 
                 # voice access mode templates
                 if intf[1]['voice'] != 'none':
@@ -205,7 +203,7 @@ def main():
     nr = InitNornir()
 
     # filter The Norn to Catalyst
-    nr = nr.filter(platform="nxos")
+    nr = nr.filter(platform="cisco_ios")
 
     # send command to device; use TextFSM
     results = nr.run(
@@ -224,6 +222,7 @@ def main():
     all_remapped_intf = remap_vlans(mapping_dict, all_hosts_intf)        
  
     # render new configs
+
     render_configs(all_remapped_intf)
 
     # push configs
@@ -233,4 +232,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-#git hates me

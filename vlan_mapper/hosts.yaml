@@ -1,10 +1,5 @@
 ---
-Core-1:
-  hostname: 172.20.58.61
+cat3750_lab:
+  hostname: 172.20.58.41
   groups:
-    - nxos
-
-Core-2:
-  hostname: 172.20.58.62
-  groups:
-    - nxos
+    - catalyst
