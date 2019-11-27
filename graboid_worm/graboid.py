@@ -55,41 +55,44 @@ def find_friends(task):
 def add_friends(output, nr):
     # loop over hosts
     for host in output:
+        try:
         # loop over each host's CDP neighbors
-        for friend in output[host][1].result:
+            for friend in output[host][1].result:
             # check platform to deal with ntc-template differences
-            platform = nr.inventory.hosts[host].platform
+                platform = nr.inventory.hosts[host].platform
             # parse Nexus CDP output
-            if platform == "nxos":
+                if platform == "nxos":
                 # get device name
-                dev_name = re.split(r"\.|\(", friend['dest_host'])[0]
+                    dev_name = re.split(r"\.|\(", friend['dest_host'])[0]
                 # get device IP
-                mgmt_ip = friend['mgmt_ip']
+                    mgmt_ip = friend['mgmt_ip']
             # parse IOS CDP output
-            elif platform == "cisco_ios":
+                elif platform == "cisco_ios":
                 # get device name
-                dev_name = re.split(r"\.|\(", friend['destination_host'])[0]
+                    dev_name = re.split(r"\.|\(", friend['destination_host'])[0]
                 # get device IP
-                mgmt_ip = friend['management_ip']
-            # add new host to The Norn iventory 
-            if dev_name not in nr.inventory.hosts.keys():
+                    mgmt_ip = friend['management_ip']
+            # add new host to The Norn iventory
+                if dev_name not in nr.inventory.hosts.keys():
                 # set group based on device type
-                if friend['platform'] == 'N9K-9000v':
-                    groups = ['nxos']
-                else:
-                    groups = ['iosxe']
+                    if friend['platform'] == 'N9K-9000v':
+                        groups = ['nxos']
+                    else:
+                        groups = ['iosxe']
                 # add friend to inventory
-                nr.inventory.add_host(
-                    name = dev_name,
-                    hostname = mgmt_ip,
-                    groups = groups
-                )
+                    nr.inventory.add_host(
+                        name = dev_name,
+                        hostname = mgmt_ip,
+                        groups = groups,
+                        )
+        except:
+            continue
 
 def main():
     # initialize The Norn
     nr = InitNornir()
 
-    # print initial Nornir inventory    
+    # print initial Nornir inventory
     print("\nOriginal inventory:\n" + "~"*30)
     for name, host in nr.inventory.hosts.items():
         print(f"{name} hostname: {host.hostname}")
@@ -122,6 +125,6 @@ def main():
     print("\nGrabbing info from all hosts:")
     print("~"*30)
     nr.run(task=grab_info)
-        
+
 if __name__ == "__main__":
     main()
