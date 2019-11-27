@@ -79,12 +79,10 @@ def file_copy(task):
 
             print(copy.result)
 
-
-
-
             
-
 def set_boot(task):
+
+    img_file = task.host['upgrade_img']
 
     upgrade = task.run(
         task=netmiko_send_config,
@@ -107,6 +105,8 @@ def main():
     # run The Norn file copy
     nr.run(task=file_copy)
 
+    # run The Norn set boot
+    nr.run(task=set_boot)
     
     reload = input("Switches are ready for reload.\nProceed with reloading all switches? (Y/N)")
     if reload.upper() == "Y":
