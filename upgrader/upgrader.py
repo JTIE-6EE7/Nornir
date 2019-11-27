@@ -13,7 +13,7 @@ from nornir.plugins.tasks.networking import netmiko_file_transfer
 
 def upgrade_os(task):
 
-    test_file = 'c3750-ipbasek9-mz.122-55.SE7.bin'
+    test_file = 'c3750-ipbasek9-mz.122-55.SE10.bin'
 
     version = task.run(
         task=netmiko_send_command,
@@ -39,12 +39,12 @@ def upgrade_os(task):
 #
 #    print_result(transfer)
 
-    upgrade = task.run(
-        task=netmiko_send_config,
-        config_commands=[f"boot system flash:/{test_file}", "end", "wr mem", "reload"]
-    )       
+        upgrade = task.run(
+            task=netmiko_send_config,
+            config_commands=[f"boot system flash:/{test_file}", "end", "wr mem"]
+        )       
 
-    print_result(upgrade)
+        print_result(upgrade)
 
 def main():
     # initialize The Norn
@@ -55,6 +55,13 @@ def main():
 
     # run The Norn
     nr.run(task=upgrade_os)
+
+    
+    reload = input("Switches are ready for reload. \n\nProceed with reloading all switches? (Y/N)\n\n")
+    if reload == "Y":
+        print("RELOAD!")
+
+
 
 
 if __name__ == "__main__":
