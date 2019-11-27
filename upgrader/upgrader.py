@@ -25,9 +25,9 @@ def check_ver(task):
     current = version.result[0]['running_image']
 
     if current == f"/{img_file}":
-        print("Current version is current")
+        print(f"\nCurrent version is current:\n{current}")
     else:
-        print("Upgrade now or die.")
+        print(f"\nUpgrade now or die.\n{current}")
 
 
 
@@ -50,26 +50,37 @@ def file_copy(task):
         use_textfsm=True,
     )
 
-    print_result(switch_stack)
-
     for sw in switch_stack.result:
-        if sw['switch'] == "1":
+        if sw['switch'] > "1":
             print("Flash copy")
             copy = task.run(
                 task=netmiko_send_command,
-                #command_string=f"copy flash:/{img_file} flash{sw['switch']}:/{img_file}",
-                command_string=f"copy flash:/cfg.txt flash1:/cfg2.txt",
+                use_timing=True,
+                command_string=f"copy flash:/{img_file} flash{sw['switch']}:/{img_file}",
             )
-                # Confirm the reload (if 'confirm' is in the output)
-            for device_name, multi_result in result.items():
-                if 'confirm' in multi_result[0].result or 'Destination' in multi_result[0].result:
-                    print(device_name)
-                    confirm = nr.run(
-                        task=netmiko_send_command,
-                        use_timing=True,
-                        command_string="",
-                    )
-            print_result(copy)
+                       
+            print(copy.result)
+
+            if 'confirm' in copy.result or 'Destination' in copy.result:
+                copy = task.run(
+                    task=netmiko_send_command,
+                    use_timing=True,
+                    command_string="",
+                )
+
+            print(copy.result)
+
+            if 'confirm' in copy.result or 'Destination' in copy.result:
+                copy = task.run(
+                    task=netmiko_send_command,
+                    use_timing=True,
+                    command_string="",
+                )
+
+            print(copy.result)
+
+
+
 
             
 
