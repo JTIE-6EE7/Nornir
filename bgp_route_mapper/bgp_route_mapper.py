@@ -19,9 +19,11 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 
 # TODO build new route maps
 
+# TODO set communities
+
 # TODO apply new route maps
 
-
+# TODO verify route map applied
 
 
 def grab_info(task):
