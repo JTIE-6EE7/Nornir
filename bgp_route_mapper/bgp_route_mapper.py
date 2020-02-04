@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to update BGP route maps
+This script is used to update BGP route mapper
 '''
 
 from datetime import datetime
