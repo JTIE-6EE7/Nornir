@@ -15,6 +15,8 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 
 # TODO get BGP summary
 
+# TODO how to deal with multiple peers
+
 # TODO get existing route maps
 
 # TODO build new route maps
@@ -23,7 +25,7 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 
 # TODO apply new route maps
 
-# TODO verify route map applied
+# TODO verify route maps applied
 
 
 def grab_info(task):
