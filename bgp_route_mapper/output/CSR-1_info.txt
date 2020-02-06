@@ -1,7 +1,7 @@
 
 
 ########################################
-show run | section bgp : 2020-02-05 19:29:13
+show run | section bgp : 2020-02-06 16:39:34
 ########################################
 
 router bgp 64661
@@ -17,7 +17,7 @@ router bgp 64661
  neighbor 199.220.127.249 route-map VERIZON_OUT out
 
 ########################################
-show run | section ^route-map : 2020-02-05 19:29:14
+show run | section ^route-map : 2020-02-06 16:39:34
 ########################################
 
 route-map DENY_ANY deny 10
