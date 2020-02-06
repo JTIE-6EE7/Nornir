@@ -1,7 +1,7 @@
 
 
 ########################################
-show run | section bgp : 2020-02-05 19:22:23
+show run | section bgp : 2020-02-05 19:29:13
 ########################################
 
 router bgp 64661
@@ -17,109 +17,10 @@ router bgp 64661
  neighbor 199.220.127.249 route-map VERIZON_OUT out
 
 ########################################
-show run | section route-map : 2020-02-05 19:22:24
-########################################
-
- neighbor 68.136.205.69 route-map VERIZON_OUT out
- neighbor 199.220.127.249 route-map VERIZON_OUT out
-route-map DENY_ANY deny 10
-route-map VERIZON_OUT permit 10
- match as-path 1
-route-map VERIZON_OUT deny 20
-
-########################################
-show ip bgp summary : 2020-02-05 19:22:24
-########################################
-
-BGP router identifier 1.1.1.1, local AS number 64661
-BGP table version is 10, main routing table version 10
-5 network entries using 1240 bytes of memory
-5 path entries using 600 bytes of memory
-2/2 BGP path/bestpath attribute entries using 480 bytes of memory
-0 BGP route-map cache entries using 0 bytes of memory
-0 BGP filter-list cache entries using 0 bytes of memory
-BGP using 2320 total bytes of memory
-BGP activity 5/0 prefixes, 5/0 paths, scan interval 60 secs
-
-Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-68.136.205.69   4        65000    1856    1854       10    0    0 1d03h           0
-199.220.127.249 4        65000    1852    1851       10    0    0 1d03h           0
-
-########################################
-show route-map : 2020-02-05 19:22:25
-########################################
-
-route-map DENY_ANY, deny, sequence 10
-  Match clauses:
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
-route-map VERIZON_OUT, permit, sequence 10
-  Match clauses:
-    as-path (as-path filter): 1 
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
-route-map VERIZON_OUT, deny, sequence 20
-  Match clauses:
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
-
-########################################
-show run | section bgp : 2020-02-05 19:22:55
-########################################
-
-router bgp 64661
- bgp log-neighbor-changes
- network 10.89.192.0 mask 255.255.255.0
- network 10.89.193.0 mask 255.255.255.0
- network 10.89.194.0 mask 255.255.255.0
- network 10.89.207.0 mask 255.255.255.0
- aggregate-address 10.89.192.0 255.255.240.0 summary-only
- neighbor 68.136.205.69 remote-as 65000
- neighbor 68.136.205.69 route-map VERIZON_OUT out
- neighbor 199.220.127.249 remote-as 65000
- neighbor 199.220.127.249 route-map VERIZON_OUT out
-
-########################################
-show run | section ^route-map : 2020-02-05 19:22:56
+show run | section ^route-map : 2020-02-05 19:29:14
 ########################################
 
 route-map DENY_ANY deny 10
 route-map VERIZON_OUT permit 10
  match as-path 1
 route-map VERIZON_OUT deny 20
-
-########################################
-show ip bgp summary : 2020-02-05 19:22:57
-########################################
-
-BGP router identifier 1.1.1.1, local AS number 64661
-BGP table version is 10, main routing table version 10
-5 network entries using 1240 bytes of memory
-5 path entries using 600 bytes of memory
-2/2 BGP path/bestpath attribute entries using 480 bytes of memory
-0 BGP route-map cache entries using 0 bytes of memory
-0 BGP filter-list cache entries using 0 bytes of memory
-BGP using 2320 total bytes of memory
-BGP activity 5/0 prefixes, 5/0 paths, scan interval 60 secs
-
-Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-68.136.205.69   4        65000    1857    1855       10    0    0 1d04h           0
-199.220.127.249 4        65000    1853    1852       10    0    0 1d04h           0
-
-########################################
-show route-map : 2020-02-05 19:22:57
-########################################
-
-route-map DENY_ANY, deny, sequence 10
-  Match clauses:
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
-route-map VERIZON_OUT, permit, sequence 10
-  Match clauses:
-    as-path (as-path filter): 1 
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
-route-map VERIZON_OUT, deny, sequence 20
-  Match clauses:
-  Set clauses:
-  Policy routing matches: 0 packets, 0 bytes
