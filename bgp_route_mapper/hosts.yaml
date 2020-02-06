@@ -1,25 +1,5 @@
 ---
-NXOS-1:
-  hostname: 172.20.58.61
-  groups:
-    - nxos
-
-NXOS-2:
-  hostname: 172.20.58.62
-  groups:
-    - nxos
-
 CSR-1:
-  hostname: CSR-1.threefddi.local
+  hostname: 172.20.58.31
   groups:
     - iosxe
-
-CSR-2:
-  hostname: CSR-2.threefddi.local
-  groups:
-    - iosxe
-
-JT-2960G:
-  hostname: 172.20.58.50
-  groups:
-    - catalyst

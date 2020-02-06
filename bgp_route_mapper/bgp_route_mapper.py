@@ -31,19 +31,10 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 def grab_info(task):
     # show commands to be run
     commands = [
-        "show version",
-        "show run",
-        "show vlan brief",
-        "show vlan",
-        "show interface status",
-        "show interface trunk",
-        "show power inline",
-        "show ip interface brief",
-        "show ip route",
-        "show ip arp",
-        "show mac address-table",
-        "show cdp neighbors",
-        "show cdp neighbors detail",
+        "show run | section bgp",
+        "show run | section ^route-map",
+        "show ip bgp summary",
+        "show route-map"
         ]
 
     print(f"Collecting data from {task.host}")
