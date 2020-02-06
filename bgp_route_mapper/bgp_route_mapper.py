@@ -10,6 +10,7 @@ from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
+from pprint import pprint as pp
 
 # TODO get BGP config
 
@@ -29,15 +30,36 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 
 
 def grab_info(task):
-    # show commands to be run
+#    # show commands to be run
+#    commands = [
+#        "show run | section bgp",
+#        "show run | section ^route-map",
+#        "show ip bgp summary",
+#        ]
+#
+#    print(f"Collecting data from {task.host}")
+#
+#    # loop over commands
+#    for cmd in commands:
+#        # send command to device
+#        output = task.run(
+#            task=netmiko_send_command, 
+#            command_string=cmd,
+#            )
+#        # save results with timestamp to aggregate result
+#        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+#        task.host["info"]="\n"*2+"#"*40+"\n"+cmd+" : "+time_stamp+"\n"+"#"*40+"\n"*2+output.result
+#        # write output files
+#        task.run(
+#            task=files.write_file,
+#            filename=f"output/{task.host}_info.txt",
+#            content=task.host["info"],
+#            append=True
+#        )
+#
     commands = [
-        "show run | section bgp",
-        "show run | section ^route-map",
-        "show ip bgp summary",
         "show route-map"
         ]
-
-    print(f"Collecting data from {task.host}")
 
     # loop over commands
     for cmd in commands:
@@ -47,16 +69,17 @@ def grab_info(task):
             command_string=cmd,
             use_textfsm=True
             )
+        pp(output.result)
         # save results with timestamp to aggregate result
         time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        task.host["info"]="\n"*2+"#"*40+"\n"+cmd+" : "+time_stamp+"\n"+"#"*40+"\n"*2+output.result
-        # write output files
-        task.run(
-            task=files.write_file,
-            filename=f"output/{task.host}_info.txt",
-            content=task.host["info"],
-            append=True
-        )
+#        task.host["info"]=output.result
+#        # write output files
+#        task.run(
+#            task=files.write_file,
+#            filename=f"output/{task.host}_info.txt",
+#            content=task.host["info"],
+#        )
+
 
 def main():
     # initialize The Norn
