@@ -15,6 +15,8 @@ def grab_info(task):
     # show commands to be run
     commands = [
         "show version",
+        "show inventory",
+        "show module",
         "show run",
         "show vlan brief",
         "show vlan",
