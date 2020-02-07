@@ -69,7 +69,11 @@ def grab_info(task):
             command_string=cmd,
             use_textfsm=True
             )
-        pp(output.result)
+
+        for thing in output.result:
+            pp(thing)
+            print()
+        #pp(output.result)
         # save results with timestamp to aggregate result
         time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 #        task.host["info"]=output.result
