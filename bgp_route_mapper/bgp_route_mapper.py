@@ -58,7 +58,10 @@ def grab_info(task):
 #        )
 #
     commands = [
-        "show route-map"
+#        "show route-map",
+        "show ip bgp summary",
+#        "show ip bgp neighbor",
+
         ]
 
     # loop over commands
@@ -70,6 +73,7 @@ def grab_info(task):
             use_textfsm=True
             )
 
+#        print(output.result)
         for thing in output.result:
             pp(thing)
             print()
