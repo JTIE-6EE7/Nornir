@@ -89,5 +89,7 @@ def main():
     print(parser.result(format='json')[0])
 
 
+
+    print("\n\n")
 if __name__ == "__main__":
     main()
