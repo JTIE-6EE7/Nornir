@@ -83,20 +83,21 @@ def main():
      neighbor 11.11.11.11 next-hop-self
      neighbor 11.11.11.11 route-map VERIZON_OUT out
      neighbor 11.11.11.11 route-map VERIZON_IN in
-     neighbor 11.11.11.11 route-map description MPLS1
+     neighbor 11.11.11.11 description MPLS1
      neighbor 22.22.22.22 remote-as 65222
      neighbor 22.22.22.22 route-map ATT_OUT out
      neighbor 22.22.22.22 route-map ATT_IN in
-     neighbor 22.22.22.22 route-map description MPLS2
+     neighbor 22.22.22.22 description MPLS2
      neighbor 33.33.33.33 remote-as 65333
      neighbor 33.33.33.33 route-map CenturyLink_OUT out
      neighbor 33.33.33.33 route-map CenturyLink_IN in
-     neighbor 33.33.33.33 route-map description MPLS3
+     neighbor 33.33.33.33 description MPLS3
     """
 
     ttp_template = """
     <group name="neighbors">
      neighbor {{ neighbor }} remote-as {{ remote_as }}
+     neighbor {{ neighbor }} description {{ description }}
      neighbor {{ neighbor }} route-map {{ route_map_out }} out
      neighbor {{ neighbor }} route-map {{ route_map_in }} in
      </group>
