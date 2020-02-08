@@ -73,15 +73,18 @@ def main():
     nr.run(task=grab_info)
 
     fake_bgp = """
-    router bgp 61111
-     neighbor 11.11.11.11 remote-as 65000
+    router bgp 65000
+     neighbor 11.11.11.11 remote-as 65111
      neighbor 11.11.11.11 route-map VERIZON_OUT out
+    router bgp 65000
+     neighbor 22.22.22.22 remote-as 65222
+     neighbor 22.22.22.22 route-map VERIZON_OUT out
     """
 
     ttp_template = """
     router bgp {{ local_as }}
-     neighbor {{ neighbor_1 }} remote-as {{ remote_as_1 }}
-     neighbor {{ neighbor_1 }} route-map {{ route_map_1 }} out
+     neighbor {{ neighbor }} remote-as {{ remote_as }}
+     neighbor {{ neighbor }} route-map {{ route_map }} out
     """
 
     parser = ttp(data=fake_bgp, template=ttp_template)
