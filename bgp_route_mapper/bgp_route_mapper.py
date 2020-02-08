@@ -61,7 +61,8 @@ def grab_info(task):
 
         for thing in output.result:
             #pp(thing)
-            print()
+            #print()
+            continue
 
 def main():
     # initialize The Norn
@@ -72,17 +73,17 @@ def main():
     nr.run(task=grab_info)
 
     fake_bgp = """
-    router bgp 64661
-     neighbor 68.136.205.69 remote-as 65000
-     neighbor 68.136.205.69 route-map VERIZON_OUT out
+    router bgp 61111
+     neighbor 11.11.11.11 remote-as 65000
+     neighbor 11.11.11.11 route-map VERIZON_OUT out
     """
 
     ttp_template = """
     router bgp {{ local_as }}
      neighbor {{ neighbor_1 }} remote-as {{ remote_as_1 }}
-     neighbor {{ neighbor_1 }} route-map {{ route_map_1 }}
+     neighbor {{ neighbor_1 }} route-map {{ route_map_1 }} out
     """
-    
+
     parser = ttp(data=fake_bgp, template=ttp_template)
     parser.parse()
     print(parser.result(format='json')[0])
