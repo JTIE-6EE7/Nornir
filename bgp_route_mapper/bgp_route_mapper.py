@@ -76,15 +76,17 @@ def main():
     router bgp 65000
      neighbor 11.11.11.11 remote-as 65111
      neighbor 11.11.11.11 route-map VERIZON_OUT out
-    router bgp 65000
      neighbor 22.22.22.22 remote-as 65222
-     neighbor 22.22.22.22 route-map VERIZON_OUT out
+     neighbor 22.22.22.22 route-map ATT_OUT out
+     neighbor 33.33.33.33 remote-as 65333
+     neighbor 33.33.33.33 route-map CenturyLink_OUT out
     """
 
     ttp_template = """
-    router bgp {{ local_as }}
+    <group name="neighbors">
      neighbor {{ neighbor }} remote-as {{ remote_as }}
      neighbor {{ neighbor }} route-map {{ route_map }} out
+     </group>
     """
 
     parser = ttp(data=fake_bgp, template=ttp_template)
