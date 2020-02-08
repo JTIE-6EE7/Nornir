@@ -73,6 +73,10 @@ def main():
 
     fake_bgp = """
     router bgp 65000
+     network 10.10.192.0 mask 255.255.255.0
+     network 10.10.193.0 mask 255.255.255.0
+     network 10.10.194.0 mask 255.255.255.0
+     aggregate-address 10.10.192.0 255.255.240.0 summary-only
      neighbor 11.11.11.11 remote-as 65111
      neighbor 11.11.11.11 route-map VERIZON_OUT out
      neighbor 22.22.22.22 remote-as 65222
