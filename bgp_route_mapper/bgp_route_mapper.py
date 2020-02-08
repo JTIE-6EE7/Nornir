@@ -30,33 +30,18 @@ from pprint import pprint as pp
 
 
 def grab_info(task):
-#    # show commands to be run
-#    commands = [
-#        "show run | section bgp",
-#        "show run | section ^route-map",
-#        "show ip bgp summary",
-#        ]
-#
-#    print(f"Collecting data from {task.host}")
-#
-#    # loop over commands
-#    for cmd in commands:
-#        # send command to device
-#        output = task.run(
-#            task=netmiko_send_command, 
-#            command_string=cmd,
-#            )
-#        # save results with timestamp to aggregate result
-#        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-#        task.host["info"]="\n"*2+"#"*40+"\n"+cmd+" : "+time_stamp+"\n"+"#"*40+"\n"*2+output.result
-#        # write output files
-#        task.run(
-#            task=files.write_file,
-#            filename=f"output/{task.host}_info.txt",
-#            content=task.host["info"],
-#            append=True
-#        )
-#
+    # show commands to be run
+    cmd = "show run | section bgp"
+
+    bgp_config = task.run(
+        task=netmiko_send_command, 
+        command_string=cmd,
+        )
+
+    print(bgp_config.result)
+#    for line in bgp_config.result:
+#        print(line)
+        
     commands = [
 #        "show route-map",
         "show ip bgp summary",
