@@ -11,6 +11,7 @@ from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from pprint import pprint as pp
+from ttp import ttp
 
 # TODO get BGP config
 
@@ -37,8 +38,8 @@ def grab_info(task):
         task=netmiko_send_command, 
         command_string=cmd,
         )
-
-    print(bgp_config.result)
+    
+    #print(bgp_config.result)
 #    for line in bgp_config.result:
 #        print(line)
         
@@ -58,21 +59,9 @@ def grab_info(task):
             use_textfsm=True
             )
 
-#        print(output.result)
         for thing in output.result:
-            pp(thing)
+            #pp(thing)
             print()
-        #pp(output.result)
-        # save results with timestamp to aggregate result
-        time_stamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-#        task.host["info"]=output.result
-#        # write output files
-#        task.run(
-#            task=files.write_file,
-#            filename=f"output/{task.host}_info.txt",
-#            content=task.host["info"],
-#        )
-
 
 def main():
     # initialize The Norn
@@ -81,6 +70,23 @@ def main():
     nr = nr.filter(platform="cisco_ios")
     # run The Norn
     nr.run(task=grab_info)
+
+    fake_bgp = """
+    router bgp 64661
+     neighbor 68.136.205.69 remote-as 65000
+     neighbor 68.136.205.69 route-map VERIZON_OUT out
+    """
+
+    ttp_template = """
+    router bgp {{ local_as }}
+     neighbor {{ neighbor_1 }} remote-as {{ remote_as_1 }}
+     neighbor {{ neighbor_1 }} route-map {{ route_map_1 }}
+    """
+    
+    parser = ttp(data=fake_bgp, template=ttp_template)
+    parser.parse()
+    print(parser.result(format='json')[0])
+
 
 if __name__ == "__main__":
     main()
