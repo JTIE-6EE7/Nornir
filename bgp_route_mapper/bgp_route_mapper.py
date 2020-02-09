@@ -30,40 +30,29 @@ from ttp import ttp
 # TODO verify route maps applied
 
 
-#def grab_info(task):
-    # show commands to be run
-#    cmd = "show run | section bgp"
-
-#    bgp_config = task.run(
-#        task=netmiko_send_command, 
-#        command_string=cmd,
-#        )
-    
-    #print(bgp_config.result)
-#    for line in bgp_config.result:
-#        print(line)
+def grab_info(task):
         
-#    commands = [
-#        "show route-map",
+    commands = [
+        "show route-map"
 #        "show routeIN in
 #        "show route-description MPLS
 #        "show ip bgp summary",
 #        "show ip bgp neighbor",
-#        ]
+        ]
 
     # loop over commands
-#    for cmd in commands:
-#        # send command to device
-#        output = task.run(
-#            task=netmiko_send_command, 
-#            command_string=cmd,
-#            use_textfsm=True
-#            )
-#
-#        for thing in output.result:
-#            #pp(thing)
-#            #print()
-#            continue
+    for cmd in commands:
+        # send command to device
+        output = task.run(
+            task=netmiko_send_command, 
+            command_string=cmd,
+            use_textfsm=True
+            )
+
+        for thing in output.result:
+            pp(thing)
+            #print()
+            continue
 
 def main():
     # initialize The Norn
@@ -71,7 +60,25 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn
-#    nr.run(task=grab_info)
+    #nr.run(task=grab_info)
+
+    fake_route_map = [
+        {'action': 'deny',
+         'match_clauses': [],
+         'name': 'DENY_ANY',
+         'seq': '10',
+         'set_clauses': []},
+        {'action': 'permit',
+         'match_clauses': ['as-path (as-path filter): 1'],
+         'name': 'VERIZON_OUT',
+         'seq': '10',
+         'set_clauses': []},
+        {'action': 'deny',
+         'match_clauses': [],
+         'name': 'VERIZON_OUT',
+         'seq': '20',
+         'set_clauses': []}
+    ]
 
     fake_bgp = """
     router bgp 65000
