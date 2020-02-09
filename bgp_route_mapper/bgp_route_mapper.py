@@ -114,7 +114,9 @@ def main():
     parser = ttp(data=fake_bgp, template=bgp_ttp_template)
     parser.parse()
     neighbors = json.loads(parser.result(format='json')[0])
-    pp(neighbors[0]['neighbors'])
+
+    for neighbor in neighbors[0]['neighbors']:
+        print(neighbor["neighbor"])
 
 #    for map in fake_route_map:
 #        pp(map)
