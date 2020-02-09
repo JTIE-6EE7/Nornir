@@ -101,7 +101,7 @@ def main():
      neighbor 33.33.33.33 description MPLS3
     """
 
-    ttp_template = """
+    bgp_ttp_template = """
     <group name="neighbors">
      neighbor {{ neighbor }} remote-as {{ remote_as }}
      neighbor {{ neighbor }} description {{ description }}
@@ -110,11 +110,12 @@ def main():
      </group>
     """
 
-    parser = ttp(data=fake_bgp, template=ttp_template)
+    parser = ttp(data=fake_bgp, template=bgp_ttp_template)
     parser.parse()
     print(parser.result(format='json')[0])
 
-
+    for map in fake_route_map:
+        pp(map)
 
     print("\n\n")
 if __name__ == "__main__":
