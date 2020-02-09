@@ -12,6 +12,7 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from pprint import pprint as pp
 from ttp import ttp
+import json
 
 # TODO get BGP config
 
@@ -112,10 +113,11 @@ def main():
 
     parser = ttp(data=fake_bgp, template=bgp_ttp_template)
     parser.parse()
-    print(parser.result(format='json')[0])
+    neighbors = json.loads(parser.result(format='json')[0])
+    pp(neighbors)
 
-    for map in fake_route_map:
-        pp(map)
+#    for map in fake_route_map:
+#        pp(map)
 
     print("\n\n")
 if __name__ == "__main__":
