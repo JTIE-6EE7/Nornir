@@ -103,6 +103,13 @@ def main():
     """
 
     bgp_ttp_template = """
+    <group name="networks">
+     network {{ network }} mask {{ mask }}
+     aggregate-address {{ network }} {{ mask }} summary-only
+    </group>
+    <group name="aggregates">
+     aggregate-address {{ network }} {{ mask }} summary-only
+    </group>
     <group name="neighbors">
      neighbor {{ neighbor }} remote-as {{ remote_as }}
      neighbor {{ neighbor }} description {{ description }}
@@ -113,10 +120,22 @@ def main():
 
     parser = ttp(data=fake_bgp, template=bgp_ttp_template)
     parser.parse()
-    neighbors = json.loads(parser.result(format='json')[0])
+    #print(parser.result(format='json')[0])
+    
+    bgp_config = json.loads(parser.result(format='json')[0])
 
-    for neighbor in neighbors[0]['neighbors']:
-        print(neighbor["neighbor"])
+    pp(bgp_config)
+
+    for neighbor in bgp_config[0]['neighbors']:
+        print(neighbor)
+
+    #for network in bgp_config[0]['networks']:
+    #    print(network)
+
+    print(bgp_config[0]['aggregates'])
+    for aggregate in bgp_config[0]['aggregates']:
+        print(aggregate)
+
 
 #    for map in fake_route_map:
 #        pp(map)
