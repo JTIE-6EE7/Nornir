@@ -51,49 +51,24 @@ def get_bgp_config(task):
         )
     
     bgp_ttp_template = """
-    <group name="networks">
-     network {{ network }} mask {{ mask }}
-     aggregate-address {{ network }} {{ mask }} summary-only
-    </group>
-    <group name="aggregates">
-     aggregate-address {{ network }} {{ mask }} summary-only
-    </group>
-    <group name="neighbors">
-     neighbor {{ neighbor }} remote-as {{ remote_as }}
-     neighbor {{ neighbor }} description {{ description }}
-     neighbor {{ neighbor }} route-map {{ route_map_out }} out
-     neighbor {{ neighbor }} route-map {{ route_map_in }} in
-    </group>
+<group name="networks">
+ network {{ network }} mask {{ mask }}
+ aggregate-address {{ network }} {{ mask }} summary-only
+</group>
+<group name="aggregates">
+ aggregate-address {{ network }} {{ mask }} summary-only
+</group>
+<group name="neighbors">
+ neighbor {{ neighbor }} remote-as {{ remote_as }}
+ neighbor {{ neighbor }} description {{ description }}
+ neighbor {{ neighbor }} route-map {{ route_map_out }} out
+ neighbor {{ neighbor }} route-map {{ route_map_in }} in
+</group>
     """
 
-    fake_bgp = """
-    router bgp 65000
-     network 10.10.192.0 mask 255.255.255.0
-     network 10.10.193.0 mask 255.255.255.0
-     network 10.10.194.0 mask 255.255.255.0
-     aggregate-address 10.10.192.0 255.255.240.0 summary-only
-     neighbor 11.11.11.11 remote-as 65111
-     neighbor 11.11.11.11 next-hop-self
-     neighbor 11.11.11.11 route-map VERIZON_OUT out
-     neighbor 11.11.11.11 route-map VERIZON_IN in
-     neighbor 11.11.11.11 description MPLS1
-     neighbor 22.22.22.22 remote-as 65222
-     neighbor 22.22.22.22 route-map ATT_OUT out
-     neighbor 22.22.22.22 route-map ATT_IN in
-     neighbor 22.22.22.22 description MPLS2
-     neighbor 33.33.33.33 remote-as 65333
-     neighbor 33.33.33.33 route-map CenturyLink_OUT out
-     neighbor 33.33.33.33 route-map CenturyLink_IN in
-     neighbor 33.33.33.33 description MPLS3
-    """
-    #print(type(output.result))
-    #print(output.result)
-    parser = ttp(data=fake_bgp, template=bgp_ttp_template)
+    parser = ttp(data=output.result, template=bgp_ttp_template)
     parser.parse()
     
-    pp(json.loads(parser.result(format='json')[0]))
-
-    print()
     return json.loads(parser.result(format='json')[0])
       
 
