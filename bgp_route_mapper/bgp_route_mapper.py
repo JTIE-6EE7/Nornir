@@ -37,9 +37,9 @@ def get_route_maps(task):
     
     task.host['route_maps'] = output.result
 
-    print(output.result.failed_hosts)
-    print(task.host)
-    print(task.host.failed)
+    #print(output.result.failed_hosts)
+    #print(task.host)
+    #print(task.host.failed)
 
 def get_bgp_config(task):
         
@@ -70,10 +70,9 @@ def get_bgp_config(task):
     
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
-    print(output.result.failed_hosts)
-
-    print(task.host)
-    print(task.host.failed)
+    #print(output.result.failed_hosts)
+    #print(task.host)
+    #print(task.host.failed)
 
 def print_results(task):
     print(task.host)
