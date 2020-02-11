@@ -12,15 +12,10 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from pprint import pprint as pp
 from ttp import ttp
+import textwrap
 import json
 
-# TODO get BGP config
-
 # TODO how to deal with multiple peers
-
-# TODO get BGP summary
-
-# TODO get existing route maps
 
 # TODO build new route maps
 
@@ -39,8 +34,8 @@ def get_route_maps(task):
         command_string="show route-map",
         use_textfsm=True
         )
-    return output.result
-
+    
+    task.host['route_maps'] = output.result
 
 def get_bgp_config(task):
         
@@ -50,41 +45,43 @@ def get_bgp_config(task):
         command_string="show run | section bgp",
         )
     
-    bgp_ttp_template = """
-<group name="networks">
- network {{ network }} mask {{ mask }}
- aggregate-address {{ network }} {{ mask }} summary-only
-</group>
-<group name="aggregates">
- aggregate-address {{ network }} {{ mask }} summary-only
-</group>
-<group name="neighbors">
- neighbor {{ neighbor }} remote-as {{ remote_as }}
- neighbor {{ neighbor }} description {{ description }}
- neighbor {{ neighbor }} route-map {{ route_map_out }} out
- neighbor {{ neighbor }} route-map {{ route_map_in }} in
-</group>
-    """
+    bgp_ttp_template = textwrap.dedent("""
+        <group name="networks">
+         network {{ network }} mask {{ mask }}
+         aggregate-address {{ network }} {{ mask }} summary-only
+        </group>
+        <group name="aggregates">
+         aggregate-address {{ network }} {{ mask }} summary-only
+        </group>
+        <group name="neighbors">
+         neighbor {{ neighbor }} remote-as {{ remote_as }}
+         neighbor {{ neighbor }} description {{ description }}
+         neighbor {{ neighbor }} route-map {{ route_map_out }} out
+         neighbor {{ neighbor }} route-map {{ route_map_in }} in
+        </group>
+    """)
 
     parser = ttp(data=output.result, template=bgp_ttp_template)
     parser.parse()
     
-    return json.loads(parser.result(format='json')[0])
-      
+    task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
+
+def print_results(task):
+
+    pp(task.host['bgp_config'])
 
 def main():
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
-    # run The Norn
-    route_maps = nr.run(task=get_route_maps)
+    # run The Norn to get route maps
+    nr.run(task=get_route_maps)
+    # run The Norn to get bgp config
+    nr.run(task=get_bgp_config)
+    # run The Norn to print results
+    nr.run(task=print_results)
 
-    pp(route_maps['CSR-1'].result)
-
-    bgp_config = nr.run(task=get_bgp_config)
-
-    pp(bgp_config['CSR-1'].result)
 
     """
     fake_route_map = [
