@@ -123,9 +123,6 @@ def main():
     
     bgp_config = json.loads(parser.result(format='json')[0])
 
-    #pp(bgp_config)
-    
-    #print(bgp_config[0]['aggregates'])
     print()
 
     if type(bgp_config[0]['neighbors']) == list:
@@ -149,9 +146,8 @@ def main():
         print(bgp_config[0]['aggregates'])
     print()
 
-
-#    for map in fake_route_map:
-#        pp(map)
+    for map in fake_route_map:
+        pp(map)
 
     print("\n\n")
 if __name__ == "__main__":
