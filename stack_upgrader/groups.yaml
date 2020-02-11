@@ -1,7 +1,7 @@
 ---
-catalyst:
+cat3750v2:
   platform: cisco_ios
   port: 22
   data:
-    upgrade_img: 'c3750-ipbasek9-mz.122-55.SE10.bin'
+    upgrade_img: 'c3750-ipbasek9-mz.122-55.SE12.bin'
     backup_img: 'c3750-ipbasek9-mz.122-55.SE7.bin'
