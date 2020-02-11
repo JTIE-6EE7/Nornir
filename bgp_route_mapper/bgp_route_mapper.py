@@ -31,31 +31,87 @@ import json
 # TODO verify route maps applied
 
 
-def grab_info(task):
+def get_route_maps(task):
         
-    commands = [
-        "show route-map"
-        ]
+    # send command to device
+    output = task.run(
+        task=netmiko_send_command, 
+        command_string="show route-map",
+        use_textfsm=True
+        )
+    return output.result
 
-    # loop over commands
-    for cmd in commands:
-        # send command to device
-        output = task.run(
-            task=netmiko_send_command, 
-            command_string=cmd,
-            use_textfsm=True
-            )
 
-        pp(output.result)
+def get_bgp_config(task):
         
+    # send command to device
+    output = task.run(
+        task=netmiko_send_command, 
+        command_string="show run | section bgp",
+        )
+    
+    bgp_ttp_template = """
+    <group name="networks">
+     network {{ network }} mask {{ mask }}
+     aggregate-address {{ network }} {{ mask }} summary-only
+    </group>
+    <group name="aggregates">
+     aggregate-address {{ network }} {{ mask }} summary-only
+    </group>
+    <group name="neighbors">
+     neighbor {{ neighbor }} remote-as {{ remote_as }}
+     neighbor {{ neighbor }} description {{ description }}
+     neighbor {{ neighbor }} route-map {{ route_map_out }} out
+     neighbor {{ neighbor }} route-map {{ route_map_in }} in
+    </group>
+    """
+
+    fake_bgp = """
+    router bgp 65000
+     network 10.10.192.0 mask 255.255.255.0
+     network 10.10.193.0 mask 255.255.255.0
+     network 10.10.194.0 mask 255.255.255.0
+     aggregate-address 10.10.192.0 255.255.240.0 summary-only
+     neighbor 11.11.11.11 remote-as 65111
+     neighbor 11.11.11.11 next-hop-self
+     neighbor 11.11.11.11 route-map VERIZON_OUT out
+     neighbor 11.11.11.11 route-map VERIZON_IN in
+     neighbor 11.11.11.11 description MPLS1
+     neighbor 22.22.22.22 remote-as 65222
+     neighbor 22.22.22.22 route-map ATT_OUT out
+     neighbor 22.22.22.22 route-map ATT_IN in
+     neighbor 22.22.22.22 description MPLS2
+     neighbor 33.33.33.33 remote-as 65333
+     neighbor 33.33.33.33 route-map CenturyLink_OUT out
+     neighbor 33.33.33.33 route-map CenturyLink_IN in
+     neighbor 33.33.33.33 description MPLS3
+    """
+    #print(type(output.result))
+    #print(output.result)
+    parser = ttp(data=fake_bgp, template=bgp_ttp_template)
+    parser.parse()
+    
+    pp(json.loads(parser.result(format='json')[0]))
+
+    print()
+    return json.loads(parser.result(format='json')[0])
+      
+
 def main():
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn
-    nr.run(task=grab_info)
+    route_maps = nr.run(task=get_route_maps)
 
+    #pp(route_maps['CSR-1'].result)
+
+    bgp_config = nr.run(task=get_bgp_config)
+
+    pp(bgp_config['CSR-1'].result)
+
+    """
     fake_route_map = [
         {'action': 'deny',
          'match_clauses': [],
@@ -73,7 +129,8 @@ def main():
          'seq': '20',
          'set_clauses': []}
     ]
-
+    """
+    
     fake_bgp = """
     router bgp 65000
      network 10.10.192.0 mask 255.255.255.0
@@ -108,7 +165,7 @@ def main():
      neighbor {{ neighbor }} description {{ description }}
      neighbor {{ neighbor }} route-map {{ route_map_out }} out
      neighbor {{ neighbor }} route-map {{ route_map_in }} in
-     </group>
+    </group>
     """
     
     parser = ttp(data=fake_bgp, template=bgp_ttp_template)
