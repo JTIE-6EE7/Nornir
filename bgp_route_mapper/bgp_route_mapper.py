@@ -67,7 +67,7 @@ def get_bgp_config(task):
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
 def print_results(task):
-
+    print(task.host)
     pp(task.host['bgp_config'])
 
 def main():
