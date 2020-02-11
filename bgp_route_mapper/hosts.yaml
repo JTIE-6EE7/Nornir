@@ -1,9 +1,9 @@
 ---
-CSR-1:
-  hostname: 172.20.58.31
-  groups:
-    - iosxe
 CSR-3:
   hostname: 172.20.58.33
+  groups:
+    - iosxe
+CSR-1:
+  hostname: 172.20.58.31
   groups:
     - iosxe
