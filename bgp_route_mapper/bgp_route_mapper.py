@@ -37,10 +37,9 @@ def get_route_maps(task):
     
     task.host['route_maps'] = output.result
 
-    #print(output.result.failed_hosts)
     print("First task")
     print(task.host)
-    #print(task.host.failed)
+    print(task.host['route_maps'])
 
 def get_bgp_config(task):
         
