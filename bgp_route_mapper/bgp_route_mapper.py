@@ -16,9 +16,9 @@ import json
 
 # TODO get BGP config
 
-# TODO get BGP summary
-
 # TODO how to deal with multiple peers
+
+# TODO get BGP summary
 
 # TODO get existing route maps
 
@@ -35,10 +35,6 @@ def grab_info(task):
         
     commands = [
         "show route-map"
-#        "show routeIN in
-#        "show route-description MPLS
-#        "show ip bgp summary",
-#        "show ip bgp neighbor",
         ]
 
     # loop over commands
@@ -50,18 +46,15 @@ def grab_info(task):
             use_textfsm=True
             )
 
-        for thing in output.result:
-            pp(thing)
-            #print()
-            continue
-
+        pp(output.result)
+        
 def main():
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn
-    #nr.run(task=grab_info)
+    nr.run(task=grab_info)
 
     fake_route_map = [
         {'action': 'deny',
@@ -117,14 +110,13 @@ def main():
      neighbor {{ neighbor }} route-map {{ route_map_in }} in
      </group>
     """
-
+    
     parser = ttp(data=fake_bgp, template=bgp_ttp_template)
     parser.parse()
     
+    """
     bgp_config = json.loads(parser.result(format='json')[0])
-
-    print()
-
+    
     if type(bgp_config[0]['neighbors']) == list:
         for neighbor in bgp_config[0]['neighbors']:
             print(neighbor)
@@ -148,7 +140,8 @@ def main():
 
     for map in fake_route_map:
         pp(map)
+    """
+    print()
 
-    print("\n\n")
 if __name__ == "__main__":
     main()
