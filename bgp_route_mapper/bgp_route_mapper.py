@@ -125,21 +125,29 @@ def main():
 
     #pp(bgp_config)
     
-    print(bgp_config[0]['aggregates'])
+    #print(bgp_config[0]['aggregates'])
     print()
 
-    for neighbor in bgp_config[0]['neighbors']:
-        print(neighbor)
+    if type(bgp_config[0]['neighbors']) == list:
+        for neighbor in bgp_config[0]['neighbors']:
+            print(neighbor)
+    else:
+        print(bgp_config[0]['neighbors'])
     print()
 
-    for network in bgp_config[0]['networks']:
-        print(network)
-    print()    
+    if type(bgp_config[0]['networks']) == list:
+        for network in bgp_config[0]['networks']:
+            print(network)
+    else:
+        print(bgp_config[0]['networks'])
+    print()
 
-    for aggregate in bgp_config[0]['aggregates']:
-        print(aggregate)
-
-
+    if type(bgp_config[0]['aggregates']) == list:
+        for aggregate in bgp_config[0]['aggregates']:
+            print(aggregate)
+    else:
+        print(bgp_config[0]['aggregates'])
+    print()
 
 
 #    for map in fake_route_map:
