@@ -80,7 +80,7 @@ def main():
     # run The Norn
     route_maps = nr.run(task=get_route_maps)
 
-    #pp(route_maps['CSR-1'].result)
+    pp(route_maps['CSR-1'].result)
 
     bgp_config = nr.run(task=get_bgp_config)
 
