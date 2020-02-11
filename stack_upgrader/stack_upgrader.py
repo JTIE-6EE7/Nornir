@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to upgrade IOS on 3750 switches
+This script is used to upgrade software on Cisco switch stacks.
 '''
 
 from nornir import InitNornir
