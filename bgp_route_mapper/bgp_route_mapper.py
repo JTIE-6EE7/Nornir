@@ -37,10 +37,6 @@ def get_route_maps(task):
     
     task.host['route_maps'] = output.result
 
-    print("First task")
-    print(task.host)
-    print(task.host['route_maps'])
-
 def get_bgp_config(task):
         
     # send command to device
@@ -70,15 +66,12 @@ def get_bgp_config(task):
     
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
-    #print(output.result.failed_hosts)
-    print("Second task")
-    print(task.host)
-    #print(task.host.failed)
-
 def print_results(task):
-    print("Third task")
+    print()
+    print("~"*80)
     print(task.host)
-    pp(task.host['bgp_config'])
+    print(task.host['bgp_config'])
+    print(task.host['route_maps'])
 
 def main():
     # initialize The Norn
@@ -86,11 +79,14 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn to get route maps
-    nr.run(task=get_route_maps)
+    nr.run(task=get_route_maps, num_workers=1)
     # run The Norn to get bgp config
-    nr.run(task=get_bgp_config)
+    nr.run(task=get_bgp_config, num_workers=1)
     # run The Norn to print results
-    nr.run(task=print_results)
+    nr.run(task=print_results, num_workers=1)
+    print("~"*80)
+    print("Failed hosts:")
+    print(nr.data.failed_hosts)
 
 
     """
