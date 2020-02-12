@@ -17,11 +17,8 @@ import json
 
 # TODO how to deal with multiple peers
 
-# TODO build new route maps
 
-# TODO set communities
 
-# TODO apply new route maps
 
 # TODO verify route maps applied
 
@@ -67,9 +64,15 @@ def get_bgp_config(task):
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
 def route_maps_exist(task):
-    # TODO
+    # TODO check if route map exists
     stuff = None
 
+def update_route_map(task):
+    # TODO create or update route-map
+    stuff = None
+    # TODO set communities
+
+    # TODO apply new route maps
 
 def print_results(task):
     print()
