@@ -12,9 +12,9 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from pprint import pprint as pp
 from ttp import ttp
+import ipaddress
 import textwrap
 import json
-
 
 def get_route_maps(task):
     
@@ -26,6 +26,7 @@ def get_route_maps(task):
         )
     
     task.host['route_maps'] = output.result
+
 
 def get_bgp_config(task):
         
@@ -65,6 +66,37 @@ def get_bgp_config(task):
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
+
+def validate_peer(task):
+
+    # check if BGP peer ip is in a list of excluded ranges
+    for neighbor in task.host['bgp_config']['neighbors']:
+        # convert peer ip address string to ip address object
+        peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
+        # list of excluded networks
+        networks = [
+            ipaddress.ip_network('11.0.0.0/8'),
+            ipaddress.ip_network('22.0.0.0/8'),
+            ipaddress.ip_network('33.0.0.0/8'),
+        ]
+
+
+        exclude_peer = False
+
+        for network in networks:
+            if peer_ip in network:
+                exclude_peer = True
+                break
+
+        if exclude_peer == True:
+            print(f'Exclude peer {peer_ip}')
+        else:
+            print(f'{peer_ip} is valid')
+
+                
+
+    
+
 def build_route_map(task):
 
     # TODO check if peer is external
@@ -73,11 +105,8 @@ def build_route_map(task):
     # TODO set communities
     # TODO apply new route maps
     # TODO verify route maps applied
+    print()
 
-    print(task.host)
-    for neighbor in task.host['bgp_config']['neighbors']:
-        print(neighbor['peer_ip'])
-        
         
 def print_results(task):
     print()
@@ -85,7 +114,6 @@ def print_results(task):
     #print(task.host)
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
-
 
 
 def main():
@@ -97,6 +125,8 @@ def main():
     nr.run(task=get_route_maps)
     # run The Norn to get bgp config
     nr.run(task=get_bgp_config)
+    # run The Norn to validate BGP peers
+    nr.run(task=validate_peer)
     # run The Norn to build route maps
     nr.run(task=build_route_map)
     # run The Norn to print results
