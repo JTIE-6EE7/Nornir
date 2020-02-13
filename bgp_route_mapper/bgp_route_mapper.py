@@ -15,13 +15,6 @@ from ttp import ttp
 import textwrap
 import json
 
-# TODO how to deal with multiple peers
-
-
-
-
-# TODO verify route maps applied
-
 
 def get_route_maps(task):
     
@@ -42,6 +35,7 @@ def get_bgp_config(task):
         command_string="show run | section bgp",
         )
     
+    # TTP template for BGP config output
     bgp_ttp_template = textwrap.dedent("""
         <group name="networks">
          network {{ network }} mask {{ mask }}
@@ -58,22 +52,17 @@ def get_bgp_config(task):
         </group>
     """)
 
+    # magic TTP parsing
     parser = ttp(data=output.result, template=bgp_ttp_template)
     parser.parse()
-    
     bgp_config = json.loads(parser.result(format='json')[0])
 
+    # convert any rogue dicts to lists
     for key, value in bgp_config[0].items():
         if type(value) == dict:
             bgp_config[0][key] = [{key: value}]
-
-    for key, value in bgp_config[0].items():
-        print(key)
-        print(type(value))
-        print(value)
     
-
-    
+    # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
 def build_route_map(task):
@@ -83,6 +72,7 @@ def build_route_map(task):
     # TODO create or update route-map
     # TODO set communities
     # TODO apply new route maps
+    # TODO verify route maps applied
 
     print(task.host)
     for neighbor in task.host['bgp_config']['neighbors']:
@@ -113,7 +103,7 @@ def main():
     nr.run(task=print_results)
     
 
-    """
+
     fake_route_map = [
         {'action': 'deny',
          'match_clauses': [],
@@ -131,7 +121,6 @@ def main():
          'seq': '20',
          'set_clauses': []}
     ]
-    """
     
     fake_bgp = """
     router bgp 65000
@@ -170,36 +159,5 @@ def main():
     </group>
     """
     
-    parser = ttp(data=fake_bgp, template=bgp_ttp_template)
-    parser.parse()
-    
-    """
-    bgp_config = json.loads(parser.result(format='json')[0])
-    
-    if type(bgp_config[0]['neighbors']) == list:
-        for neighbor in bgp_config[0]['neighbors']:
-            print(neighbor)
-    else:
-        print(bgp_config[0]['neighbors'])
-    print()
-
-    if type(bgp_config[0]['networks']) == list:
-        for network in bgp_config[0]['networks']:
-            print(network)
-    else:
-        print(bgp_config[0]['networks'])
-    print()
-
-    if type(bgp_config[0]['aggregates']) == list:
-        for aggregate in bgp_config[0]['aggregates']:
-            print(aggregate)
-    else:
-        print(bgp_config[0]['aggregates'])
-    print()
-
-    for map in fake_route_map:
-        pp(map)
-    """
-
 if __name__ == "__main__":
     main()
