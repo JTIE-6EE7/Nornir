@@ -69,32 +69,35 @@ def get_bgp_config(task):
 
 def validate_peer(task):
 
+    # init validated peer list
+    task.host['validated_peers'] = []
+
     # check if BGP peer ip is in a list of excluded ranges
     for neighbor in task.host['bgp_config']['neighbors']:
         # convert peer ip address string to ip address object
         peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
         # list of excluded networks
         networks = [
-            ipaddress.ip_network('11.0.0.0/8'),
-            ipaddress.ip_network('22.0.0.0/8'),
-            ipaddress.ip_network('33.0.0.0/8'),
+            '11.0.0.0/8',
+            '22.0.0.0/8',
+            '101.0.0.0/8',
         ]
 
-
+        # init flag for excluded peers
         exclude_peer = False
 
+        # check each peer against excluded peers list
         for network in networks:
-            if peer_ip in network:
+            if peer_ip in ipaddress.ip_network(network):
+                # add peer to list of excluded peerts
                 exclude_peer = True
                 break
 
-        if exclude_peer == True:
-            print(f'Exclude peer {peer_ip}')
-        else:
-            print(f'{peer_ip} is valid')
+        # add validated peers to list
+        if exclude_peer == False:
+            task.host['validated_peers'].append(str(peer_ip))
 
-                
-
+    print(task.host['validated_peers'])
     
 
 def build_route_map(task):
