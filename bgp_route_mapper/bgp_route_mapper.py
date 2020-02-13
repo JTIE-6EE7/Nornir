@@ -61,8 +61,20 @@ def get_bgp_config(task):
     parser = ttp(data=output.result, template=bgp_ttp_template)
     parser.parse()
     
-    task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
+    bgp_config = json.loads(parser.result(format='json')[0])
 
+    for key, value in bgp_config[0].items():
+        if type(value) == dict:
+            bgp_config[0][key] = [{key: value}]
+
+    for key, value in bgp_config[0].items():
+        print(key)
+        print(type(value))
+        print(value)
+    
+
+    
+    task.host['bgp_config'] = bgp_config[0]
 
 def build_route_map(task):
 
@@ -73,10 +85,10 @@ def build_route_map(task):
     # TODO apply new route maps
 
     print(task.host)
-    for neighbor in task.host['bgp_config'][0]['neighbors']:
+    for neighbor in task.host['bgp_config']['neighbors']:
         print(neighbor['peer_ip'])
-    print()
-
+        
+        
 def print_results(task):
     print()
     #print("~"*80)
@@ -188,7 +200,6 @@ def main():
     for map in fake_route_map:
         pp(map)
     """
-    print()
 
 if __name__ == "__main__":
     main()
