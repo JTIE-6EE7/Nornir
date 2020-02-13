@@ -66,12 +66,19 @@ def get_bgp_config(task):
     
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
+def route_maps_exist(task):
+    # TODO
+    stuff = None
+
+
 def print_results(task):
     print()
     print("~"*80)
     print(task.host)
     print(task.host['bgp_config'])
     print(task.host['route_maps'])
+
+
 
 def main():
     # initialize The Norn
