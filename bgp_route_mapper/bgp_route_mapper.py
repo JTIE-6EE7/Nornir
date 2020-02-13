@@ -63,15 +63,15 @@ def get_bgp_config(task):
     
     task.host['bgp_config'] = json.loads(parser.result(format='json')[0])
 
-def route_maps_exist(task):
+
+def build_route_map(task):
+
+    stuff = None
+
+    # TODO check if peer is external
     # TODO check if route map exists
-    stuff = None
-
-def update_route_map(task):
     # TODO create or update route-map
-    stuff = None
     # TODO set communities
-
     # TODO apply new route maps
 
 def print_results(task):
