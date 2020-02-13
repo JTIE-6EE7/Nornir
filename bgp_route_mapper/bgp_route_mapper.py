@@ -1,20 +1,16 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to update BGP route mapper
+This script is used to update BGP route maps to add a community
 '''
 
-from datetime import datetime
+import ipaddress, textwrap, json
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
-from pprint import pprint as pp
 from ttp import ttp
-import ipaddress
-import textwrap
-import json
 
 def get_route_maps(task):
     
@@ -96,13 +92,10 @@ def validate_peer(task):
         # add validated peers to list
         if exclude_peer == False:
             task.host['validated_peers'].append(str(peer_ip))
-
-    print(task.host['validated_peers'])
     
 
 def build_route_map(task):
 
-    # TODO check if peer is external
     # TODO check if route map exists
     # TODO create or update route-map
     # TODO set communities
@@ -112,8 +105,7 @@ def build_route_map(task):
 
         
 def print_results(task):
-    print()
-    #print("~"*80)
+    print(f"{task.host} complete.")
     #print(task.host)
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
@@ -135,6 +127,9 @@ def main():
     # run The Norn to print results
     nr.run(task=print_results)
     
+
+
+
 
 
     fake_route_map = [
