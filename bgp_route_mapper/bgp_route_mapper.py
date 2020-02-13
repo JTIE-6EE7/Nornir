@@ -51,10 +51,10 @@ def get_bgp_config(task):
          aggregate-address {{ network }} {{ mask }} summary-only
         </group>
         <group name="neighbors">
-         neighbor {{ neighbor }} remote-as {{ remote_as }}
-         neighbor {{ neighbor }} description {{ description }}
-         neighbor {{ neighbor }} route-map {{ route_map_out }} out
-         neighbor {{ neighbor }} route-map {{ route_map_in }} in
+         neighbor {{ peer_ip }} remote-as {{ remote_as }}
+         neighbor {{ peer_ip }} description {{ description }}
+         neighbor {{ peer_ip }} route-map {{ route_map_out }} out
+         neighbor {{ peer_ip }} route-map {{ route_map_in }} in
         </group>
     """)
 
@@ -66,38 +66,40 @@ def get_bgp_config(task):
 
 def build_route_map(task):
 
-    stuff = None
-
     # TODO check if peer is external
     # TODO check if route map exists
     # TODO create or update route-map
     # TODO set communities
     # TODO apply new route maps
 
+    print(task.host)
+    for neighbor in task.host['bgp_config'][0]['neighbors']:
+        print(neighbor['peer_ip'])
+    print()
+
 def print_results(task):
     print()
-    print("~"*80)
-    print(task.host)
-    print(task.host['bgp_config'])
-    print(task.host['route_maps'])
+    #print("~"*80)
+    #print(task.host)
+    #print(task.host['bgp_config'])
+    #print(task.host['route_maps'])
 
 
 
 def main():
     # initialize The Norn
-    nr = InitNornir()
+    nr = InitNornir(config_file="config.yaml")
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     # run The Norn to get route maps
-    nr.run(task=get_route_maps, num_workers=1)
+    nr.run(task=get_route_maps)
     # run The Norn to get bgp config
-    nr.run(task=get_bgp_config, num_workers=1)
+    nr.run(task=get_bgp_config)
+    # run The Norn to build route maps
+    nr.run(task=build_route_map)
     # run The Norn to print results
-    nr.run(task=print_results, num_workers=1)
-    print("~"*80)
-    print("Failed hosts:")
-    print(nr.data.failed_hosts)
-
+    nr.run(task=print_results)
+    
 
     """
     fake_route_map = [
