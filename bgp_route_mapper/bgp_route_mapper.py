@@ -12,17 +12,6 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from ttp import ttp
 
-def get_route_maps(task):
-    
-    # send command to device
-    output = task.run(
-        task=netmiko_send_command, 
-        command_string="show route-map",
-        use_textfsm=True
-        )
-    
-    task.host['route_maps'] = output.result
-
 
 def get_bgp_config(task):
         
@@ -61,6 +50,40 @@ def get_bgp_config(task):
     
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
+
+
+def get_route_maps(task):
+    
+    # send command to device
+    output = task.run(
+        task=netmiko_send_command, 
+        command_string="show route-map",
+        use_textfsm=True
+        )
+    
+    task.host['route_maps'] = output.result
+
+
+def get_as_path(task):
+    # send command to device
+    output = task.run(
+        task=netmiko_send_command, 
+        command_string="show run | section ip as-path",
+        )
+
+    # TTP template for BGP config output
+    as_path_ttp_template = textwrap.dedent("""
+        ip as-path access-list {{ as_path_acl }} permit {{ as_path_match }}
+        """)
+
+    # magic TTP parsing
+    parser = ttp(data=output.result, template=as_path_ttp_template)
+    parser.parse()
+    as_path = json.loads(parser.result(format='json')[0])
+
+
+
+    print(as_path)
 
 
 def validate_peer(task):
@@ -116,10 +139,12 @@ def main():
     nr = InitNornir(config_file="config.yaml")
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
-    # run The Norn to get route maps
-    nr.run(task=get_route_maps)
     # run The Norn to get bgp config
     nr.run(task=get_bgp_config)
+    # run The Norn to get route maps
+    nr.run(task=get_route_maps)
+    # run The Norn to get as-psth
+    nr.run(task=get_as_path)
     # run The Norn to validate BGP peers
     nr.run(task=validate_peer)
     # run The Norn to build route maps
