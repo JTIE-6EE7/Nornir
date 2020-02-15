@@ -44,11 +44,17 @@ def get_bgp_config(task):
     parser.parse()
     bgp_config = json.loads(parser.result(format='json')[0])
 
+    print(f"{task.host} before:")
+    pp(bgp_config)
+    
     # convert any rogue dicts to lists
     for key, value in bgp_config[0].items():
         if type(value) == dict:
             bgp_config[0][key] = [{key: value}]
-    
+
+    #print(f"{task.host} after:")
+    #pp(bgp_config)
+
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
@@ -106,7 +112,7 @@ def validate_peer(task):
     task.host['validated_peers'] = []
 
     # check if BGP peer ip is in a list of excluded ranges
-    for neighbor in task.host['bgp_config'][0]['neighbors']:
+    for neighbor in task.host['bgp_config']['neighbors']:
         # convert peer ip address string to ip address object
         peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
         # list of excluded networks
@@ -144,7 +150,7 @@ def build_route_map(task):
         
 def print_results(task):
     print(task.host)
-    print(task.host['bgp_config'])
+    #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
     print(f"{task.host} complete.")
@@ -164,7 +170,7 @@ def main():
     # run The Norn to get as-psth
     nr.run(task=get_as_path)
     # run The Norn to validate BGP peers
-    #nr.run(task=validate_peer)
+    nr.run(task=validate_peer)
     # run The Norn to build route maps
     nr.run(task=build_route_map)
     # run The Norn to print results
