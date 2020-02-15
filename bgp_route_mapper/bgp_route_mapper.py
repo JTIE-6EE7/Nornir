@@ -43,17 +43,11 @@ def get_bgp_config(task):
     parser = ttp(data=output.result, template=bgp_ttp_template)
     parser.parse()
     bgp_config = json.loads(parser.result(format='json')[0])
-
-    print(f"{task.host} before:")
-    pp(bgp_config)
     
     # convert any rogue dicts to lists
     for key, value in bgp_config[0].items():
         if type(value) == dict:
             bgp_config[0][key] = [value]
-
-    print(f"{task.host} after:")
-    pp(bgp_config)
 
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
@@ -111,31 +105,33 @@ def validate_peer(task):
     # init validated peer list
     task.host['validated_peers'] = []
 
-    # check if BGP peer ip is in a list of excluded ranges
-    for neighbor in task.host['bgp_config']['neighbors']:
-        # convert peer ip address string to ip address object
-        peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
-        # list of excluded networks
-        networks = [
-            '11.0.0.0/8',
-            '22.0.0.0/8',
-            '101.0.0.0/8',
-        ]
+    if task.host['bgp_config']['neighbors']:
+        # check if BGP peer ip is in a list of excluded ranges
+        for neighbor in task.host['bgp_config']['neighbors']:
+            # convert peer ip address string to ip address object
+            peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
+            # list of excluded networks
+            networks = [
+                '11.0.0.0/8',
+                '22.0.0.0/8',
+                '101.0.0.0/8',
+            ]
 
-        # init flag for excluded peers
-        exclude_peer = False
+            # init flag for excluded peers
+            exclude_peer = False
 
-        # check each peer against excluded peers list
-        for network in networks:
-            if peer_ip in ipaddress.ip_network(network):
-                # add peer to list of excluded peerts
-                exclude_peer = True
-                break
+            # check each peer against excluded peers list
+            for network in networks:
+                if peer_ip in ipaddress.ip_network(network):
+                    # add peer to list of excluded peerts
+                    exclude_peer = True
+                    break
 
-        # add validated peers to list
-        if exclude_peer == False:
-            task.host['validated_peers'].append(str(peer_ip))
+            # add validated peers to list
+            if exclude_peer == False:
+                task.host['validated_peers'].append(str(peer_ip))
     
+    pp(task.host['validated_peers'])
 
 def build_route_map(task):
 
