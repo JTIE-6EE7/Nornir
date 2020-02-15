@@ -82,11 +82,6 @@ def get_as_path(task):
     parser.parse()
     as_path = json.loads(parser.result(format='json')[0])
 
-   
-    for stuff in as_path:
-        pp(stuff)
-    #print(as_path)
-
 
 def validate_peer(task):
 
