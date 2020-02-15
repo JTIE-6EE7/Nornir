@@ -55,21 +55,19 @@ def get_bgp_config(task):
 
 def get_route_maps(task):
     
-    # send command to device
+    # send command to device; parse with textfsm
     output = task.run(
         task=netmiko_send_command, 
         command_string="show route-map",
         use_textfsm=True
         )
     
+    # check for empty result
     if output.result:
         task.host['route_maps'] = output.result
-
+    # return empty list if no result returned
     else:
         task.host['route_maps'] = []
-
-    
-
 
 
 def get_as_path(task):
@@ -89,9 +87,10 @@ def get_as_path(task):
     parser.parse()
     as_path = json.loads(parser.result(format='json')[0])
 
-    # deal with double encapsulated or empty lists
+    # deal with empty lists
     if len(as_path) == 0:
         pass
+    # deal with double encapsulated lists
     else:
         while type(as_path[0]) == list:
             as_path = as_path.pop()
