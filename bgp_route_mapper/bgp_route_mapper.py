@@ -143,12 +143,12 @@ def build_route_map(task):
 
         
 def print_results(task):
-    print(f"{task.host} complete.")
-    #print(task.host)
-    #print(task.host['bgp_config'])
-    print(task.host['route_maps'])
+    print(task.host)
+    print(task.host['bgp_config'])
+    #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
     #print()
+    print(f"{task.host} complete.")
 
 
 
