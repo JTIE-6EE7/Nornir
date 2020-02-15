@@ -11,6 +11,7 @@ from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from ttp import ttp
+from pprint import pprint as pp
 
 
 def get_bgp_config(task):
@@ -73,8 +74,7 @@ def get_as_path(task):
 
     # TTP template for BGP config output
     as_path_ttp_template = textwrap.dedent("""
-        ip as-path access-list {{ as_path_acl }} permit {{ as_path_match }}
-        ip as-path access-list {{ as_path_acl }} deny {{ as_path_match }}
+        ip as-path access-list {{ as_path_acl }} {{ action }} {{ as_path_match }}
         """)
 
     # magic TTP parsing
@@ -83,8 +83,9 @@ def get_as_path(task):
     as_path = json.loads(parser.result(format='json')[0])
 
    
-
-    print(as_path)
+    for stuff in as_path:
+        pp(stuff)
+    #print(as_path)
 
 
 def validate_peer(task):
