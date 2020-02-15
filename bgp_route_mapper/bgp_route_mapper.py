@@ -106,7 +106,7 @@ def validate_peer(task):
     task.host['validated_peers'] = []
 
     # check if BGP peer ip is in a list of excluded ranges
-    for neighbor in task.host['bgp_config']['neighbors']:
+    for neighbor in task.host['bgp_config'][0]['neighbors']:
         # convert peer ip address string to ip address object
         peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
         # list of excluded networks
@@ -164,7 +164,7 @@ def main():
     # run The Norn to get as-psth
     nr.run(task=get_as_path)
     # run The Norn to validate BGP peers
-    nr.run(task=validate_peer)
+    #nr.run(task=validate_peer)
     # run The Norn to build route maps
     nr.run(task=build_route_map)
     # run The Norn to print results
