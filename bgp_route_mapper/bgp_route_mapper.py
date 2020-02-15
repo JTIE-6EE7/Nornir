@@ -74,6 +74,7 @@ def get_as_path(task):
     # TTP template for BGP config output
     as_path_ttp_template = textwrap.dedent("""
         ip as-path access-list {{ as_path_acl }} permit {{ as_path_match }}
+        ip as-path access-list {{ as_path_acl }} deny {{ as_path_match }}
         """)
 
     # magic TTP parsing
