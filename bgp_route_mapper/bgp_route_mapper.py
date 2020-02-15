@@ -52,6 +52,8 @@ def get_bgp_config(task):
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
+    print(f"{task.host}: get BGP config complete")
+
 
 def get_route_maps(task):
     
@@ -69,6 +71,8 @@ def get_route_maps(task):
     # add empty list to the Nornir task.host if no result returned
     else:
         task.host['route_maps'] = []
+
+    print(f"{task.host}: get route-maps complete")
 
 
 def get_as_path(task):
@@ -99,6 +103,8 @@ def get_as_path(task):
     # add as-path ACLs output to the Nornir task.host
     task.host['as_path_acl'] = as_path
 
+    print(f"{task.host}: get as-path ACLs complete")
+
 
 def validate_peer(task):
 
@@ -106,6 +112,7 @@ def validate_peer(task):
     task.host['validated_peers'] = []
 
     if task.host['bgp_config']['neighbors']:
+        print("Y")
         # check if BGP peer ip is in a list of excluded ranges
         for neighbor in task.host['bgp_config']['neighbors']:
             # convert peer ip address string to ip address object
@@ -133,6 +140,8 @@ def validate_peer(task):
     
     pp(task.host['validated_peers'])
 
+    print(f"{task.host}: BGP peers validation complete")
+
 def build_route_map(task):
 
     # TODO check if route map exists
@@ -145,13 +154,10 @@ def build_route_map(task):
 
         
 def print_results(task):
-    print(task.host)
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
-    print(f"{task.host} complete.")
-    print()
-
+    print(f"{task.host} all operations complete")
 
 
 def main():
