@@ -62,8 +62,14 @@ def get_route_maps(task):
         use_textfsm=True
         )
     
-    print(output.result)
-    task.host['route_maps'] = output.result
+    if output.result:
+        task.host['route_maps'] = output.result
+
+    else:
+        task.host['route_maps'] = []
+
+    
+
 
 
 def get_as_path(task):
