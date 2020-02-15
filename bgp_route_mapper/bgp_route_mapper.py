@@ -49,6 +49,10 @@ def get_bgp_config(task):
         if type(value) == dict:
             bgp_config[0][key] = [value]
 
+    if bgp_config[0]['neighbors']:
+        print("neighbors found")
+    else:
+        print("No neighbors found")
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
@@ -112,7 +116,6 @@ def validate_peer(task):
     task.host['validated_peers'] = []
 
     if task.host['bgp_config']['neighbors']:
-        print("Y")
         # check if BGP peer ip is in a list of excluded ranges
         for neighbor in task.host['bgp_config']['neighbors']:
             # convert peer ip address string to ip address object
