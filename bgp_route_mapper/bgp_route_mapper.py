@@ -50,10 +50,10 @@ def get_bgp_config(task):
     # convert any rogue dicts to lists
     for key, value in bgp_config[0].items():
         if type(value) == dict:
-            bgp_config[0][key] = [{key: value}]
+            bgp_config[0][key] = [value]
 
-    #print(f"{task.host} after:")
-    #pp(bgp_config)
+    print(f"{task.host} after:")
+    pp(bgp_config)
 
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
