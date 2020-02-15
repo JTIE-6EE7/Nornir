@@ -64,8 +64,9 @@ def get_route_maps(task):
     
     # check for empty result
     if output.result:
+        # add route-maps output to the Nornir task.host
         task.host['route_maps'] = output.result
-    # return empty list if no result returned
+    # add empty list to the Nornir task.host if no result returned
     else:
         task.host['route_maps'] = []
 
@@ -95,6 +96,7 @@ def get_as_path(task):
         while type(as_path[0]) == list:
             as_path = as_path.pop()
     
+    # add as-path ACLs output to the Nornir task.host
     task.host['as_path_acl'] = as_path
 
 
@@ -144,11 +146,7 @@ def print_results(task):
     print(f"{task.host} complete.")
     #print(task.host)
     #print(task.host['bgp_config'])
-
-    if task.host['route_maps'] == None:
-        print("NONE")
-    else:
-        print(task.host['route_maps'])
+    print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
     #print()
 
