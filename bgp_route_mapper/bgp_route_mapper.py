@@ -81,7 +81,7 @@ def get_as_path(task):
     parser.parse()
     as_path = json.loads(parser.result(format='json')[0])
 
-
+   
 
     print(as_path)
 
