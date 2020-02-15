@@ -139,7 +139,7 @@ def build_route_map(task):
     # TODO set communities
     # TODO apply new route maps
     # TODO verify route maps applied
-    print()
+    stuff = None
 
         
 def print_results(task):
@@ -147,8 +147,8 @@ def print_results(task):
     print(task.host['bgp_config'])
     #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
-    #print()
     print(f"{task.host} complete.")
+    print()
 
 
 
@@ -169,6 +169,7 @@ def main():
     nr.run(task=build_route_map)
     # run The Norn to print results
     nr.run(task=print_results)
+    print(f"Failed hosts:\n{nr.data.failed_hosts}\n")
     
 
 
