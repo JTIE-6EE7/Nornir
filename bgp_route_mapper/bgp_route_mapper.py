@@ -117,6 +117,7 @@ def validate_peer(task):
 def build_route_map(task):
 
     # TODO check if route map exists
+    # TODO check if as-path ACL exists
     # TODO create or update route-map
     # TODO set communities
     # TODO apply new route maps
