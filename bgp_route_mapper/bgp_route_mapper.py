@@ -82,6 +82,15 @@ def get_as_path(task):
     parser.parse()
     as_path = json.loads(parser.result(format='json')[0])
 
+    # deal with double encapsulated or empty lists
+    if len(as_path) == 0:
+        pass
+    else:
+        while type(as_path[0]) == list:
+            as_path = as_path.pop()
+    
+    task.host['as_path_acl'] = as_path
+
 
 def validate_peer(task):
 
@@ -130,6 +139,9 @@ def print_results(task):
     #print(task.host)
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
+    print(task.host['as_path_acl'])
+    #print()
+
 
 
 def main():
