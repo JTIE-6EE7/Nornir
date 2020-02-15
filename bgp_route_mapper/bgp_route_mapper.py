@@ -153,6 +153,8 @@ def build_route_map(task):
     # TODO set communities
     # TODO apply new route maps
     # TODO verify route maps applied
+
+
     stuff = None
 
         
