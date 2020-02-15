@@ -62,6 +62,7 @@ def get_route_maps(task):
         use_textfsm=True
         )
     
+    print(output.result)
     task.host['route_maps'] = output.result
 
 
@@ -138,8 +139,12 @@ def print_results(task):
     print(f"{task.host} complete.")
     #print(task.host)
     #print(task.host['bgp_config'])
-    #print(task.host['route_maps'])
-    print(task.host['as_path_acl'])
+
+    if task.host['route_maps'] == None:
+        print("NONE")
+    else:
+        print(task.host['route_maps'])
+    #print(task.host['as_path_acl'])
     #print()
 
 
