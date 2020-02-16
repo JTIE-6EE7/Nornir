@@ -56,7 +56,7 @@ def get_bgp_config(task):
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
-    print(f"{task.host}: get BGP config complete")
+    #print(f"{task.host}: get BGP config complete")
 
 
 def get_route_maps(task):
@@ -76,7 +76,7 @@ def get_route_maps(task):
     else:
         task.host['route_maps'] = []
 
-    print(f"{task.host}: get route-maps complete")
+    #print(f"{task.host}: get route-maps complete")
 
 
 def get_as_path(task):
@@ -107,7 +107,7 @@ def get_as_path(task):
     # add as-path ACLs output to the Nornir task.host
     task.host['as_path_acl'] = as_path
 
-    print(f"{task.host}: get as-path ACLs complete")
+    #print(f"{task.host}: get as-path ACLs complete")
 
 
 def validate_peer(task):
@@ -125,32 +125,37 @@ def validate_peer(task):
                 '10.254.254.0/24',
                 '11.0.0.0/8',
             ]
-
             # init flag for excluded peers
             exclude_peer = False
-
             # check each peer against excluded peers list
             for network in networks:
                 if peer_ip in ipaddress.ip_network(network):
                     # add peer to list of excluded peerts
                     exclude_peer = True
                     break
-
             # add validated peers to list
             if exclude_peer == False:
                 task.host['validated_peers'].append(str(peer_ip))
     
-    print(f"{task.host}: BGP peer validation complete")
+    #print(f"{task.host}: BGP peer validation complete")
 
 
 def build_route_map(task):
 
-    # locate route-maps for validated peers
+    # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
+        # set vairables for easier access
         peer_ip = neighbor['peer_ip']
         route_map_out = neighbor['route_map_out']
+        # validated peer check
         if peer_ip in task.host['validated_peers']:
             print(f"{task.host}: peer {peer_ip}, route-map: {route_map_out}")
+            
+            # 
+            for route_map in task.host['route_maps']:
+
+                if  route_map_out == route_map['name']:
+                    print(route_map)
 
 
     # TODO check if route map exists
