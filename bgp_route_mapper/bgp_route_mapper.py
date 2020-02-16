@@ -150,7 +150,7 @@ def build_route_map(task):
         peer_ip = neighbor['peer_ip']
         route_map_out = neighbor['route_map_out']
         if peer_ip in task.host['validated_peers']:
-            print(f"{task.host}: peer {peer_ip} - {route_map_out}")
+            print(f"{task.host}: peer {peer_ip}, route-map: {route_map_out}")
 
 
     # TODO check if route map exists
