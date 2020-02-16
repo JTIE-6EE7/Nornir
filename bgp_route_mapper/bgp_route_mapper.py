@@ -142,7 +142,15 @@ def validate_peer(task):
     
     print(f"{task.host}: BGP peer validation complete")
 
+
 def build_route_map(task):
+
+    for peer in task.host['validated_peers']:
+        print(f"{task.host}: peer {peer}")
+        for neighbor in task.host['bgp_config']['neighbors']:
+            if neighbor['peer_ip'] in task.host['validated_peers']:
+                print(neighbor['route_map_out'])
+
 
     # TODO check if route map exists
     # TODO check if as-path ACL exists
@@ -152,7 +160,7 @@ def build_route_map(task):
     # TODO verify route maps applied
 
 
-    stuff = None
+    print(f"{task.host}: route-map creation complete")
 
         
 def print_results(task):
