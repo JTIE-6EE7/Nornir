@@ -122,6 +122,7 @@ def validate_peer(task):
             peer_ip = ipaddress.ip_address(neighbor['peer_ip'])
             # list of excluded networks
             networks = [
+                '10.254.254.0/24',
                 '11.0.0.0/8',
             ]
 
@@ -139,9 +140,7 @@ def validate_peer(task):
             if exclude_peer == False:
                 task.host['validated_peers'].append(str(peer_ip))
     
-    pp(task.host['validated_peers'])
-
-    print(f"{task.host}: BGP peers validation complete")
+    print(f"{task.host}: BGP peer validation complete")
 
 def build_route_map(task):
 
@@ -180,7 +179,7 @@ def main():
     nr.run(task=build_route_map)
     # run The Norn to print results
     nr.run(task=print_results)
-    print(f"Failed hosts:\n{nr.data.failed_hosts}\n")
+    print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
     
 
 
