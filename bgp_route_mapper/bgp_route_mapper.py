@@ -145,11 +145,12 @@ def validate_peer(task):
 
 def build_route_map(task):
 
-    for peer in task.host['validated_peers']:
-        print(f"{task.host}: peer {peer}")
-        for neighbor in task.host['bgp_config']['neighbors']:
-            if neighbor['peer_ip'] in task.host['validated_peers']:
-                print(neighbor['route_map_out'])
+    # locate route-maps for validated peers
+    for neighbor in task.host['bgp_config']['neighbors']:
+        peer_ip = neighbor['peer_ip']
+        route_map_out = neighbor['route_map_out']
+        if peer_ip in task.host['validated_peers']:
+            print(f"{task.host}: peer {peer_ip} - {route_map_out}")
 
 
     # TODO check if route map exists
