@@ -49,10 +49,10 @@ def get_bgp_config(task):
         if type(value) == dict:
             bgp_config[0][key] = [value]
 
-    if bgp_config[0]['neighbors']:
-        print("neighbors found")
-    else:
-        print("No neighbors found")
+    # if no neighbors found, add empty list
+    if 'neighbors' not in bgp_config[0]:
+        bgp_config[0]['neighbors'] = []
+
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
@@ -123,8 +123,6 @@ def validate_peer(task):
             # list of excluded networks
             networks = [
                 '11.0.0.0/8',
-                '22.0.0.0/8',
-                '101.0.0.0/8',
             ]
 
             # init flag for excluded peers
