@@ -167,7 +167,7 @@ def build_route_map(task):
                 # TODO check as-path ACLs
                 # TODO create new route-map
 
-                new_config = textwrap.dedent(f"""
+                new_config = new_config + textwrap.dedent(f"""
                     ip as-path access-list 1 permit ^$
                     route-map NEW_ROUTE_MAP permit 10
                      match as-path 1
@@ -176,10 +176,6 @@ def build_route_map(task):
                     router bgp 65000
                      neighbor { peer_ip } route-map NEW_ROUTE_MAP out
                     """)
-
-                task.host['new_config'] = new_config
-
-                print(task.host['new_config'])
 
 
             else:
@@ -192,6 +188,9 @@ def build_route_map(task):
                         pp(task.host['as_path_acl'])
                         print(route_map)
 
+    task.host['new_config'] = new_config
+
+    print(task.host['new_config'])
                 
 
     # TODO check if as-path ACL exists
