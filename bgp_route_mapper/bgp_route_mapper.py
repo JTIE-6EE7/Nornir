@@ -142,6 +142,7 @@ def validate_peer(task):
 
 def build_route_map(task):
 
+    # init new config string
     new_config = ""
 
     # iterate over neighbors to locate route-maps for validated peers
@@ -151,7 +152,7 @@ def build_route_map(task):
         if 'route_map_out' not in neighbor:
             neighbor['route_map_out'] = 'NONE'
 
-        # set vairables for easier access
+        # set variables for easier access
         peer_ip = neighbor['peer_ip']
         route_map_out = neighbor['route_map_out']
         
@@ -166,6 +167,8 @@ def build_route_map(task):
                 print("Create new route-map:")
                 # TODO check as-path ACLs
                 # TODO create new route-map
+                # TODO check if as-path ACL exists
+
 
                 new_config = new_config + textwrap.dedent(f"""
                     ip as-path access-list 1 permit ^$
