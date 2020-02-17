@@ -159,18 +159,19 @@ def build_route_map(task):
                 f"{task.host}: peer {peer_ip}, route-map: {route_map_out}"
             )
             
-            route_map_exists = False
-
-            # iterate over route-maps
-            for route_map in task.host['route_maps']:
+            if route_map_out == "NONE":
+                print("Create new route-map")
+                # TODO check as-path ACLs
+                # TODO create new route-map
                 
-                # match route-map name to neighbor
-                if  route_map_out == route_map['name']:
-                    route_map_exists = True
-                    #print(route_map)
+            else:
 
-            #if route_map_exists == False:
-            #    print(f"{task.host}: peer {peer_ip} has no route-map")
+                # iterate over route-maps
+                for route_map in task.host['route_maps']:
+
+                    # match route-map name to neighbor
+                    if  route_map_out == route_map['name']:
+                        print(route_map)
 
                 
 
@@ -183,7 +184,7 @@ def build_route_map(task):
     # TODO verify route maps applied
 
 
-    print(f"{task.host}: route-map creation complete")
+    #print(f"{task.host}: route-map creation complete")
 
         
 def print_results(task):
