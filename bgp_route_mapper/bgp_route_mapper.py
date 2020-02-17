@@ -180,12 +180,13 @@ def build_route_map(task):
 
             else:
 
+                pp(task.host['as_path_acl'])
+
                 # iterate over route-maps
                 for route_map in task.host['route_maps']:
 
                     # match route-map name to neighbor
                     if  route_map_out == route_map['name']:
-                        pp(task.host['as_path_acl'])
                         print(route_map)
 
     task.host['new_config'] = new_config
