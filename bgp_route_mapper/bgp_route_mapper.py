@@ -159,11 +159,25 @@ def build_route_map(task):
                 f"{task.host}: peer {peer_ip}, route-map: {route_map_out}"
             )
             
+            # create a new route-map if one doesn't exist
             if route_map_out == "NONE":
-                print("Create new route-map")
+                print("Create new route-map:")
                 # TODO check as-path ACLs
                 # TODO create new route-map
-                
+
+                task.host['new_config'] = textwrap.dedent(f"""
+                    ip as-path access-list 1 permit ^$
+                    route-map NEW_ROUTE_MAP permit 10
+                     match as-path 1
+                     set community { task.host['community'] }
+                    route-map NEW_ROUTE_MAP deny 20                    
+                    router bgp 65000
+                     neighbor { peer_ip } route-map NEW_ROUTE_MAP out
+                    """)
+
+                print(task.host['new_config'])
+
+
             else:
 
                 # iterate over route-maps
@@ -175,8 +189,6 @@ def build_route_map(task):
 
                 
 
-
-    # TODO check if route map exists
     # TODO check if as-path ACL exists
     # TODO create or update route-map
     # TODO set communities
