@@ -178,12 +178,12 @@ def build_route_map(task):
 
                 new_config = new_config + textwrap.dedent(f"""
                     ip as-path access-list { as_path_acl_id } permit ^$
-                    route-map NEW_ROUTE_MAP permit 10
+                    route-map COMMUNITY_ROUTE_MAP permit 10
                      match as-path 1
                      set community { task.host['community'] }
-                    route-map NEW_ROUTE_MAP deny 20                    
+                    route-map COMMUNITY_ROUTE_MAP deny 20                    
                     router bgp 65000
-                     neighbor { peer_ip } route-map NEW_ROUTE_MAP out
+                     neighbor { peer_ip } route-map COMMUNITY_ROUTE_MAP out
                     """)
 
 
