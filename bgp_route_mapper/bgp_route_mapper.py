@@ -24,6 +24,9 @@ def get_bgp_config(task):
     
     # TTP template for BGP config output
     bgp_ttp_template = textwrap.dedent("""
+        <group name="router_bgp">
+        router bgp {{ bgp_asn }}
+        </group>
         <group name="networks">
          network {{ network }} mask {{ mask }}
          aggregate-address {{ network }} {{ mask }} summary-only
@@ -145,6 +148,8 @@ def build_route_map(task):
     # init new config string
     new_config = ""
 
+    bgp_asn = task.host['bgp_config']['router_bgp'][0]['bgp_asn']
+
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
 
@@ -182,7 +187,7 @@ def build_route_map(task):
                      match as-path 1
                      set community { task.host['community'] }
                     route-map COMMUNITY_OUT deny 20                    
-                    router bgp 65000
+                    router bgp { bgp_asn }
                      neighbor { peer_ip } route-map COMMUNITY_OUT out
                     """)
 
