@@ -173,10 +173,8 @@ def build_route_map(task):
                 
                     if acl['action'] == "permit" and acl['as_path_match'] == "^$":
                         as_path_acl_id = acl['as_path_acl_id']
-                    #print(acl['as_path_acl_id'], acl['as_path_match'])
-                    #print(acl)
 
-                as_path_acl_id = "1"
+                #as_path_acl_id = "1"
 
                 new_config = new_config + textwrap.dedent(f"""
                     ip as-path access-list { as_path_acl_id } permit ^$
