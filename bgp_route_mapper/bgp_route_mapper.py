@@ -88,7 +88,7 @@ def get_as_path(task):
 
     # TTP template for BGP config output
     as_path_ttp_template = textwrap.dedent("""
-        ip as-path access-list {{ as_path_acl }} {{ action }} {{ as_path_match }}
+        ip as-path access-list {{ as_path_acl_id }} {{ action }} {{ as_path_match }}
         """)
 
     # magic TTP parsing
@@ -165,13 +165,21 @@ def build_route_map(task):
             # create a new route-map if one doesn't exist
             if route_map_out == "NONE":
                 print("Create new route-map:")
-                # TODO check as-path ACLs
                 # TODO create new route-map
-                # TODO check if as-path ACL exists
 
+                for acl in task.host['as_path_acl']:
+                    # TODO check as-path ACLs
+                    # TODO check if as-path ACL exists
+                
+                    if acl['action'] == "permit" and acl['as_path_match'] == "^$":
+                        as_path_acl_id = acl['as_path_acl_id']
+                    #print(acl['as_path_acl_id'], acl['as_path_match'])
+                    #print(acl)
+
+                as_path_acl_id = "1"
 
                 new_config = new_config + textwrap.dedent(f"""
-                    ip as-path access-list 1 permit ^$
+                    ip as-path access-list { as_path_acl_id } permit ^$
                     route-map NEW_ROUTE_MAP permit 10
                      match as-path 1
                      set community { task.host['community'] }
