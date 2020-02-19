@@ -148,11 +148,8 @@ def build_route_map(task):
     # init new config string
     new_config = ""
 
+    # set asn for bgp process
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
-
-    print(f"{task.host} AS Path:")
-    print(task.host['as_path_acl'])
-
 
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
