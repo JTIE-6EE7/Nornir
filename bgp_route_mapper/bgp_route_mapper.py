@@ -213,7 +213,8 @@ def create_as_path_acl(as_path_acls):
     # check if any as-path acls exist
     if as_path_acls == []:
         # if not, use id 1
-        as_path_acl_id = "1"        
+        as_path_acl_id = "1" 
+        as_path_acl_exists = False       
     else:
         # init list of unusable acl ids
         bad_acl_ids = []
@@ -222,17 +223,17 @@ def create_as_path_acl(as_path_acls):
             # use existing as-path acls if possible
             if acl['action'] == "permit" and acl['as_path_match'] == "^$":
                 as_path_acl_id = acl['as_path_acl_id']
+                as_path_acl_exists = True
             else:
                 # add acl id to list of unusable acls
                 bad_acl_ids.append(acl['as_path_acl_id'])
+        # TODO pick new acl number
 
-    as_path_cfg = textwrap.dedent(f"""
-        ip as-path access-list { as_path_acl_id } permit ^$
-        """)
+        as_path_cfg = textwrap.dedent(f"""
+            ip as-path access-list { as_path_acl_id } permit ^$
+            """)
 
-
-
-
+    return as_path_acl_id, as_path_acl_exists, as_path_cfg
 
 def print_results(task):
     #print(task.host['bgp_config'])
