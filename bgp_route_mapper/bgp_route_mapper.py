@@ -210,14 +210,21 @@ def build_route_map(task):
     #print(f"{task.host}: route-map creation complete")
 
 def create_as_path_acl(as_path_acls):
+    # check if any as-path acls exist
     if as_path_acls == []:
-        as_path_acl_id = "1"
-        
+        # if not, use id 1
+        as_path_acl_id = "1"        
     else:
+        # init list of unusable acl ids
+        bad_acl_ids = []
+        # parse existing as-path acls
         for acl in as_path_acls:
-        
+            # use existing as-path acls if possible
             if acl['action'] == "permit" and acl['as_path_match'] == "^$":
                 as_path_acl_id = acl['as_path_acl_id']
+            else:
+                # add acl id to list of unusable acls
+                bad_acl_ids.append(acl['as_path_acl_id'])
 
     as_path_cfg = textwrap.dedent(f"""
         ip as-path access-list { as_path_acl_id } permit ^$
