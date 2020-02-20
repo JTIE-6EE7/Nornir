@@ -173,21 +173,8 @@ def build_route_map(task):
                 print("Create new route-map:")
                 # TODO create new route-map
 
-                if task.host['as_path_acl'] == []:
-                    as_path_acl_id = "1"
-                    
-                else:
-                    for acl in task.host['as_path_acl']:
-                        # TODO check as-path ACLs
-                        # TODO check if as-path ACL exists
-                    
-                        if acl['action'] == "permit" and acl['as_path_match'] == "^$":
-                            as_path_acl_id = acl['as_path_acl_id']
-
                 
-
                 new_config = new_config + textwrap.dedent(f"""
-                    ip as-path access-list { as_path_acl_id } permit ^$
                     route-map COMMUNITY_OUT permit 10
                      match as-path 1
                      set community { task.host['community'] }
@@ -222,7 +209,24 @@ def build_route_map(task):
 
     #print(f"{task.host}: route-map creation complete")
 
+def create_as_path_acl(as_path_acls):
+    if as_path_acls == []:
+        as_path_acl_id = "1"
         
+    else:
+        for acl in as_path_acls:
+        
+            if acl['action'] == "permit" and acl['as_path_match'] == "^$":
+                as_path_acl_id = acl['as_path_acl_id']
+
+    as_path_cfg = textwrap.dedent(f"""
+        ip as-path access-list { as_path_acl_id } permit ^$
+        """)
+
+
+
+
+
 def print_results(task):
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
