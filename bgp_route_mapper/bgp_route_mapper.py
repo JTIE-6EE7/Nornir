@@ -230,13 +230,17 @@ def create_as_path_acl(as_path_acls):
             else:
                 # add acl id to list of unusable acls
                 bad_acl_ids.append(acl['as_path_acl_id'])
-        # TODO pick new acl number
-        # TODO creat new acl
-        as_path_cfg = textwrap.dedent(f"""
-            ip as-path access-list { as_path_acl_id } permit ^$
-            """)
-
-    return as_path_acl_id, as_path_acl_exists, as_path_cfg
+        # assign a unique as-path acl id
+        for i in range(0,500):
+            if i not in bad_acl_ids:
+                as_path_acl_id = i
+                break
+    # create new as-path acl if one does not exist
+    if as_path_acl_exists == False:
+            as_path_cfg = textwrap.dedent(f"""
+                ip as-path access-list { as_path_acl_id } permit ^$
+                """)
+    return as_path_acl_id, as_path_cfg
 
 def print_results(task):
     #print(task.host['bgp_config'])
