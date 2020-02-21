@@ -143,7 +143,7 @@ def validate_peer(task):
     #print(f"{task.host}: BGP peer validation complete")
 
 
-def build_route_map(task):
+def route_map(task):
 
     # init new config string
     new_config = ""
@@ -152,7 +152,7 @@ def build_route_map(task):
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
 
     # call function to create or referece existing as-path acl
-    as_path_acl_id, as_path_cfg = create_as_path_acl(task.host['as_path_acl'])
+    as_path_acl_id, as_path_cfg = as_path_acl(task.host['as_path_acl'])
 
     # update config to be applied
     new_config = new_config + as_path_cfg
@@ -210,7 +210,7 @@ def build_route_map(task):
     #print(f"{task.host}: route-map creation complete")
 
 
-def create_as_path_acl(as_path_acls):
+def as_path_acl(as_path_acls):
     # init acl exists flag
     as_path_acl_exists = False       
 
@@ -273,7 +273,7 @@ def main():
     # run The Norn to validate BGP peers
     nr.run(task=validate_peer)
     # run The Norn to build route maps
-    nr.run(task=build_route_map)
+    nr.run(task=route_map)
     # run The Norn to print results
     nr.run(task=print_results)
     print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
