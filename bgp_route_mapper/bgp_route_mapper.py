@@ -206,7 +206,6 @@ def build_route_map(task):
     print(task.host['new_config'])
                 
 
-    # TODO check if as-path ACL exists
     # TODO create or update route-map
     # TODO set communities
     # TODO apply new route maps
