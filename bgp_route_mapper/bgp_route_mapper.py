@@ -151,10 +151,11 @@ def build_route_map(task):
     # set asn for bgp process
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
 
+    # call function to create or referece existing as-path acl
     as_path_acl_id, as_path_cfg = create_as_path_acl(task.host['as_path_acl'])
 
+    # update config to be applied
     new_config = new_config + as_path_cfg
-
 
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
@@ -178,7 +179,6 @@ def build_route_map(task):
                 print("Create new route-map:")
                 # TODO create new route-map
 
-                
                 new_config = new_config + textwrap.dedent(f"""
                     route-map COMMUNITY_OUT permit 10
                      match as-path { as_path_acl_id }
@@ -188,14 +188,10 @@ def build_route_map(task):
                      neighbor { peer_ip } route-map COMMUNITY_OUT out
                     """)
 
-
             else:
-
                 pp(task.host['as_path_acl'])
-
                 # iterate over route-maps
                 for route_map in task.host['route_maps']:
-
                     # match route-map name to neighbor
                     if  route_map_out == route_map['name']:
                         print(route_map)
