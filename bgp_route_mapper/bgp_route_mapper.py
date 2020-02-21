@@ -153,9 +153,8 @@ def build_route_map(task):
 
     as_path_acl_id, as_path_cfg = create_as_path_acl(task.host['as_path_acl'])
 
-    print("as-path stuff:")
-    print(as_path_acl_id)
-    print(as_path_cfg)
+    new_config = new_config + as_path_cfg
+
 
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
