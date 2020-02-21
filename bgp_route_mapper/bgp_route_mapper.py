@@ -181,7 +181,7 @@ def build_route_map(task):
                 
                 new_config = new_config + textwrap.dedent(f"""
                     route-map COMMUNITY_OUT permit 10
-                     match as-path 1
+                     match as-path { as_path_acl_id }
                      set community { task.host['community'] }
                     route-map COMMUNITY_OUT deny 20                    
                     router bgp { asn }
