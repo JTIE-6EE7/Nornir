@@ -148,6 +148,7 @@ def route_map_logic(task):
     # set bgp asn and community
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
     community = task.host['community']
+    route_maps = task.host['route_maps']
 
     # call function to create or referece existing as-path acl
     as_path_acl_id, new_config = as_path_acl(task.host['as_path_acl_list'])
@@ -170,7 +171,7 @@ def route_map_logic(task):
         else:
             print(f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}")
 
-            new_config += update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn)
+            new_config += update_route_map(as_path_acl_id, route_map_out, route_maps, community, peer_ip, asn)
 
     task.host['new_config'] = new_config
 
@@ -224,6 +225,7 @@ def as_path_acl(as_path_acls):
 def update_route_map(
     as_path_acl_id, 
     route_map_out, 
+    route_maps,
     community, 
     peer_ip, 
     asn
@@ -243,16 +245,17 @@ def update_route_map(
             """)
     else:
         route_map_config = ""
+
+        for map in route_maps:
+            #pp(map)
+            if map['name'] == route_map_out and map['action'] == "permit":
+                pp(map)
+                print("MATCH")
+                #map['match_clauses'] == [f'as-path (as-path filter): {as_path_acl_id}']:
+
+
     
         # TODO update existing route-maps to set communities
-
-        #else:
-        #    pp(task.host['as_path_acl_list'])
-        #    # iterate over route-maps
-        #    for route_map in task.host['route_maps']:
-        #        # match route-map name to neighbor
-        #        if  route_map_out == route_map['name']:
-        #            print(route_map)
 
     return route_map_config
 
