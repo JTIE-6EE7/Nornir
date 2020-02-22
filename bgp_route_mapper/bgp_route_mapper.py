@@ -184,7 +184,6 @@ def route_map_logic(task):
     print("~"*50)
     print(f"{task.host}: NEW CONFIG END")
     print("~"*50)
-    print()
 
 
 def as_path_acl(as_path_acls):
@@ -264,6 +263,7 @@ def apply_configs(task):
 
 
 def print_results(task):
+    print()
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
