@@ -218,7 +218,7 @@ def as_path_acl(as_path_acls):
             as_path_cfg = textwrap.dedent(f"""
                 ip as-path access-list { as_path_acl_id } permit ^$
                 """)
-    
+    print(as_path_acl_id)
     return as_path_acl_id, as_path_cfg
 
 
@@ -247,6 +247,7 @@ def update_route_map(
         
         for map in route_maps:
             print(as_path_acl_id)
+            print(route_map_out)
             if map['match_clauses'] == [f'as-path (as-path filter): { as_path_acl_id }'] and \
                 map['name'] == route_map_out and map['action'] == "permit":
                 
