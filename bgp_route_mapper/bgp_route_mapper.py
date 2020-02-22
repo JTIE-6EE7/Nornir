@@ -8,8 +8,7 @@ import ipaddress, textwrap, json
 from pprint import pprint as pp
 from nornir import InitNornir
 from nornir.core.filter import F
-from nornir.plugins.tasks import text, files
-from nornir.plugins.functions.text import print_result
+#from nornir.plugins.tasks import text, files
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_send_config
 from ttp import ttp
@@ -175,29 +174,35 @@ def route_map_logic(task):
 
     task.host['new_config'] = new_config
 
+    print()
+    print("~"*50)
+    print(f"{task.host}: NEW CONFIG BEGIN")
+    print("~"*50)
+
     print(task.host['new_config'])
                 
-    print(f"{task.host}: new config creation complete")
+    print("~"*50)
+    print(f"{task.host}: NEW CONFIG END")
+    print("~"*50)
+    print()
 
 
 def as_path_acl(as_path_acls):
     # init acl exists flag
     as_path_acl_exists = False       
 
-    # check if any as-path acls exist
+    # init list of unusable acl ids
+    bad_acl_ids = []
     
+    # check if any as-path acls exist    
     if as_path_acls == []:
         # if not, use id 1
         as_path_acl_id = "1" 
     
-    else:
-        # init list of unusable acl ids
-        bad_acl_ids = []
-        
+    else:        
         # parse existing as-path acls
         for acl in as_path_acls:
             # use existing as-path acls if possible
-        
             if acl['action'] == "permit" and acl['as_path_match'] == "^$":
                 as_path_acl_id = acl['as_path_acl_id']
                 as_path_acl_exists = True
@@ -207,18 +212,16 @@ def as_path_acl(as_path_acls):
                 # add acl id to list of unusable acls
                 bad_acl_ids.append(acl['as_path_acl_id'])
         
+    # create new as-path acl if one does not exist
+    if as_path_acl_exists == False:
         # assign a unique as-path acl id
         for i in range(1,500):
             if i not in bad_acl_ids:
                 as_path_acl_id = i
                 break
-    
-    # create new as-path acl if one does not exist
-    if as_path_acl_exists == False:
-            as_path_cfg = textwrap.dedent(f"""
-                ip as-path access-list { as_path_acl_id } permit ^$
-                """)
-    print(as_path_acl_id)
+        as_path_cfg = textwrap.dedent(f"""
+            ip as-path access-list { as_path_acl_id } permit ^$
+            """)
     return as_path_acl_id, as_path_cfg
 
 
@@ -233,8 +236,6 @@ def update_route_map(
     
     # create a new route-map if one doesn't exist
     if route_map_out == "NONE":
-        print("Create new route-map:")
-
         route_map_config = textwrap.dedent(f"""
             route-map COMMUNITY_OUT permit 10
              match as-path { as_path_acl_id }
@@ -243,11 +244,8 @@ def update_route_map(
             router bgp { asn }
              neighbor { peer_ip } route-map COMMUNITY_OUT out
             """)
-    else:
-        
+    else:    
         for map in route_maps:
-            print(as_path_acl_id)
-            print(route_map_out)
             if map['match_clauses'] == [f'as-path (as-path filter): { as_path_acl_id }'] and \
                 map['name'] == route_map_out and map['action'] == "permit":
                 
@@ -256,8 +254,6 @@ def update_route_map(
                     set community { community }
                     """)
     
-        # TODO update existing route-maps to set communities
-
     return route_map_config
 
 
