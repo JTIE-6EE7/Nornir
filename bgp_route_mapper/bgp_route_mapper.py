@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to update BGP route maps to add a community
+This script is used to creat or update BGP route maps to add a community
 '''
 
 import ipaddress, textwrap, json
@@ -167,12 +167,9 @@ def route_map_logic(task):
             print(f"\n{task.host}: peer {peer_ip} skipped.")
 
         else:
-            print(
-                f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
-            )
+            print(f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}")
 
-            route_map_config = update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn)
-            new_config += route_map_config
+            new_config += update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn)
 
     task.host['new_config'] = new_config
 
