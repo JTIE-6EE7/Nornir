@@ -13,7 +13,6 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from ttp import ttp
 
-
 def get_bgp_config(task):
         
     # send command to device
@@ -108,7 +107,7 @@ def get_as_path(task):
             as_path = as_path.pop()
     
     # add as-path ACLs output to the Nornir task.host
-    task.host['as_path_acl'] = as_path
+    task.host['as_path_acl_list'] = as_path
 
     #print(f"{task.host}: get as-path ACLs complete")
 
@@ -143,20 +142,14 @@ def validate_peer(task):
     #print(f"{task.host}: BGP peer validation complete")
 
 
-def route_map(task):
-
-    # init new config string
-    new_config = ""
+def route_map_logic(task):
 
     # set bgp asn and community
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
     community = task.host['community']
 
     # call function to create or referece existing as-path acl
-    as_path_acl_id, as_path_cfg = as_path_acl(task.host['as_path_acl'])
-
-    # update config to be applied
-    new_config = new_config + as_path_cfg
+    as_path_acl_id, new_config = as_path_acl(task.host['as_path_acl_list'])
 
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
@@ -165,7 +158,7 @@ def route_map(task):
         if 'route_map_out' not in neighbor:
             neighbor['route_map_out'] = 'NONE'
 
-        # set variables for easier access
+        # set variables from task.host
         peer_ip = neighbor['peer_ip']
         route_map_out = neighbor['route_map_out']
         
@@ -178,43 +171,13 @@ def route_map(task):
                 f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
             )
 
-# --------------
-            
-            # create a new route-map if one doesn't exist
-            if route_map_out == "NONE":
-                print("Create new route-map:")
-                # TODO create new route-map
-
-                new_config = new_config + textwrap.dedent(f"""
-                    route-map COMMUNITY_OUT permit 10
-                     match as-path { as_path_acl_id }
-                     set community { community }
-                    route-map COMMUNITY_OUT deny 20                    
-                    router bgp { asn }
-                     neighbor { peer_ip } route-map COMMUNITY_OUT out
-                    """)
-
-            else:
-                pp(task.host['as_path_acl'])
-                # iterate over route-maps
-                for route_map in task.host['route_maps']:
-                    # match route-map name to neighbor
-                    if  route_map_out == route_map['name']:
-                        print(route_map)
-
-    # --------------
+            route_map_config = update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn)
+            new_config += route_map_config
 
     task.host['new_config'] = new_config
 
     print(task.host['new_config'])
                 
-
-    # TODO create or update route-map
-    # TODO set communities
-    # TODO apply new route maps
-    # TODO verify route maps applied
-
-
     #print(f"{task.host}: route-map creation complete")
 
 
@@ -260,6 +223,44 @@ def as_path_acl(as_path_acls):
     return as_path_acl_id, as_path_cfg
 
 
+def update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn):
+    
+    # create a new route-map if one doesn't exist
+    if route_map_out == "NONE":
+        print("Create new route-map:")
+
+        route_map_config = textwrap.dedent(f"""
+            route-map COMMUNITY_OUT permit 10
+             match as-path { as_path_acl_id }
+             set community { community }
+            route-map COMMUNITY_OUT deny 20                    
+            router bgp { asn }
+             neighbor { peer_ip } route-map COMMUNITY_OUT out
+            """)
+    else:
+        route_map_config = ""
+    
+        # TODO set communities
+
+        #else:
+        #    pp(task.host['as_path_acl_list'])
+        #    # iterate over route-maps
+        #    for route_map in task.host['route_maps']:
+        #        # match route-map name to neighbor
+        #        if  route_map_out == route_map['name']:
+        #            print(route_map)
+
+
+
+    return route_map_config
+
+
+def apply_configs(task):
+    # TODO apply new route maps
+    # TODO verify route maps applied
+    _stuff = None
+
+
 def print_results(task):
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
@@ -281,7 +282,7 @@ def main():
     # run The Norn to validate BGP peers
     nr.run(task=validate_peer)
     # run The Norn to build route maps
-    nr.run(task=route_map)
+    nr.run(task=route_map_logic)
     # run The Norn to print results
     nr.run(task=print_results)
     print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
