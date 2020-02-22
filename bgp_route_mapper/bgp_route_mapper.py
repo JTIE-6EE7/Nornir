@@ -177,7 +177,7 @@ def route_map_logic(task):
 
     print(task.host['new_config'])
                 
-    print(f"{task.host}: route-map creation complete")
+    print(f"{task.host}: new config creation complete")
 
 
 def as_path_acl(as_path_acls):
@@ -244,16 +244,16 @@ def update_route_map(
              neighbor { peer_ip } route-map COMMUNITY_OUT out
             """)
     else:
-        route_map_config = ""
-
+        
         for map in route_maps:
-            #pp(map)
-            if map['name'] == route_map_out and map['action'] == "permit":
-                pp(map)
-                print("MATCH")
-                #map['match_clauses'] == [f'as-path (as-path filter): {as_path_acl_id}']:
-
-
+            print(as_path_acl_id)
+            if map['match_clauses'] == [f'as-path (as-path filter): { as_path_acl_id }'] and \
+                map['name'] == route_map_out and map['action'] == "permit":
+                
+                route_map_config = textwrap.dedent(f"""
+                    route-map { route_map_out } permit { map['seq'] }
+                    set community { community }
+                    """)
     
         # TODO update existing route-maps to set communities
 
