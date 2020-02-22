@@ -11,6 +11,7 @@ from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
+from nornir.plugins.tasks.networking import netmiko_send_config
 from ttp import ttp
 
 def get_bgp_config(task):
