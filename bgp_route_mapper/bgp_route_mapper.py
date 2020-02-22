@@ -176,7 +176,7 @@ def route_map_logic(task):
 
     print(task.host['new_config'])
                 
-    #print(f"{task.host}: route-map creation complete")
+    print(f"{task.host}: route-map creation complete")
 
 
 def as_path_acl(as_path_acls):
@@ -221,7 +221,13 @@ def as_path_acl(as_path_acls):
     return as_path_acl_id, as_path_cfg
 
 
-def update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn):
+def update_route_map(
+    as_path_acl_id, 
+    route_map_out, 
+    community, 
+    peer_ip, 
+    asn
+    ):
     
     # create a new route-map if one doesn't exist
     if route_map_out == "NONE":
@@ -238,7 +244,7 @@ def update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn):
     else:
         route_map_config = ""
     
-        # TODO set communities
+        # TODO update existing route-maps to set communities
 
         #else:
         #    pp(task.host['as_path_acl_list'])
@@ -247,8 +253,6 @@ def update_route_map(as_path_acl_id, route_map_out, community, peer_ip, asn):
         #        # match route-map name to neighbor
         #        if  route_map_out == route_map['name']:
         #            print(route_map)
-
-
 
     return route_map_config
 
