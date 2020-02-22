@@ -263,7 +263,6 @@ def apply_configs(task):
 
 
 def print_results(task):
-    print()
     #print(task.host['bgp_config'])
     #print(task.host['route_maps'])
     #print(task.host['as_path_acl'])
@@ -286,6 +285,7 @@ def main():
     # run The Norn to build route maps
     nr.run(task=route_map_logic)
     # run The Norn to print results
+    print()
     nr.run(task=print_results)
     print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
     
