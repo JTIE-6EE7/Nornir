@@ -13,7 +13,6 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_command
 from ttp import ttp
 
-
 def get_bgp_config(task):
         
     # send command to device
@@ -145,18 +144,12 @@ def validate_peer(task):
 
 def route_map(task):
 
-    # init new config string
-    new_config = ""
-
     # set bgp asn and community
     asn = task.host['bgp_config']['router_bgp'][0]['asn']
     community = task.host['community']
 
     # call function to create or referece existing as-path acl
-    as_path_acl_id, as_path_cfg = as_path_acl(task.host['as_path_acl'])
-
-    # update config to be applied
-    new_config = new_config + as_path_cfg
+    as_path_acl_id, new_config = as_path_acl(task.host['as_path_acl'])
 
     # iterate over neighbors to locate route-maps for validated peers
     for neighbor in task.host['bgp_config']['neighbors']:
@@ -165,7 +158,7 @@ def route_map(task):
         if 'route_map_out' not in neighbor:
             neighbor['route_map_out'] = 'NONE'
 
-        # set variables for easier access
+        # set variables from task.host
         peer_ip = neighbor['peer_ip']
         route_map_out = neighbor['route_map_out']
         
@@ -178,8 +171,16 @@ def route_map(task):
                 f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
             )
 
-# --------------
-            
+    # --------------
+
+            """"
+            as_path_acl_id
+            route_map_out
+            community
+            peer_ip
+            asn
+            """
+
             # create a new route-map if one doesn't exist
             if route_map_out == "NONE":
                 print("Create new route-map:")
@@ -209,10 +210,6 @@ def route_map(task):
     print(task.host['new_config'])
                 
 
-    # TODO create or update route-map
-    # TODO set communities
-    # TODO apply new route maps
-    # TODO verify route maps applied
 
 
     #print(f"{task.host}: route-map creation complete")
@@ -258,6 +255,18 @@ def as_path_acl(as_path_acls):
                 """)
     
     return as_path_acl_id, as_path_cfg
+
+
+def x_route_map(vars):
+    # TODO create or update route-map
+    # TODO set communities
+    _stuff = None
+
+
+def apply_config(task):
+    # TODO apply new route maps
+    # TODO verify route maps applied
+    _stuff = None
 
 
 def print_results(task):
