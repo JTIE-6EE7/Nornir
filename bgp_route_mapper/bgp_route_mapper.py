@@ -149,8 +149,8 @@ def route_map_logic(task):
     route_maps = task.host['route_maps']
 
     # create log for each host
-    banner = "~" * 60
-    task.host['peers'] = f"{ banner }"
+    banner = "*" * 60
+    task.host['peers'] = banner
 
     # call function to create or referece existing as-path acl
     as_path_acl_id, new_config = as_path_acl(task.host['as_path_acl_list'])
@@ -168,13 +168,16 @@ def route_map_logic(task):
         
         # validated peer check
         if peer_ip not in task.host['validated_peers']:
+            # record each peer that will be skipped
             task.host['peers'] += f"\n{task.host}: peer {peer_ip} skipped"
 
         else:
+            # record each peer and existing route-map
             task.host['peers'] += f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
-
+            # create or update route-map for each validated peer
             new_config += update_route_map(as_path_acl_id, route_map_out, route_maps, community, peer_ip, asn)
 
+    task.host['peers'] += f"\n{banner}"
     task.host['new_config'] = new_config
 
 
@@ -252,23 +255,28 @@ def update_route_map(
 
 
 def apply_configs(task):
-    # TODO apply new route maps
-    # TODO verify route maps applied
-    _stuff = None
-
-
-def print_results(task):
 
     print(task.host['peers'])
-    print(task.host['new_config'])    
-    print(f"{task.host} complete")
-    
+    print(task.host['new_config'])   
+
+    banner = "#"*60 + "\n" + "#"*60 + "\n"
+    print(f"{banner}****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
+
+    # TODO apply new route maps
+
 #    task.run(
 #        task=files.write_file,
-#        filename=f"output/{task.host}_info.txt",
+#        filename=f"output/{task.host}_route_maps.txt",
 #        content=task.host["info"],
 #        append=True
 #    )
+
+    # TODO verify route maps applied
+
+    #print(f"{task.host} complete")
+
+    # Delete me
+    _stuff = None
 
 
 def main():
@@ -288,7 +296,7 @@ def main():
     nr.run(task=route_map_logic)
     # run The Norn to print results
     print()
-    nr.run(task=print_results)
+    nr.run(task=apply_configs)
     print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
     
 
