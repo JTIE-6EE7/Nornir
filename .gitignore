@@ -10,3 +10,6 @@ reloader/CSR-1_info.txt
 graboid_worm/*.txt
 upgrader/images/c3750-ipbasek9-mz.122-55.SE7.bin
 upgrader/images/c3750-ipbasek9-mz.122-55.SE10.bin
+bgp_route_mapper/output/CSR-1_route_maps.txt
+bgp_route_mapper/output/CSR-2_route_maps.txt
+bgp_route_mapper/output/CSR-3_route_maps.txt

@@ -262,14 +262,19 @@ def apply_configs(task):
     banner = "#"*60 + "\n" + "#"*60 + "\n"
     print(f"{banner}****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
 
+    proceed = input("")
+
+    if proceed.lower() == "yes":
+        print("PROCEED")
+
     # TODO apply new route maps
 
-#    task.run(
-#        task=files.write_file,
-#        filename=f"output/{task.host}_route_maps.txt",
-#        content=task.host["info"],
-#        append=True
-#    )
+        task.run(
+            task=files.write_file,
+            filename=f"output/{task.host}_route_maps.txt",
+            content=task.host["new_config"],
+            append=True
+        )
 
     # TODO verify route maps applied
 
