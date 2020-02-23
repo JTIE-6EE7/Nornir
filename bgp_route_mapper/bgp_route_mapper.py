@@ -148,6 +148,10 @@ def route_map_logic(task):
     community = task.host['community']
     route_maps = task.host['route_maps']
 
+    # create log for each host
+    banner = "~" * 60
+    task.host['peers'] = f"{ banner }"
+
     # call function to create or referece existing as-path acl
     as_path_acl_id, new_config = as_path_acl(task.host['as_path_acl_list'])
 
@@ -164,25 +168,14 @@ def route_map_logic(task):
         
         # validated peer check
         if peer_ip not in task.host['validated_peers']:
-            print(f"\n{task.host}: peer {peer_ip} skipped.")
+            task.host['peers'] += f"\n{task.host}: peer {peer_ip} skipped"
 
         else:
-            print(f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}")
+            task.host['peers'] += f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
 
             new_config += update_route_map(as_path_acl_id, route_map_out, route_maps, community, peer_ip, asn)
 
     task.host['new_config'] = new_config
-
-    print()
-    print("~"*50)
-    print(f"{task.host}: NEW CONFIG BEGIN")
-    print("~"*50)
-
-    print(task.host['new_config'])
-                
-    print("~"*50)
-    print(f"{task.host}: NEW CONFIG END")
-    print("~"*50)
 
 
 def as_path_acl(as_path_acls):
@@ -265,10 +258,17 @@ def apply_configs(task):
 
 
 def print_results(task):
-    #print(task.host['bgp_config'])
-    #print(task.host['route_maps'])
-    #print(task.host['as_path_acl'])
-    print(f"{task.host} all operations complete")
+
+    print(task.host['peers'])
+    print(task.host['new_config'])    
+    print(f"{task.host} complete")
+    
+#    task.run(
+#        task=files.write_file,
+#        filename=f"output/{task.host}_info.txt",
+#        content=task.host["info"],
+#        append=True
+#    )
 
 
 def main():
