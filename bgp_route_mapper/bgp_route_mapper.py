@@ -242,6 +242,7 @@ def update_route_map(
             route-map COMMUNITY_OUT deny 20                    
             router bgp { asn }
              neighbor { peer_ip } route-map COMMUNITY_OUT out
+             neighbor { peer_ip } send-community both
             """)
     else:    
         for map in route_maps:
@@ -250,7 +251,9 @@ def update_route_map(
                 
                 route_map_config = textwrap.dedent(f"""
                     route-map { route_map_out } permit { map['seq'] }
-                    set community { community }
+                     set community { community }
+                    router bgp { asn }             
+                     neighbor { peer_ip } send-community both
                     """)
     
     return route_map_config
