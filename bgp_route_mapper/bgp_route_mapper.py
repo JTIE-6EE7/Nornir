@@ -263,8 +263,7 @@ def apply_configs(task):
     # prompt user to continue before applying configs
     banner = "#"*60 + "\n" + "#"*60
     print(f"{banner}\n****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
-    proceed = "yes"
-    #proceed = input("")
+    proceed = input("")
     if proceed.lower() == "yes":
 
         # push new config to each device
