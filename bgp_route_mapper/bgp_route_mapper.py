@@ -270,13 +270,18 @@ def apply_configs(task):
     # TODO apply new route maps
 
         task.run(
-            task=files.write_file,
-            filename=f"output/{task.host}_route_maps.txt",
-            content=task.host["new_config"],
-            append=True
+            task=netmiko_send_config,
+            config_commands=task.host['new_config'],
         )
 
     # TODO verify route maps applied
+
+#        task.run(
+#            task=files.write_file,
+#            filename=f"output/{task.host}_route_maps.txt",
+#            content=task.host["new_config"],
+#            append=True
+#        )
 
     #print(f"{task.host} complete")
 
