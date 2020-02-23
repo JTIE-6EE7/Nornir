@@ -13,3 +13,4 @@ upgrader/images/c3750-ipbasek9-mz.122-55.SE10.bin
 bgp_route_mapper/output/CSR-1_route_maps.txt
 bgp_route_mapper/output/CSR-2_route_maps.txt
 bgp_route_mapper/output/CSR-3_route_maps.txt
+bgp_route_mapper/output/route_map_logs.txt

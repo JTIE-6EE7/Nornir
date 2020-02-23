@@ -256,37 +256,42 @@ def update_route_map(
 
 def apply_configs(task):
 
+    # print peer status and new configs
     print(task.host['peers'])
     print(task.host['new_config'])   
 
-    banner = "#"*60 + "\n" + "#"*60 + "\n"
-    print(f"{banner}****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
-
-    proceed = input("")
-
+    # prompt user to continue before applying configs
+    banner = "#"*60 + "\n" + "#"*60
+    print(f"{banner}\n****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
+    proceed = "yes"
+    #proceed = input("")
     if proceed.lower() == "yes":
-        print("PROCEED")
 
-    # TODO apply new route maps
-
+        # push new config to each device
         task.run(
             task=netmiko_send_config,
             config_commands=task.host['new_config'],
         )
+        # copy run start
+        task.run(
+            task=netmiko_send_command, 
+            command_string="write memory",
+        )
+        
+        # format and print host completed message
+        complete = f"\n{'*' * 20}\n{task.host} complete\n{'*' * 20}\n"
+        print(complete)
 
-    # TODO verify route maps applied
-
-#        task.run(
-#            task=files.write_file,
-#            filename=f"output/{task.host}_route_maps.txt",
-#            content=task.host["new_config"],
-#            append=True
-#        )
-
-    #print(f"{task.host} complete")
-
-    # Delete me
-    _stuff = None
+        # format log entry to be writter
+        output = task.host["peers"] + task.host["new_config"] + complete
+        
+        # write output to log file
+        task.run(
+            task=files.write_file,
+            filename=f"output/route_map_logs.txt",
+            content=output,
+            append=True
+        )
 
 
 def main():
@@ -305,7 +310,6 @@ def main():
     # run The Norn to build route maps
     nr.run(task=route_map_logic)
     # run The Norn to print results
-    print()
     nr.run(task=apply_configs)
     print(f"\nFailed hosts:\n{nr.data.failed_hosts}\n")
     
