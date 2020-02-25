@@ -10,6 +10,7 @@ from nornir.core.filter import F
 from nornir.plugins.tasks import text, files
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_send_config
+from nornir.plugins.tasks.networking import netmiko_save_config
 from ttp import ttp
 
 def get_bgp_config(task):
@@ -273,12 +274,11 @@ def apply_configs(task):
         )
         # copy run start
         task.run(
-            task=netmiko_send_command, 
-            command_string="write memory",
+            task=netmiko_save_config, 
         )
         
         # format and print host completed message
-        complete = f"\n{'*' * 20}\n{task.host} complete\n{'*' * 20}\n"
+        complete = f"\n{'*' * 40}\n{task.host} COMPELTE\n{'*' * 40}\n"
         print(complete)
 
         # format log entry to be writter
@@ -292,8 +292,20 @@ def apply_configs(task):
             append=True
         )
     else:
-        print(f"\n****** CONFIG NOT APPLIED TO {task.host} ******\n")
+        incomplete = f"\n{'*' * 40}\nCONFIG NOT APPLIED TO {task.host}\n{'*' * 40}\n"
 
+        print(incomplete)
+             # write output to log file
+        
+        output = task.host["peers"] + task.host["new_config"] + incomplete
+
+
+        task.run(
+            task=files.write_file,
+            filename=f"output/route_map_logs.txt",
+            content=output,
+            append=True
+        )
 
 def main():
     # initialize The Norn
