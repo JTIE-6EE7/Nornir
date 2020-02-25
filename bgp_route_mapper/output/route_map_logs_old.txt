@@ -1,0 +1,44 @@
+************************************************************
+CSR-1: peer 11.11.11.11 skipped
+CSR-1: peer 22.22.22.22, route-map: ATT_OUT
+CSR-1: peer 33.33.33.33, route-map: COMMUNITY_OUT
+************************************************************
+route-map ATT_OUT permit 10
+ match as-path 1
+ set community 1234
+router bgp 65000             
+ neighbor 22.22.22.22 send-community both
+
+route-map COMMUNITY_OUT permit 10
+ match as-path 1
+ set community 1234
+router bgp 65000             
+ neighbor 33.33.33.33 send-community both
+
+********************
+CSR-1 complete
+********************
+************************************************************
+CSR-2: peer 222.222.222.222, route-map: COMMUNITY_OUT
+************************************************************
+route-map COMMUNITY_OUT permit 10
+ match as-path 1
+ set community 9090
+router bgp 65000             
+ neighbor 222.222.222.222 send-community both
+
+********************
+CSR-2 complete
+********************
+************************************************************
+CSR-3: peer 101.101.101.101, route-map: VERIZON_OUT
+************************************************************
+route-map VERIZON_OUT permit 10
+ match as-path 1
+ set community 5678
+router bgp 65000             
+ neighbor 101.101.101.101 send-community both
+
+********************
+CSR-3 complete
+********************

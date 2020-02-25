@@ -57,7 +57,7 @@ def get_bgp_config(task):
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
-    print(f"{task.host}: get BGP config complete")
+    #print(f"{task.host}: get BGP config complete")
 
 
 def get_route_maps(task):
@@ -77,7 +77,7 @@ def get_route_maps(task):
     else:
         task.host['route_maps'] = []
 
-    print(f"{task.host}: get route-maps complete")
+    #print(f"{task.host}: get route-maps complete")
 
 
 def get_as_path(task):
@@ -108,7 +108,7 @@ def get_as_path(task):
     # add as-path ACLs output to the Nornir task.host
     task.host['as_path_acl_list'] = as_path
 
-    print(f"{task.host}: get as-path ACLs complete")
+    #print(f"{task.host}: get as-path ACLs complete")
 
 
 def validate_peer(task):
@@ -138,7 +138,7 @@ def validate_peer(task):
             if exclude_peer == False:
                 task.host['validated_peers'].append(str(peer_ip))
     
-    print(f"{task.host}: BGP peer validation complete")
+    #print(f"{task.host}: BGP peer validation complete")
 
 
 def route_map_logic(task):
@@ -243,7 +243,6 @@ def update_route_map(
     else:    
         for map in route_maps:
             if map['name'] == route_map_out and map['action'] == "permit":
-
                 route_map_config = textwrap.dedent(f"""
                     route-map { route_map_out } permit { map['seq'] }
                      match as-path { as_path_acl_id }
@@ -292,6 +291,8 @@ def apply_configs(task):
             content=output,
             append=True
         )
+    else:
+        print(f"\n****** CONFIG NOT APPLIED TO {task.host} ******\n")
 
 
 def main():
