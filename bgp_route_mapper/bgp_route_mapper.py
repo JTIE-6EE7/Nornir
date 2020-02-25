@@ -57,7 +57,7 @@ def get_bgp_config(task):
     # add bgp output to the Nornir task.host
     task.host['bgp_config'] = bgp_config[0]
 
-    #print(f"{task.host}: get BGP config complete")
+    print(f"{task.host}: get BGP config complete")
 
 
 def get_route_maps(task):
@@ -77,7 +77,7 @@ def get_route_maps(task):
     else:
         task.host['route_maps'] = []
 
-    #print(f"{task.host}: get route-maps complete")
+    print(f"{task.host}: get route-maps complete")
 
 
 def get_as_path(task):
@@ -108,7 +108,7 @@ def get_as_path(task):
     # add as-path ACLs output to the Nornir task.host
     task.host['as_path_acl_list'] = as_path
 
-    #print(f"{task.host}: get as-path ACLs complete")
+    print(f"{task.host}: get as-path ACLs complete")
 
 
 def validate_peer(task):
@@ -138,7 +138,7 @@ def validate_peer(task):
             if exclude_peer == False:
                 task.host['validated_peers'].append(str(peer_ip))
     
-    #print(f"{task.host}: BGP peer validation complete")
+    print(f"{task.host}: BGP peer validation complete")
 
 
 def route_map_logic(task):
@@ -170,7 +170,7 @@ def route_map_logic(task):
         if peer_ip not in task.host['validated_peers']:
             # record each peer that will be skipped
             task.host['peers'] += f"\n{task.host}: peer {peer_ip} skipped"
-
+        
         else:
             # record each peer and existing route-map
             task.host['peers'] += f"\n{task.host}: peer {peer_ip}, route-map: {route_map_out}"
@@ -227,7 +227,8 @@ def update_route_map(
     peer_ip, 
     asn
     ):
-    
+
+
     # create a new route-map if one doesn't exist
     if route_map_out == "NONE":
         route_map_config = textwrap.dedent(f"""
@@ -241,18 +242,18 @@ def update_route_map(
             """)
     else:    
         for map in route_maps:
-            if map['match_clauses'] == [f'as-path (as-path filter): { as_path_acl_id }'] and \
-                map['name'] == route_map_out and map['action'] == "permit":
-                
+            if map['name'] == route_map_out and map['action'] == "permit":
+
                 route_map_config = textwrap.dedent(f"""
                     route-map { route_map_out } permit { map['seq'] }
+                     match as-path { as_path_acl_id }
                      set community { community }
                     router bgp { asn }             
                      neighbor { peer_ip } send-community both
                     """)
     
     return route_map_config
-
+    
 
 def apply_configs(task):
 
