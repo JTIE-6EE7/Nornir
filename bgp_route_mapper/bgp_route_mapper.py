@@ -307,6 +307,7 @@ def apply_configs(task):
             append=True
         )
 
+
 def main():
     # initialize The Norn
     nr = InitNornir(config_file="config.yaml")
