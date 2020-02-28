@@ -11,9 +11,31 @@ from nornir.plugins.tasks.networking import netmiko_send_config
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_file_transfer
 
-# TODO determin switch model
+# Check determine switch model
 def check_model(task):
-    _model = None
+    
+    # run "show version" on each host
+    sh_version = task.run(
+        task=netmiko_send_command,
+        command_string="show version",
+        use_textfsm=True,
+    )
+
+    # save output to task.host
+    task.host['sh_version'] = sh_version.result
+
+    # pull model from show version
+    model = task.host['sh_version'][0]['hardware'][0]
+
+    # if/else to set model task.host variable
+    if  "C3650" in model:
+        task.host['model'] =  "C3650"
+    elif  "C3750V2" in model:
+        task.host['model'] =  "C3750V2"
+    elif  "C3750X" in model:
+        task.host['model'] =  "C3750X"
+    else:
+        task.host['model'] =  "UNKNOWN"
 
 
 # Check "show version" for current software
@@ -21,13 +43,6 @@ def check_ver(task):
 
     # upgraded image to be used
     img_file = task.host['upgrade_img']
-
-    # run "show version" on each host
-    version = task.run(
-        task=netmiko_send_command,
-        command_string="show version",
-        use_textfsm=True,
-    )
 
     # record current software version
     current = version.result[0]['running_image']
@@ -167,55 +182,9 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-"""
 
-ISE_9300
-[{'config_register': '0x102',
-  'hardware': ['C9300-24P'],
-  'hostname': 'ISE_9300',
-  'mac': ['08:4f:f9:c2:37:00'],
-  'reload_reason': 'Reload Command',
-  'rommon': 'IOS-XE',
-  'running_image': 'packages.conf',
-  'serial': ['FJC2329T0JM'],
-  'uptime': '21 weeks, 2 days, 19 hours, 57 minutes',
-  'version': '16.9.4'}]
 
-ISE_3650
-[{'config_register': '0x102',
-  'hardware': ['WS-C3650-48PD'],
-  'hostname': 'ISE_3650',
-  'mac': ['38:90:a5:67:5f:00'],
-  'reload_reason': 'Reload Command',
-  'rommon': 'IOS-XE',
-  'running_image': 'packages.conf',
-  'serial': ['FDO2129Q2N8'],
-  'uptime': '4 weeks, 5 days, 23 hours, 14 minutes',
-  'version': '16.9.4'}]
-
-ISE_3750
-[{'config_register': '0xF',
-  'hardware': ['WS-C3750V2-24PS'],
-  'hostname': 'ISE_3750',
-  'mac': ['B4:A4:E3:DE:FB:80'],
-  'reload_reason': 'power-on',
-  'rommon': 'Bootstrap',
-  'running_image': 'c3750-ipbasek9-mz.122-55.SE12.bin',
-  'serial': ['FDO1436V27C'],
-  'uptime': '1 week, 2 days, 20 hours, 37 minutes',
-  'version': '12.2(55)SE12'}]
-
-ISE_3750X
-[{'config_register': '0xF',
-  'hardware': ['WS-C3750X-24'],
-  'hostname': 'ISE_3750X',
-  'mac': ['F8:72:EA:A5:47:00'],
-  'reload_reason': 'Reload command',
-  'rommon': 'Bootstrap',
-  'running_image': 'c3750e-universalk9-mz.152-4.E8.bin',
-  'serial': ['FDO1720H3EZ'],
-  'uptime': '4 weeks, 6 days, 19 hours, 27 minutes',
-  'version': '15.2(4)E8'}]
-
-"""
+def ver_output():
+    _output = """
+s
+    """
