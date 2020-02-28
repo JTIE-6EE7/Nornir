@@ -11,6 +11,11 @@ from nornir.plugins.tasks.networking import netmiko_send_config
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_file_transfer
 
+# TODO determin switch model
+def check_model(task):
+    _model = None
+
+
 # Check "show version" for current software
 def check_ver(task):
 
@@ -36,6 +41,7 @@ def check_ver(task):
         print(f"\n{task.host} is running {current} and must be upgraded.")
         # set host upgrade flag to True
         task.host['upgrade'] = True
+
 
 # Copy IOS file to device
 def file_copy(task):
@@ -88,7 +94,8 @@ def file_copy(task):
 
                 # print message when complete
                 print(f"{task.host} flash copy to switch {sw['switch']} in progress.")
-      
+
+
 # Set switch bootvar
 def set_boot(task):
 
@@ -107,6 +114,7 @@ def set_boot(task):
         # print message if successful
         if upgrade.failed == False:
             print(f"{task.host} bootvar has been set.")
+
 
 # Reload switches
 def reload_sw(task):
@@ -138,25 +146,23 @@ def reload_sw(task):
 
         print_result(reload)
    
+
 def main():
 
     # initialize The Norn
     nr = InitNornir()
-    
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
-
+    # run The Norn model check
+    nr.run(task=check_model)
     # run The Norn version check
-    nr.run(task=check_ver)
-
+    #nr.run(task=check_ver)
     # run The Norn file copy
-    nr.run(task=file_copy)
-
+    #nr.run(task=file_copy)
     # run The Norn set boot
-    nr.run(task=set_boot)
-
+    #nr.run(task=set_boot)
     # run The Norn reload
-    nr.run(task=reload_sw)
+    #nr.run(task=reload_sw)
 
 
 if __name__ == "__main__":
