@@ -235,7 +235,7 @@ def update_route_map(
         route_map_config = textwrap.dedent(f"""
             route-map COMMUNITY_OUT permit 10
              match as-path { as_path_acl_id }
-             set community { community }
+             set community { community } additive
             route-map COMMUNITY_OUT deny 20                    
             router bgp { asn }
              neighbor { peer_ip } route-map COMMUNITY_OUT out
@@ -247,7 +247,7 @@ def update_route_map(
                 route_map_config = textwrap.dedent(f"""
                     route-map { route_map_out } permit { map['seq'] }
                      match as-path { as_path_acl_id }
-                     set community { community }
+                     set community { community } additive
                     router bgp { asn }             
                      neighbor { peer_ip } send-community both
                     """)
@@ -264,7 +264,8 @@ def apply_configs(task):
     # prompt user to continue before applying configs
     banner = "#"*60 + "\n" + "#"*60
     print(f"{banner}\n****** PROCEED WITH APPLYING ABOVE CONFIG? (YES \ NO) ******\n{banner}")
-    proceed = input("")
+    proceed = "n"
+    #proceed = input("")
     if proceed.lower() == "yes":
 
         # push new config to each device
