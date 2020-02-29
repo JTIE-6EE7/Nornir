@@ -10,10 +10,11 @@ from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_config
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_file_transfer
+from pprint import pprint as pp
 
-# Check determine switch model
-def check_model(task):
-    
+# Run commands on each switch
+def run_commands(task):
+
     # run "show version" on each host
     sh_version = task.run(
         task=netmiko_send_command,
@@ -21,10 +22,49 @@ def check_model(task):
         use_textfsm=True,
     )
 
+    # run "show switch detail" on each host
+    sh_switch = task.run(
+        task=netmiko_send_command,
+        command_string="show switch detail",
+        use_textfsm=True,
+    )
+
     # save show version output to task.host
     task.host['sh_version'] = sh_version.result[0]
     # pull version from show version
     task.host['current_version'] = task.host['sh_version']['version']
+    # save show switch detail output to task.host
+    task.host['sh_switch'] = sh_switch.result
+    # init and build list of switches in stack
+    task.host['switches'] = []
+    for sw in sh_switch.result:
+        task.host['switches'].append(sw['switch'])
+
+
+# Check "show version" for current software
+def check_ver(task):
+
+    # upgraded image to be used
+    desired = task.host['upgrade_version']
+    # record current software version
+    current = task.host['current_version']
+
+    # compare current with desired version
+    if current == desired:
+        print(f"\n{task.host} is running {current} and does not need to be upgraded.")
+        # set host upgrade flag to False
+        task.host['upgrade'] = False
+    else:
+        print(f"\n{task.host} is running {current} and must be upgraded.")
+        # set host upgrade flag to True
+        task.host['upgrade'] = True
+
+
+# Stack upgrader
+def stack_upgrader(task):
+    
+    # check software version
+    check_ver(task)
     # pull model from show version
     sw_model = task.host['sh_version']['hardware'][0]
     # list of possible switch models
@@ -33,7 +73,7 @@ def check_model(task):
     # iterate over model list
     for model in models:
         # compare model to sh ver
-        if model in sw_model:
+        if model in sw_model and task.host['upgrade'] == True:
             # set model in task.host
             task.host['model'] = model
             # run function to upgrade
@@ -45,25 +85,7 @@ def upgrade_sw(task, model):
     print(task.host['upgrade_version'])
     print(task.host['current_version'])
 
-
-# Check "show version" for current software
-def check_ver(task):
-
-    # upgraded image to be used
-    img_file = task.host['upgrade_img']
-
-    # record current software version
-    current = version.result[0]['running_image']
-
-    # compare current with desired version
-    if current == f"/{img_file}":
-        print(f"\n{task.host} is running {current} and doe not need to be upgraded")
-        # set host upgrade flag to False
-        task.host['upgrade'] = False
-    else:
-        print(f"\n{task.host} is running {current} and must be upgraded.")
-        # set host upgrade flag to True
-        task.host['upgrade'] = True
+    
 
 
 # Copy IOS file to device
@@ -176,8 +198,10 @@ def main():
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
+    # run The Norn run commands
+    nr.run(task=run_commands)
     # run The Norn model check
-    nr.run(task=check_model)
+    nr.run(task=stack_upgrader)
     # run The Norn version check
     #nr.run(task=check_ver)
     # run The Norn file copy
@@ -186,6 +210,8 @@ def main():
     #nr.run(task=set_boot)
     # run The Norn reload
     #nr.run(task=reload_sw)
+
+    print(nr.data.failed_hosts)
 
 
 def ver_output():

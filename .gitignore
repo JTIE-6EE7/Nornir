@@ -14,3 +14,4 @@ bgp_route_mapper/output/CSR-1_route_maps.txt
 bgp_route_mapper/output/CSR-2_route_maps.txt
 bgp_route_mapper/output/CSR-3_route_maps.txt
 bgp_route_mapper/output/route_map_logs.txt
+stack_upgrader/images/c3750-ipservicesk9-mz.122-55.SE12.bin

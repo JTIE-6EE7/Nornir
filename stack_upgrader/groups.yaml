@@ -4,5 +4,5 @@ cat3750v2:
   port: 22
   data:
     upgrade_version: '12.2(55)SE12'
-    upgrade_img: 'c3750-ipbasek9-mz.122-55.SE12.bin'
+    upgrade_img: 'c3750-ipservicesk9-tar.122-55.SE12.tar'
     backup_img: 'c3750-ipbasek9-mz.122-55.SE7.bin'
