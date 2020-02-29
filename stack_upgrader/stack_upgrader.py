@@ -21,21 +21,29 @@ def check_model(task):
         use_textfsm=True,
     )
 
-    # save output to task.host
-    task.host['sh_version'] = sh_version.result
-
+    # save show version output to task.host
+    task.host['sh_version'] = sh_version.result[0]
+    # pull version from show version
+    task.host['current_version'] = task.host['sh_version']['version']
     # pull model from show version
-    model = task.host['sh_version'][0]['hardware'][0]
+    sw_model = task.host['sh_version']['hardware'][0]
+    # list of possible switch models
+    models = ['C3650', 'C3750V2', 'C3750X']
 
-    # if/else to set model task.host variable
-    if  "C3650" in model:
-        task.host['model'] =  "C3650"
-    elif  "C3750V2" in model:
-        task.host['model'] =  "C3750V2"
-    elif  "C3750X" in model:
-        task.host['model'] =  "C3750X"
-    else:
-        task.host['model'] =  "UNKNOWN"
+    # iterate over model list
+    for model in models:
+        # compare model to sh ver
+        if model in sw_model:
+            # set model in task.host
+            task.host['model'] = model
+            # run function to upgrade
+            upgrade_sw(task,model)
+            
+
+def upgrade_sw(task, model):
+    print(task.host['model'])
+    print(task.host['upgrade_version'])
+    print(task.host['current_version'])
 
 
 # Check "show version" for current software
@@ -180,11 +188,47 @@ def main():
     #nr.run(task=reload_sw)
 
 
-if __name__ == "__main__":
-    main()
-
-
 def ver_output():
     _output = """
-s
+
+    ISE_3650
+    [{'config_register': '0x102',
+    'hardware': ['WS-C3650-48PD'],
+    'hostname': 'ISE_3650',
+    'mac': ['38:90:a5:67:5f:00'],
+    'reload_reason': 'Reload Command',
+    'rommon': 'IOS-XE',
+    'running_image': 'packages.conf',
+    'serial': ['FDO2129Q2N8'],
+    'uptime': '4 weeks, 5 days, 23 hours, 14 minutes',
+    'version': '16.9.4'}]
+
+    ISE_3750
+    [{'config_register': '0xF',
+    'hardware': ['WS-C3750V2-24PS'],
+    'hostname': 'ISE_3750',
+    'mac': ['B4:A4:E3:DE:FB:80'],
+    'reload_reason': 'power-on',
+    'rommon': 'Bootstrap',
+    'running_image': 'c3750-ipbasek9-mz.122-55.SE12.bin',
+    'serial': ['FDO1436V27C'],
+    'uptime': '1 week, 2 days, 20 hours, 37 minutes',
+    'version': '12.2(55)SE12'}]
+
+    ISE_3750X
+    [{'config_register': '0xF',
+    'hardware': ['WS-C3750X-24'],
+    'hostname': 'ISE_3750X',
+    'mac': ['F8:72:EA:A5:47:00'],
+    'reload_reason': 'Reload command',
+    'rommon': 'Bootstrap',
+    'running_image': 'c3750e-universalk9-mz.152-4.E8.bin',
+    'serial': ['FDO1720H3EZ'],
+    'uptime': '4 weeks, 6 days, 19 hours, 27 minutes',
+    'version': '15.2(4)E8'}]
+
     """
+
+
+if __name__ == "__main__":
+    main()
