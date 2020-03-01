@@ -64,33 +64,37 @@ def check_ver(task):
 # Copy IOS file to device
 def file_copy(task):
     print(f'{task.host}: beginning file transfer.')
-    # upgraded image to be used
-    img_file = task.host['upgrade_img']
 
     # transfer image file to switch
     transfer = task.run(
         task=netmiko_file_transfer,
-        source_file=f"images/{img_file}",
-        dest_file=img_file,
+        source_file=f"images/{task.host['upgrade_img']}",
+        dest_file=task.host['upgrade_img'],
         direction='put',
     )
 
-    # verify md5 hash of new file
-    verify_file = task.run(
-        task=netmiko_send_command,
-        command_string=f"verify /md5 flash:/{img_file}"
-    )
-    # strip md5 hash from verify output
-    md5 = [x.strip() for x in verify_file.result.split("=")]
-    task.host['md5_verified'] = md5[1] == task.host['md5']
-    print(f"{task.host}: {md5[1]} verified = {task.host['md5_verified']}")
-    
+    # verify image checksum
+    verify_image(task)
+
     # print message if transfer successful
     if transfer.result == True:
         print(f"{task.host}: IOS image file has been transferred.")
     # print message if transfer fails
     elif transfer.result == False:
         print(f"{task.host}: IOS image file transfer has failed.")
+
+
+def verify_image(task):
+    # verify md5 hash of new file
+    verify_file = task.run(
+        task=netmiko_send_command,
+        command_string=f"verify /md5 flash:/{task.host['upgrade_img']}"
+    )
+    # strip md5 hash from verify output
+    md5 = [x.strip() for x in verify_file.result.split("=")]
+    task.host['md5_verified'] = md5[1] == task.host['md5']
+    print(f"{task.host}: {md5[1]} verified = {task.host['md5_verified']}")
+    
 
 
 # Stack upgrader main function
@@ -117,18 +121,14 @@ def stack_upgrader(task):
 def upgrade_3750v2():
     print("3750v2 upgrade function goes here.")
 
-def upgrade_3650():
-    print("3650 upgrade function goes here.")
     
 def upgrade_3750x():
     print("3750x upgrade function goes here.")
             
 
-def upgrade_sw(task, model):
-    print(task.host['model'])
-    print(task.host['upgrade_version'])
-    print(task.host['current_version'])
-
+def upgrade_3650():
+    print("3650 upgrade function goes here.")
+    
 
 # Set switch bootvar
 def set_boot(task):
