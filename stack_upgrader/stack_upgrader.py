@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 
 '''
-This script is used to upgrade software on Cisco switch stacks.
+This script is used to upgrade software on Cisco Catalyst switch stacks.
 '''
 
 from nornir import InitNornir
@@ -12,9 +12,9 @@ from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_file_transfer
 from pprint import pprint as pp
 
-# Run commands on each switch
+# Run show commands on each switch
 def run_commands(task):
-
+    print(f'{task.host}: running show comands.')
     # run "show version" on each host
     sh_version = task.run(
         task=netmiko_send_command,
@@ -35,13 +35,14 @@ def run_commands(task):
     task.host['current_version'] = task.host['sh_version']['version']
     # save show switch detail output to task.host
     task.host['sh_switch'] = sh_switch.result
-    # init and build list of switches in stack
+    # init and build list of active switches in stack
     task.host['switches'] = []
     for sw in sh_switch.result:
-        task.host['switches'].append(sw['switch'])
+        if sw['state'] == 'Ready':
+            task.host['switches'].append(sw['switch'])
 
 
-# Check "show version" for current software
+# Compare current and desired software version
 def check_ver(task):
 
     # upgraded image to be used
@@ -60,7 +61,30 @@ def check_ver(task):
         task.host['upgrade'] = True
 
 
-# Stack upgrader
+# Copy IOS file to device
+def file_copy(task):
+    print(f'{task.host}: beginning file transfer.')
+    # upgraded image to be used
+    img_file = task.host['upgrade_img']
+
+    # transfer image file to switch
+    transfer = task.run(
+        task=netmiko_file_transfer,
+        source_file=f"images/{img_file}",
+        dest_file=img_file,
+        direction='put',
+    )
+
+    # print message if transfer successful
+    if transfer.result == True:
+        print(f"{task.host}: IOS image file has been transferred.")
+
+    # print message if transfer fails
+    elif transfer.result == False:
+        print(f"{task.host}: IOS image file transfer has failed.")
+
+
+# Stack upgrader main function
 def stack_upgrader(task):
     
     # check software version
@@ -76,6 +100,8 @@ def stack_upgrader(task):
         if model in sw_model and task.host['upgrade'] == True:
             # set model in task.host
             task.host['model'] = model
+            # copy file to switch
+            file_copy(task)
             # run function to upgrade
             upgrade_sw(task,model)
             
@@ -88,57 +114,6 @@ def upgrade_sw(task, model):
     
 
 
-# Copy IOS file to device
-def file_copy(task):
-
-    # Check if upgraded needed
-    if task.host['upgrade'] == True:
-            
-        # upgraded image to be used
-        img_file = task.host['upgrade_img']
-
-        # transfer image file to switch
-        transfer = task.run(
-            task=netmiko_file_transfer,
-            source_file=f"images/{img_file}",
-            dest_file=img_file,
-            direction='put',
-        )
-
-        # print message if transfer successful
-        if transfer.result == True:
-            print(f"{task.host} IOS image file has been transferred.")
-
-        # print message if transfer fails
-        elif transfer.result == False:
-            print(f"{task.host} IOS image file transfer has failed.")
-
-        # check switch stack information
-        switch_stack = task.run(
-            task=netmiko_send_command,
-            command_string="show switch detail",
-            use_textfsm=True,
-        )
-
-        # if more than 1 switch, copy software to other switches
-        for sw in switch_stack.result:
-            if sw['switch'] > "1":
-                # file copy
-                copy = task.run(
-                    task=netmiko_send_command,
-                    use_timing=True,
-                    command_string=f"copy flash:/{img_file} flash{sw['switch']}:/test{img_file}",
-                )
-                # confirm switch responses
-                while 'confirm' in copy.result or 'Destination' in copy.result:
-                    copy = task.run(
-                        task=netmiko_send_command,
-                        use_timing=True,
-                        command_string="",
-                    )
-
-                # print message when complete
-                print(f"{task.host} flash copy to switch {sw['switch']} in progress.")
 
 
 # Set switch bootvar
@@ -165,7 +140,11 @@ def set_boot(task):
 def reload_sw(task):
 
     confirm = "YES"
-    #confirm = input("All switches are ready for reload.\nProceed with reloading all selected switches?\nType 'YES' to continue:\n")
+    """
+    #confirm = input("All switches are ready for reload.\n
+    # Proceed with reloading all selected switches?\n
+    # Type 'YES' to continue:\n")
+    """
     if confirm == "YES":
         print("\n*** RELOADING ALL SELECTED SWITCHES ***\n")
 
