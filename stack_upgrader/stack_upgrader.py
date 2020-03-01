@@ -52,11 +52,11 @@ def check_ver(task):
 
     # compare current with desired version
     if current == desired:
-        print(f"\n{task.host} is running {current} and does not need to be upgraded.")
+        print(f"{task.host}: running {current} - upgrade NOT needed.")
         # set host upgrade flag to False
         task.host['upgrade'] = False
     else:
-        print(f"\n{task.host} is running {current} and must be upgraded.")
+        print(f"{task.host}: running {current} - must be upgraded.")
         # set host upgrade flag to True
         task.host['upgrade'] = True
 
@@ -75,10 +75,19 @@ def file_copy(task):
         direction='put',
     )
 
+    # verify md5 hash of new file
+    verify_file = task.run(
+        task=netmiko_send_command,
+        command_string=f"verify /md5 flash:/{img_file}"
+    )
+    # strip md5 hash from verify output
+    md5 = [x.strip() for x in verify_file.result.split("=")]
+    verified = md5[1] == task.host['md5']
+    print(verified)
+    
     # print message if transfer successful
     if transfer.result == True:
         print(f"{task.host}: IOS image file has been transferred.")
-
     # print message if transfer fails
     elif transfer.result == False:
         print(f"{task.host}: IOS image file transfer has failed.")
@@ -86,7 +95,6 @@ def file_copy(task):
 
 # Stack upgrader main function
 def stack_upgrader(task):
-    
     # check software version
     check_ver(task)
     # pull model from show version
