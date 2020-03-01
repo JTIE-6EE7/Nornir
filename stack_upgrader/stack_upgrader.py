@@ -204,7 +204,7 @@ def main():
     # run The Norn reload
     #nr.run(task=reload_sw)
 
-    print(nr.data.failed_hosts)
+    print(f"Failed hosts: {nr.data.failed_hosts}")
 
 
 def ver_output():
