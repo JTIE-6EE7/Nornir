@@ -52,11 +52,11 @@ def check_ver(task):
 
     # compare current with desired version
     if current == desired:
-        print(f"{task.host}: running {current} - upgrade NOT needed.")
+        print(f"{task.host}: running {current} *** upgrade NOT needed ***")
         # set host upgrade flag to False
         task.host['upgrade'] = False
     else:
-        print(f"{task.host}: running {current} - must be upgraded.")
+        print(f"{task.host}: running {current} *** must be upgraded ***")
         # set host upgrade flag to True
         task.host['upgrade'] = True
 
@@ -82,8 +82,8 @@ def file_copy(task):
     )
     # strip md5 hash from verify output
     md5 = [x.strip() for x in verify_file.result.split("=")]
-    verified = md5[1] == task.host['md5']
-    print(verified)
+    task.host['md5_verified'] = md5[1] == task.host['md5']
+    print(f"{task.host}: {md5[1]} verified = {task.host['md5_verified']}")
     
     # print message if transfer successful
     if transfer.result == True:
@@ -111,6 +111,11 @@ def stack_upgrader(task):
             # copy file to switch
             file_copy(task)
             # run function to upgrade
+            # TODO pick function
+
+
+
+
             upgrade_sw(task,model)
             
 
@@ -118,10 +123,6 @@ def upgrade_sw(task, model):
     print(task.host['model'])
     print(task.host['upgrade_version'])
     print(task.host['current_version'])
-
-    
-
-
 
 
 # Set switch bootvar
