@@ -98,25 +98,30 @@ def stack_upgrader(task):
     # check software version
     check_ver(task)
     # pull model from show version
-    sw_model = task.host['sh_version']['hardware'][0]
+    sw_model = task.host['sh_version']['hardware'][0].split("-")
+    sw_model = sw_model[1]
     # list of possible switch models
-    models = ['C3650', 'C3750V2', 'C3750X']
+    upgrader = {
+        'C3750V2': upgrade_3750v2,
+        'C3750X': upgrade_3750x,
+        'C3650': upgrade_3650,
+    }
 
-    # iterate over model list
-    for model in models:
-        # compare model to sh ver
-        if model in sw_model and task.host['upgrade'] == True:
-            # set model in task.host
-            task.host['model'] = model
-            # copy file to switch
-            file_copy(task)
-            # run function to upgrade
-            # TODO pick function
-
+    if task.host['upgrade'] == True:
+        # copy file to switch
+        file_copy(task)
+        # run function to upgrade
+        upgrader[sw_model]()
 
 
+def upgrade_3750v2():
+    print("3750v2 upgrade function goes here.")
 
-            upgrade_sw(task,model)
+def upgrade_3650():
+    print("3650 upgrade function goes here.")
+    
+def upgrade_3750x():
+    print("3750x upgrade function goes here.")
             
 
 def upgrade_sw(task, model):
