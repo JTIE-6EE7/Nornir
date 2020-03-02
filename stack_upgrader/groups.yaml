@@ -2,6 +2,9 @@
 cat3750v2:
   platform: cisco_ios
   port: 22
+  connection_options:
+    netmiko:
+      global_delay_factor: 2
   data:
     upgrade_version: '12.2(55)SE12'
     upgrade_img: 'c3750-ipservicesk9-mz.122-55.SE12.bin'

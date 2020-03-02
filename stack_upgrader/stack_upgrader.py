@@ -4,13 +4,18 @@
 This script is used to upgrade software on Cisco Catalyst switch stacks.
 '''
 
+import threading
+import socketserver
+import os, sys, time
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
 from nornir.plugins.tasks.networking import netmiko_send_config
 from nornir.plugins.tasks.networking import netmiko_send_command
 from nornir.plugins.tasks.networking import netmiko_file_transfer
+from http.server import SimpleHTTPRequestHandler
 from pprint import pprint as pp
+
 
 # Run show commands on each switch
 def run_commands(task):
@@ -61,6 +66,83 @@ def check_ver(task):
         task.host['upgrade'] = True
 
 
+# http server for file transfer
+class ThreadedHTTPServer(object):
+    handler = SimpleHTTPRequestHandler
+    def __init__(self, host, port):
+        self.server = socketserver.TCPServer((host, port), self.handler)
+        self.server_thread = threading.Thread(target=self.server.serve_forever)
+        self.server_thread.daemon = True
+
+    def start(self):
+        self.server_thread.start()
+
+    def stop(self):
+        self.server.shutdown()
+        self.server.server_close()
+
+
+# Stack upgrader main function
+def stack_upgrader(task):
+    # check software version
+    check_ver(task)
+    # pull model from show version
+    sw_model = task.host['sh_version']['hardware'][0].split("-")
+    sw_model = sw_model[1]
+    # list of possible switch models
+    upgrader = {
+        'C3750V2': upgrade_3750v2,
+        'C3750X': upgrade_3750x,
+        'C3650': upgrade_3650,
+    }
+
+    if task.host['upgrade'] == True:
+        # copy file to switch
+        #file_copy(task)
+        # run function to upgrade
+        upgrader[sw_model](task)
+
+
+def upgrade_3750v2(task):
+    print("3750v2 upgrade function goes here.")
+    cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
+        http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
+    """
+    archive download-sw /imageonly /allow-feature-upgrade /safe http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar
+        """
+
+    # Start the threaded server
+    os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
+
+    server = ThreadedHTTPServer("172.20.58.106", 8000)
+    server.start()
+
+    #time.sleep(30)
+
+    # run upgrade command on switch stack
+    upgrade_sw = task.run(
+        task=netmiko_send_command,
+        use_timing=True,
+        command_string=cmd,
+    )
+
+
+    # Close the server
+    server.stop()
+
+    print(upgrade_sw.result)
+
+
+    
+def upgrade_3750x():
+    print("3750x upgrade function goes here.")
+            
+
+def upgrade_3650():
+    print("3650 upgrade function goes here.")
+    
+
+
 # Copy IOS file to device
 def file_copy(task):
     print(f'{task.host}: beginning file transfer.')
@@ -94,41 +176,7 @@ def verify_image(task):
     md5 = [x.strip() for x in verify_file.result.split("=")]
     task.host['md5_verified'] = md5[1] == task.host['md5']
     print(f"{task.host}: {md5[1]} verified = {task.host['md5_verified']}")
-    
 
-
-# Stack upgrader main function
-def stack_upgrader(task):
-    # check software version
-    check_ver(task)
-    # pull model from show version
-    sw_model = task.host['sh_version']['hardware'][0].split("-")
-    sw_model = sw_model[1]
-    # list of possible switch models
-    upgrader = {
-        'C3750V2': upgrade_3750v2,
-        'C3750X': upgrade_3750x,
-        'C3650': upgrade_3650,
-    }
-
-    if task.host['upgrade'] == True:
-        # copy file to switch
-        file_copy(task)
-        # run function to upgrade
-        upgrader[sw_model]()
-
-
-def upgrade_3750v2():
-    print("3750v2 upgrade function goes here.")
-
-    
-def upgrade_3750x():
-    print("3750x upgrade function goes here.")
-            
-
-def upgrade_3650():
-    print("3650 upgrade function goes here.")
-    
 
 # Set switch bootvar
 def set_boot(task):
