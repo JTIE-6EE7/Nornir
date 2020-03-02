@@ -114,7 +114,7 @@ def upgrade_3750v2(task):
     # Start the threaded server
     os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
 
-    server = ThreadedHTTPServer("172.20.58.106", 8000)
+    server = ThreadedHTTPServer("172.20.58.101", 8000)
     server.start()
 
     #time.sleep(30)
