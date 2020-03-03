@@ -6,7 +6,7 @@ This script is used to upgrade software on Cisco Catalyst switch stacks.
 
 import threading
 import socketserver
-import os, sys, time
+import os, sys, time, socket
 from nornir import InitNornir
 from nornir.core.filter import F
 from nornir.plugins.functions.text import print_result
@@ -96,28 +96,19 @@ def stack_upgrader(task):
         'C3650': upgrade_3650,
     }
 
-    # Start the threaded server
-    os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
-    
-    print("Start HTTP server")
-    server = ThreadedHTTPServer("172.20.58.106", 8000)
-    server.start()
-
+  
     if task.host['upgrade'] == True:
         # copy file to switch
         #file_copy(task)
         # run function to upgrade
         upgrader[sw_model](task)
 
-    # Close the server
-    server.stop()
-    print("Stop HTTP server")
 
 
 def upgrade_3750v2(task):
     print("3750v2 upgrade function goes here.")
     cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
+        http://172.20.58.101:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
@@ -229,11 +220,24 @@ def reload_sw(task):
    
 
 def main():
-
+  
     # initialize The Norn
     nr = InitNornir()
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
+    
+    
+    hostname = socket.gethostname()    
+    ip_addr = socket.gethostbyname(hostname)  
+    
+    # Start the threaded server
+    os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
+    
+    print("Start HTTP server")
+    server = ThreadedHTTPServer(ip_addr, 8000)
+    server.start()
+
+
     # run The Norn run commands
     nr.run(task=run_commands)
     # run The Norn model check
@@ -248,6 +252,11 @@ def main():
     #nr.run(task=reload_sw)
 
     print(f"Failed hosts: {nr.data.failed_hosts}")
+
+    # Close the server
+    server.stop()
+    print("Stop HTTP server")
+
 
 
 def ver_output():
