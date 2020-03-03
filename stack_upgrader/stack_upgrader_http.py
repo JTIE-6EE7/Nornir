@@ -96,28 +96,27 @@ def stack_upgrader(task):
         'C3650': upgrade_3650,
     }
 
+    # Start the threaded server
+    os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
+    
+    print("Start HTTP server")
+    server = ThreadedHTTPServer("172.20.58.101", 8000)
+    server.start()
+
     if task.host['upgrade'] == True:
         # copy file to switch
         #file_copy(task)
         # run function to upgrade
         upgrader[sw_model](task)
 
+    # Close the server
+    server.stop()
+    print("Stop HTTP server")
 
 def upgrade_3750v2(task):
     print("3750v2 upgrade function goes here.")
     cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
-    """
-    archive download-sw /imageonly /allow-feature-upgrade /safe http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar
-        """
-
-    # Start the threaded server
-    os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
-
-    server = ThreadedHTTPServer("172.20.58.101", 8000)
-    server.start()
-
-    #time.sleep(30)
+        http://172.20.58.101:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
@@ -125,10 +124,6 @@ def upgrade_3750v2(task):
         use_timing=True,
         command_string=cmd,
     )
-
-
-    # Close the server
-    server.stop()
 
     print(upgrade_sw.result)
 
