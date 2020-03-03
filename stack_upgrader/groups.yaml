@@ -6,5 +6,3 @@ cat3750v2:
     upgrade_version: '12.2(55)SE12'
     upgrade_img: 'c3750-ipservicesk9-mz.122-55.SE12.bin'
     md5: b28cf0ed5cc0d1928ea4f6656e1c8dde
-
-    

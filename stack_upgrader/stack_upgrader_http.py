@@ -113,6 +113,7 @@ def stack_upgrader(task):
     server.stop()
     print("Stop HTTP server")
 
+
 def upgrade_3750v2(task):
     print("3750v2 upgrade function goes here.")
     cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
@@ -129,7 +130,6 @@ def upgrade_3750v2(task):
     print(upgrade_sw.result)
 
 
-    
 def upgrade_3750x():
     print("3750x upgrade function goes here.")
             
@@ -137,7 +137,6 @@ def upgrade_3750x():
 def upgrade_3650():
     print("3650 upgrade function goes here.")
     
-
 
 # Copy IOS file to device
 def file_copy(task):
