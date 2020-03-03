@@ -100,7 +100,7 @@ def stack_upgrader(task):
     os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
     
     print("Start HTTP server")
-    server = ThreadedHTTPServer("172.20.58.101", 8000)
+    server = ThreadedHTTPServer("172.20.58.106", 8000)
     server.start()
 
     if task.host['upgrade'] == True:
@@ -116,13 +116,14 @@ def stack_upgrader(task):
 def upgrade_3750v2(task):
     print("3750v2 upgrade function goes here.")
     cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://172.20.58.101:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
+        http://172.20.58.106:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
         task=netmiko_send_command,
         use_timing=True,
         command_string=cmd,
+        delay_factor=100
     )
 
     print(upgrade_sw.result)
