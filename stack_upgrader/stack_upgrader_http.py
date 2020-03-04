@@ -83,7 +83,7 @@ class ThreadedHTTPServer(object):
 
 
 # Stack upgrader main function
-def stack_upgrader(task):
+def stack_upgrader(task, svr_ip):
     # check software version
     check_ver(task)
     # pull model from show version
@@ -104,11 +104,11 @@ def stack_upgrader(task):
         upgrader[sw_model](task)
 
 
-
-def upgrade_3750v2(task):
-    print("3750v2 upgrade function goes here.")
-    cmd = "archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://172.20.58.101:8000/c3750-ipservicesk9-tar.122-55.SE12.tar"
+def upgrade_3750v2(task, svr_ip):
+    print(f"{task.host}: Upgraging 3750v2 software.")
+    upgrade_img = task.host['upgrade_img']
+    cmd = f"archive download-sw /imageonly /allow-feature-upgrade /safe \
+        http://{svr_ip}:8000/{upgrade_img}"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
@@ -228,13 +228,13 @@ def main():
     
     
     hostname = socket.gethostname()    
-    ip_addr = socket.gethostbyname(hostname)  
+    svr_ip = socket.gethostbyname(hostname)  
     
     # Start the threaded server
     os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
     
-    print("Start HTTP server")
-    server = ThreadedHTTPServer(ip_addr, 8000)
+    print("Starting HTTP server.")
+    server = ThreadedHTTPServer(svr_ip, 8000)
     server.start()
 
 
@@ -251,11 +251,11 @@ def main():
     # run The Norn reload
     #nr.run(task=reload_sw)
 
-    print(f"Failed hosts: {nr.data.failed_hosts}")
-
     # Close the server
     server.stop()
-    print("Stop HTTP server")
+    print("Stopping HTTP server.")
+
+    print(f"Failed hosts: {nr.data.failed_hosts}")
 
 
 
