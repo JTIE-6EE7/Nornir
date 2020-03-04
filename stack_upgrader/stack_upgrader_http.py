@@ -91,8 +91,8 @@ def stack_upgrader(task):
     sw_model = sw_model[1]
     # list of possible switch models
     upgrader = {
-        'C3750V2': upgrade_3750v2,
-        'C3750X': upgrade_3750x,
+        'C3750V2': upgrade_3750,
+        'C3750X': upgrade_3750,
         'C3650': upgrade_3650,
     }
 
@@ -104,11 +104,11 @@ def stack_upgrader(task):
         upgrader[sw_model](task)
 
 
-def upgrade_3750v2(task):
+def upgrade_3750(task):
     print(f"{task.host}: Upgraging 3750v2 software.")
     upgrade_img = task.host['upgrade_img']
     cmd = f"archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://172.20.58.106:8000/{upgrade_img}"
+        http://172.20.58.101:8000/{upgrade_img}"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
@@ -128,61 +128,6 @@ def upgrade_3750x():
 def upgrade_3650():
     print("3650 upgrade function goes here.")
     
-
-# Copy IOS file to device
-def file_copy(task):
-    print(f'{task.host}: beginning file transfer.')
-
-    # transfer image file to switch
-    transfer = task.run(
-        task=netmiko_file_transfer,
-        source_file=f"images/{task.host['upgrade_img']}",
-        dest_file=task.host['upgrade_img'],
-        direction='put',
-    )
-
-    # verify image checksum
-    verify_image(task)
-
-    # print message if transfer successful
-    if transfer.result == True:
-        print(f"{task.host}: IOS image file has been transferred.")
-    # print message if transfer fails
-    elif transfer.result == False:
-        print(f"{task.host}: IOS image file transfer has failed.")
-
-
-def verify_image(task):
-    # verify md5 hash of new file
-    verify_file = task.run(
-        task=netmiko_send_command,
-        command_string=f"verify /md5 flash:/{task.host['upgrade_img']}"
-    )
-    # strip md5 hash from verify output
-    md5 = [x.strip() for x in verify_file.result.split("=")]
-    task.host['md5_verified'] = md5[1] == task.host['md5']
-    print(f"{task.host}: {md5[1]} verified = {task.host['md5_verified']}")
-
-
-# Set switch bootvar
-def set_boot(task):
-
-    # Check if upgraded needed
-    if task.host['upgrade'] == True:
-
-        # upgraded image to be used
-        img_file = task.host['upgrade_img']
-
-        # set switch bootvar to new image
-        upgrade = task.run(
-            task=netmiko_send_config,
-            config_commands=[f"boot system flash:/{img_file}", "end", "wr mem"]
-        )       
-
-        # print message if successful
-        if upgrade.failed == False:
-            print(f"{task.host} bootvar has been set.")
-
 
 # Reload switches
 def reload_sw(task):
@@ -226,7 +171,7 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     
-    svr_ip = "172.20.58.106"
+    svr_ip = "172.20.58.101"
     # Start the threaded HTTP server
     os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
     
