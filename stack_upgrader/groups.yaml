@@ -1,8 +1,0 @@
----
-cat3750v2:
-  platform: cisco_ios
-  port: 22
-  data:
-    upgrade_version: '12.2(55)SE12'
-    upgrade_img: 'c3750-ipservicesk9-tar.122-55.SE12.tar'
-    md5: b28cf0ed5cc0d1928ea4f6656e1c8dde
