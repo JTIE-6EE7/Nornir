@@ -83,7 +83,7 @@ class ThreadedHTTPServer(object):
 
 
 # Stack upgrader main function
-def stack_upgrader(task, svr_ip):
+def stack_upgrader(task):
     # check software version
     check_ver(task)
     # pull model from show version
@@ -104,11 +104,11 @@ def stack_upgrader(task, svr_ip):
         upgrader[sw_model](task)
 
 
-def upgrade_3750v2(task, svr_ip):
+def upgrade_3750v2(task):
     print(f"{task.host}: Upgraging 3750v2 software.")
     upgrade_img = task.host['upgrade_img']
     cmd = f"archive download-sw /imageonly /allow-feature-upgrade /safe \
-        http://{svr_ip}:8000/{upgrade_img}"
+        http://172.20.58.106:8000/{upgrade_img}"
 
     # run upgrade command on switch stack
     upgrade_sw = task.run(
@@ -226,11 +226,8 @@ def main():
     # filter The Norn
     nr = nr.filter(platform="cisco_ios")
     
-    
-    hostname = socket.gethostname()    
-    svr_ip = socket.gethostbyname(hostname)  
-    
-    # Start the threaded server
+    svr_ip = "172.20.58.106"
+    # Start the threaded HTTP server
     os.chdir("/Users/jt/JTGIT/Nornir/stack_upgrader/images")
     
     print("Starting HTTP server.")
