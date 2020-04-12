@@ -1,0 +1,662 @@
+########################################
+show version : 2019-11-26 15:31:41
+########################################
+
+Cisco Nexus Operating System (NX-OS) Software
+TAC support: http://www.cisco.com/tac
+Documents: http://www.cisco.com/en/US/products/ps9372/tsd_products_support_series_home.html
+Copyright (c) 2002-2019, Cisco Systems, Inc. All rights reserved.
+The copyrights to certain works contained herein are owned by
+other third parties and are used and distributed under license.
+Some parts of this software are covered under the GNU Public
+License. A copy of the license is available at
+http://www.gnu.org/licenses/gpl.html.
+
+Nexus 9000v is a demo version of the Nexus Operating System
+
+Software
+  BIOS: version 
+  NXOS: version 7.0(3)I7(6)
+  BIOS compile time:  
+  NXOS image file is: bootflash:///nxos.7.0.3.I7.6.bin
+  NXOS compile time:  3/5/2019 13:00:00 [03/05/2019 22:04:55]
+
+
+Hardware
+  cisco Nexus9000 9000v Chassis 
+  Intel(R) Xeon(R) CPU E5-2620 v2 @ 2.10GHz with 8134284 kB of memory.
+  Processor Board ID 9APJOX2BG7N
+
+  Device name: Core-1
+  bootflash:    3509454 kB
+Kernel uptime is 20 day(s), 18 hour(s), 24 minute(s), 35 second(s)
+
+Last reset 
+  Reason: Unknown
+  System version: 
+  Service: 
+
+plugin
+  Core Plugin, Ethernet Plugin
+
+Active Package(s):
+        
+########################################
+show run : 2019-11-26 15:31:42
+########################################
+
+
+!Command: show running-config
+!Running configuration last done at: Tue Nov 26 12:17:36 2019
+!Time: Tue Nov 26 16:25:13 2019
+
+version 7.0(3)I7(6) Bios:version  
+hostname Core-1
+vdc Core-1 id 1
+  limit-resource vlan minimum 16 maximum 4094
+  limit-resource vrf minimum 2 maximum 4096
+  limit-resource port-channel minimum 0 maximum 511
+  limit-resource u4route-mem minimum 248 maximum 248
+  limit-resource u6route-mem minimum 96 maximum 96
+  limit-resource m4route-mem minimum 58 maximum 58
+  limit-resource m6route-mem minimum 8 maximum 8
+
+feature nxapi
+
+no password strength-check
+username admin password 5 $5$f2Niyd2K$hU8X5VWdp8uk0KHmim5dYelDguC3RPtRHNyvA5S1Uh/  role network-admin
+ip domain-lookup
+copp profile strict
+snmp-server user admin network-admin auth md5 0x7ce1025062870afe61bf04ecc0df7a63 priv 0x7ce1025062870afe61bf04ecc0df7a63 localizedkey
+rmon event 1 description FATAL(1) owner PMON@FATAL
+rmon event 2 description CRITICAL(2) owner PMON@CRITICAL
+rmon event 3 description ERROR(3) owner PMON@ERROR
+rmon event 4 description WARNING(4) owner PMON@WARNING
+rmon event 5 description INFORMATION(5) owner PMON@INFO
+
+vlan 1,101-103,110,201-203,300,400
+
+vrf context management
+nxapi https port 8443
+
+
+interface Ethernet1/1
+  switchport access vlan 300
+
+interface Ethernet1/2
+  switchport access vlan 300
+
+interface Ethernet1/3
+  switchport access vlan 300
+
+interface Ethernet1/4
+  switchport access vlan 300
+
+interface Ethernet1/5
+  switchport access vlan 300
+
+interface Ethernet1/6
+  switchport access vlan 300
+
+interface Ethernet1/7
+  switchport access vlan 300
+
+interface Ethernet1/8
+  switchport access vlan 300
+
+interface Ethernet1/9
+  switchport access vlan 300
+
+interface Ethernet1/10
+  switchport access vlan 300
+
+interface Ethernet1/11
+  switchport access vlan 300
+
+interface Ethernet1/12
+  switchport access vlan 300
+
+interface Ethernet1/13
+  switchport access vlan 300
+
+interface Ethernet1/14
+  switchport access vlan 300
+
+interface Ethernet1/15
+  switchport access vlan 300
+
+interface Ethernet1/16
+  switchport access vlan 300
+
+interface Ethernet1/17
+  switchport access vlan 300
+
+interface Ethernet1/18
+  switchport access vlan 300
+
+interface Ethernet1/19
+  switchport access vlan 300
+
+interface Ethernet1/20
+  switchport access vlan 300
+
+interface Ethernet1/21
+  switchport access vlan 400
+
+interface Ethernet1/22
+  switchport access vlan 400
+
+interface Ethernet1/23
+  switchport access vlan 400
+
+interface Ethernet1/24
+  switchport access vlan 400
+
+interface Ethernet1/25
+  switchport access vlan 400
+
+interface Ethernet1/26
+  switchport access vlan 400
+
+interface Ethernet1/27
+  switchport access vlan 400
+
+interface Ethernet1/28
+  switchport access vlan 400
+
+interface Ethernet1/29
+  switchport access vlan 400
+
+interface Ethernet1/30
+  switchport access vlan 400
+
+interface Ethernet1/31
+  switchport access vlan 400
+
+interface Ethernet1/32
+  switchport access vlan 400
+
+interface Ethernet1/33
+  switchport access vlan 400
+
+interface Ethernet1/34
+  switchport access vlan 400
+
+interface Ethernet1/35
+  switchport access vlan 400
+
+interface Ethernet1/36
+  switchport access vlan 400
+
+interface Ethernet1/37
+  switchport access vlan 400
+
+interface Ethernet1/38
+  switchport access vlan 400
+
+interface Ethernet1/39
+  switchport access vlan 400
+
+interface Ethernet1/40
+  switchport access vlan 400
+
+interface Ethernet1/41
+  switchport access vlan 700
+
+interface Ethernet1/42
+  switchport access vlan 700
+
+interface Ethernet1/43
+  switchport access vlan 700
+
+interface Ethernet1/44
+  switchport access vlan 700
+
+interface Ethernet1/45
+  switchport access vlan 700
+
+interface Ethernet1/46
+  switchport access vlan 700
+
+interface Ethernet1/47
+  switchport access vlan 700
+
+interface Ethernet1/48
+  switchport access vlan 700
+
+interface Ethernet1/49
+  switchport access vlan 700
+
+interface Ethernet1/50
+  switchport access vlan 700
+
+interface Ethernet1/51
+  switchport access vlan 700
+
+interface Ethernet1/52
+  switchport access vlan 700
+
+interface Ethernet1/53
+  switchport access vlan 700
+
+interface Ethernet1/54
+  switchport access vlan 700
+
+interface Ethernet1/55
+  switchport access vlan 700
+
+interface Ethernet1/56
+  switchport access vlan 700
+
+interface Ethernet1/57
+  switchport access vlan 700
+
+interface Ethernet1/58
+  switchport access vlan 700
+
+interface Ethernet1/59
+  switchport access vlan 700
+
+interface Ethernet1/60
+  switchport access vlan 700
+
+interface Ethernet1/61
+  switchport access vlan 700
+
+interface Ethernet1/62
+  switchport access vlan 700
+
+interface Ethernet1/63
+  switchport access vlan 700
+
+interface Ethernet1/64
+  switchport access vlan 700
+
+interface Ethernet1/65
+  switchport access vlan 700
+
+interface Ethernet1/66
+  switchport access vlan 700
+
+interface Ethernet1/67
+  switchport access vlan 700
+
+interface Ethernet1/68
+  switchport access vlan 700
+
+interface Ethernet1/69
+  switchport access vlan 700
+
+interface Ethernet1/70
+  switchport access vlan 700
+
+interface Ethernet1/71
+  switchport access vlan 700
+
+interface Ethernet1/72
+  switchport access vlan 700
+
+interface Ethernet1/73
+  switchport access vlan 700
+
+interface Ethernet1/74
+  switchport access vlan 700
+
+interface Ethernet1/75
+  switchport access vlan 700
+
+interface Ethernet1/76
+  switchport access vlan 700
+
+interface Ethernet1/77
+  switchport access vlan 700
+
+interface Ethernet1/78
+  switchport access vlan 700
+
+interface Ethernet1/79
+  switchport access vlan 700
+
+interface Ethernet1/80
+  switchport access vlan 700
+
+interface Ethernet1/81
+  switchport access vlan 800
+
+interface Ethernet1/82
+  switchport access vlan 800
+
+interface Ethernet1/83
+  switchport access vlan 800
+
+interface Ethernet1/84
+  switchport access vlan 800
+
+interface Ethernet1/85
+  switchport access vlan 800
+
+interface Ethernet1/86
+  switchport access vlan 800
+
+interface Ethernet1/87
+  switchport access vlan 800
+
+interface Ethernet1/88
+  switchport access vlan 800
+
+interface Ethernet1/89
+  switchport access vlan 800
+
+interface Ethernet1/90
+  switchport access vlan 800
+
+interface Ethernet1/91
+  switchport access vlan 800
+
+interface Ethernet1/92
+  switchport access vlan 800
+
+interface Ethernet1/93
+  switchport access vlan 800
+
+interface Ethernet1/94
+  switchport access vlan 800
+
+interface Ethernet1/95
+  switchport access vlan 800
+
+interface Ethernet1/96
+  switchport access vlan 800
+
+interface Ethernet1/97
+  switchport access vlan 800
+
+interface Ethernet1/98
+  switchport access vlan 800
+
+interface Ethernet1/99
+  switchport access vlan 800
+
+interface Ethernet1/100
+  switchport access vlan 800
+
+interface Ethernet1/101
+
+interface Ethernet1/102
+
+interface Ethernet1/103
+
+interface Ethernet1/104
+
+interface Ethernet1/105
+
+interface Ethernet1/106
+
+interface Ethernet1/107
+
+interface Ethernet1/108
+
+interface Ethernet1/109
+
+interface Ethernet1/110
+
+interface Ethernet1/111
+
+interface Ethernet1/112
+
+interface Ethernet1/113
+
+interface Ethernet1/114
+
+interface Ethernet1/115
+
+interface Ethernet1/116
+
+interface Ethernet1/117
+
+interface Ethernet1/118
+
+interface Ethernet1/119
+
+interface Ethernet1/120
+
+interface Ethernet1/121
+
+interface Ethernet1/122
+
+interface Ethernet1/123
+
+interface Ethernet1/124
+
+interface Ethernet1/125
+
+interface Ethernet1/126
+
+interface Ethernet1/127
+
+interface Ethernet1/128
+
+interface mgmt0
+  vrf member management
+  ip address 172.20.58.61/24
+line console
+  exec-timeout 0
+  terminal width  511
+line vty
+boot nxos bootflash:/nxos.7.0.3.I7.6.bin 
+
+no logging console
+
+
+########################################
+show vlan brief : 2019-11-26 15:31:43
+########################################
+
+
+VLAN Name                             Status    Ports
+---- -------------------------------- --------- -------------------------------
+1    default                          active    Eth1/101, Eth1/102, Eth1/103
+                                                Eth1/104, Eth1/105, Eth1/106
+                                                Eth1/107, Eth1/108, Eth1/109
+                                                Eth1/110, Eth1/111, Eth1/112
+                                                Eth1/113, Eth1/114, Eth1/115
+                                                Eth1/116, Eth1/117, Eth1/118
+                                                Eth1/119, Eth1/120, Eth1/121
+                                                Eth1/122, Eth1/123, Eth1/124
+                                                Eth1/125, Eth1/126, Eth1/127
+                                                Eth1/128
+101  VLAN0101                         active    
+102  VLAN0102                         active    
+103  VLAN0103                         active    
+110  VLAN0110                         active    
+201  VLAN0201                         active    
+202  VLAN0202                         active    
+203  VLAN0203                         active    
+300  VLAN0300                         active    Eth1/1, Eth1/2, Eth1/3, Eth1/4
+                                                Eth1/5, Eth1/6, Eth1/7, Eth1/8
+                                                Eth1/9, Eth1/10, Eth1/11
+                                                Eth1/12, Eth1/13, Eth1/14
+                                                Eth1/15, Eth1/16, Eth1/17
+                                                Eth1/18, Eth1/19, Eth1/20
+400  VLAN0400                         active    Eth1/21, Eth1/22, Eth1/23
+                                                Eth1/24, Eth1/25, Eth1/26
+                                                Eth1/27, Eth1/28, Eth1/29
+                                                Eth1/30, Eth1/31, Eth1/32
+                                                Eth1/33, Eth1/34, Eth1/35
+                                                Eth1/36, Eth1/37, Eth1/38
+                                                Eth1/39, Eth1/40
+
+########################################
+show interface trunk : 2019-11-26 15:31:44
+########################################
+
+
+--------------------------------------------------------------------------------
+Port          Native  Status        Port
+              Vlan                  Channel
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Port          Vlans Allowed on Trunk
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Port          Vlans Err-disabled on Trunk
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Port          STP Forwarding
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Port          Vlans in spanning tree forwarding state and not pruned
+--------------------------------------------------------------------------------
+########################################
+show ip interface brief : 2019-11-26 15:31:45
+########################################
+
+
+IP Interface Status for VRF "default"(1)
+Interface            IP Address      Interface Status
+########################################
+show ip route : 2019-11-26 15:31:46
+########################################
+
+IP Route Table for VRF "default"
+'*' denotes best ucast next-hop
+'**' denotes best mcast next-hop
+'[x/y]' denotes [preference/metric]
+'%<string>' in via output denotes VRF <string>
+
+
+########################################
+show ip arp : 2019-11-26 15:31:46
+########################################
+
+
+Flags: * - Adjacencies learnt on non-active FHRP router
+       + - Adjacencies synced via CFSoE
+       # - Adjacencies Throttled for Glean
+       CP - Added via L2RIB, Control plane Adjacencies
+       PS - Added via L2RIB, Peer Sync
+       RO - Re-Originated Peer Sync Entry
+       D - Static Adjacencies attached to down interface
+
+IP ARP Table for context default
+Total number of entries: 0
+Address         Age       MAC Address     Interface       Flags
+########################################
+show mac address-table : 2019-11-26 15:31:47
+########################################
+
+Legend: 
+        * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+        age - seconds since last seen,+ - primary entry using vPC Peer-Link,
+        (T) - True, (F) - False, C - ControlPlane MAC, ~ - vsan
+   VLAN     MAC Address      Type      age     Secure NTFY Ports
+---------+-----------------+--------+---------+------+----+------------------
+G    -     000c.29f3.d978   static   -         F      F     (R)
+########################################
+show cdp neighbors : 2019-11-26 15:31:47
+########################################
+
+Capability Codes: R - Router, T - Trans-Bridge, B - Source-Route-Bridge
+                  S - Switch, H - Host, I - IGMP, r - Repeater,
+                  V - VoIP-Phone, D - Remotely-Managed-Device,
+                  s - Supports-STP-Dispute
+
+Device-ID          Local Intrfce  Hldtme Capability  Platform      Port ID
+Core-2(9G5Z6QK5KIC)
+                    mgmt0          140    R S s     N9K-9000v     mgmt0         
+CSR-2.threefddi.local
+                    mgmt0          140    R         CSR1000V      Gig0          
+CSR-1.threefddi.local
+                    mgmt0          177    R         CSR1000V      Gig0          
+cat3750_lab.threefddi.local
+                    mgmt0          161    S I       WS-C3750V2-24 Fas1/0/24     
+
+Total entries displayed: 4
+########################################
+show cdp neighbors detail : 2019-11-26 15:31:48
+########################################
+
+----------------------------------------
+Device ID:Core-2(9G5Z6QK5KIC)
+System Name: Core-2
+
+Interface address(es):
+    IPv4 Address: 172.20.58.62
+Platform: N9K-9000v, Capabilities: Router Switch Supports-STP-Dispute
+Interface: mgmt0, Port ID (outgoing port): mgmt0
+Holdtime: 139 sec
+
+Version:
+Cisco Nexus Operating System (NX-OS) Software, Version 7.0(3)I7(6)
+
+Advertisement Version: 2
+Duplex: full
+
+MTU: 1500
+Physical Location: snmplocation
+Mgmt address(es):
+    IPv4 Address: 172.20.58.62
+----------------------------------------
+Device ID:CSR-2.threefddi.local
+
+Interface address(es):
+    IPv4 Address: 172.20.58.52
+Platform: cisco CSR1000V, Capabilities: Router 
+Interface: mgmt0, Port ID (outgoing port): GigabitEthernet0
+Holdtime: 139 sec
+
+Version:
+Cisco IOS Software, CSR1000V Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 15.3(3)S2, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2014 by Cisco Systems, Inc.
+Compiled Fri 31-Jan-14 20:10 by mcpre
+
+Advertisement Version: 2
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 172.20.58.52
+----------------------------------------
+Device ID:CSR-1.threefddi.local
+
+Interface address(es):
+    IPv4 Address: 172.20.58.51
+Platform: cisco CSR1000V, Capabilities: Router 
+Interface: mgmt0, Port ID (outgoing port): GigabitEthernet0
+Holdtime: 176 sec
+
+Version:
+Cisco IOS Software, CSR1000V Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 15.3(3)S2, RELEASE SOFTWARE (fc3)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2014 by Cisco Systems, Inc.
+Compiled Fri 31-Jan-14 20:10 by mcpre
+
+Advertisement Version: 2
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 172.20.58.51
+----------------------------------------
+Device ID:cat3750_lab.threefddi.local
+VTP Management Domain Name: null
+
+Interface address(es):
+    IPv4 Address: 172.20.58.41
+Platform: cisco WS-C3750V2-24PS, Capabilities: Switch IGMP Filtering 
+Interface: mgmt0, Port ID (outgoing port): FastEthernet1/0/24
+Holdtime: 160 sec
+
+Version:
+Cisco IOS Software, C3750 Software (C3750-IPBASEK9-M), Version 12.2(55)SE10, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2015 by Cisco Systems, Inc.
+Compiled Wed 11-Feb-15 11:40 by prod_rel_team
+
+Advertisement Version: 2
+
+Native VLAN: 1
+Duplex: full
+Mgmt address(es):
+    IPv4 Address: 172.20.58.41
